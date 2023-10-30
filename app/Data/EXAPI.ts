@@ -1,5 +1,6 @@
 import { cookies } from "next/headers"
 import { gdata, mpvdata, mpvimg } from "./EType"
+import { unstable_cache } from "next/cache"
 
 class API {
     BASE = "https://s.exhentai.org/api.php"
@@ -23,7 +24,7 @@ class API {
         this.header.cookie = cookie
     }
 
-    async get(url: URL | string, tags: string[] | undefined, revalidate: number | false | undefined = 7200, cache: RequestCache | undefined = undefined) {
+    async get(url: URL | string, tags: string[] | undefined, revalidate: number | false | undefined = 7200) {
         // return fetch(url, {
         //     headers: this.header,
         //     next: {
@@ -37,15 +38,14 @@ class API {
             next: {
                 revalidate: revalidate,
                 tags: tags
-            },
-            cache: cache
+            }
         })
         console.log(r.headers.getSetCookie())
         r.headers.getSetCookie().forEach((e) => this.cookies.push(e))
         return r
     }
 
-    async post(data: string, tags: string[] | undefined, revalidate: number | false | undefined = 7200, useCookie: boolean = false, cache: RequestCache | undefined = undefined) {
+    async post(data: string, tags: string[] | undefined, revalidate: number | false | undefined = 7200, useCookie: boolean = false) {
         const r = await fetch(this.BASE, {
             method: "POST",
             headers: {
@@ -60,18 +60,20 @@ class API {
                 revalidate: revalidate,
                 tags: tags
             },
-            cache: cache
         })
         return await r.json()
     }
 
     async no_redirt(url: string, tags: string[] | undefined, revalidate: number | false | undefined = 7200) {
-        return fetch(url,
-            {
-                headers: this.header, redirect: 'manual',
-                next: { revalidate: revalidate, tags: tags }
-            }
-        )
+        return unstable_cache(async () => {
+            const r = await fetch(url,
+                {
+                    headers: this.header, redirect: 'manual',
+                    next: { revalidate: revalidate, tags: tags }
+                }
+            )
+            return r.headers.get("location") ?? ""
+        }, tags, { revalidate: revalidate, tags: tags })()
     }
 
     /**
@@ -89,6 +91,12 @@ class API {
     }
 
 
+    /**
+     * 画廊详细数据
+     * @param gallery_id 
+     * @param gallery_token 
+     * @returns 
+     */
     async gallery_info(gallery_id: number, gallery_token: string) {
         const r = await this.get(`https://exhentai.org/g/${gallery_id}/${gallery_token}/`, [`https://exhentai.org/g/${gallery_id}/${gallery_token}/`], 3600 * 24)
         const html = await r.text()
@@ -98,6 +106,12 @@ class API {
         ]
     }
 
+    /**
+     * 通过MPV方式获取具体信息
+     * @param gallery_id 
+     * @param gallery_token 
+     * @returns [图片信息, mpvkey]
+     */
     async mpv_info(gallery_id: number, gallery_token: string): Promise<[mpvdata[], string]> {
         const r = await this.get(`https://exhentai.org/mpv/${gallery_id}/${gallery_token}/`, [`https://exhentai.org/mpv/${gallery_id}/${gallery_token}/`], 3600 * 24)
         const html = await r.text()
@@ -108,6 +122,14 @@ class API {
         ]
     }
 
+    /**
+     * MPV获取图像
+     * @param gid 
+     * @param page 
+     * @param imgkey 
+     * @param mpvkey 
+     * @returns 
+     */
     async mpv_get_img(gid: number, page: number, imgkey: string, mpvkey: string) {
         const d = {
             "method": "imagedispatch",
@@ -119,12 +141,26 @@ class API {
         return this.post(JSON.stringify(d), [`imagedispatch_${gid}_${page}_${imgkey}`], 3600 * 24, true) as Promise<mpvimg>
     }
 
+    /**
+     * 获取源图像
+     * @param gid 
+     * @param page 
+     * @param imgkey 
+     * @param mpvkey 
+     * @returns 
+     */
     async mpv_full_img(gid: number, page: number, imgkey: string, mpvkey: string) {
         const d = await this.mpv_get_img(gid, page, imgkey, mpvkey)
         const r = await this.no_redirt("https://exhentai.org/" + d.lf, [`mpv_full_img_${gid}_${page}_${imgkey}`], 3600 * 24)
-        return { ...d, "i": r.headers.get("location") ?? d.i }
+        return { ...d, "i": r == "" ? d.i : r }
     }
 
+    /**
+     * 常规单页信息
+     * @param page_token 
+     * @param gallery_id 
+     * @returns [标题, 画廊根页, 图片url, 源图片获取url, 上一页, 下一页]
+     */
     async s_info(page_token: string, gallery_id: string) {
         const r = await this.get(`https://exhentai.org/s/${page_token}/${gallery_id}`, [`s_${page_token}/${gallery_id}`], 3600 * 24)
         const html = await r.text()

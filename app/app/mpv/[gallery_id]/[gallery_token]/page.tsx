@@ -1,9 +1,9 @@
 import { API } from "@/Data/EXAPI"
 import { R } from "@/app/push"
 import { notFound } from "next/navigation"
-import { MPVImage } from "./Image"
 import Link from "next/link"
 import { Cookie } from "@/app/Cookies"
+import { MPVImages } from "./Images"
 
 export default async function G({ params: { gallery_id, gallery_token }, searchParams }:
     { params: { gallery_id: string, gallery_token: string }, searchParams: { [key: string]: string | undefined } }) {
@@ -30,7 +30,8 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
             {ginfo.title}
         </h1>
         <div className="container center" style={{ padding: 20 }}>
-            {r.map((e, i) => <MPVImage key={e.n} gid={id} page={i + 1} mpvdata={e} mpvkey={mpvkey} />)}
+            {/* {r.map((e, i) => <MPVImage key={e.n} gid={id} page={i + 1} mpvdata={e} mpvkey={mpvkey} />)} */}
+            <MPVImages mpvdata={r} gid={id} mpvkey={mpvkey} />
         </div>
         <ul className="breadcrumb center">
             <li>

@@ -16,9 +16,9 @@ export default function Login() {
     }, [])
 
     const login = () => {
-        document.cookie = `ipb_member_id=${ipb_member_id}; max-age=604800; path=/`;
-        document.cookie = `ipb_pass_hash=${ipb_pass_hash}; max-age=604800; path=/`;
-        document.cookie = `igneous=${igneous}; max-age=604800; path=/`;
+        document.cookie = `ipb_member_id=${ipb_member_id}; max-age=31536000; path=/`;
+        document.cookie = `ipb_pass_hash=${ipb_pass_hash}; max-age=31536000; path=/`;
+        document.cookie = `igneous=${igneous}; max-age=31536000; path=/`;
         enqueueSnackbar('登录成功', { variant: 'success' });
     }
 

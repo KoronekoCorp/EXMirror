@@ -1,14 +1,18 @@
 "use client"
 
 import { mpvdata, mpvimg } from "@/Data/EType";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { get_image } from "./API";
 import { Skeleton } from "@mui/material"
+import { Control } from "./Control";
 
-export function MPVImage({ gid, page, mpvdata, mpvkey }: { gid: number, page: number, mpvdata: mpvdata, mpvkey: string }) {
+export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, page: number, mpvdata: mpvdata, mpvkey: string, load: boolean }) {
+    const control = useContext(Control)
+
     const ref = useRef<HTMLDivElement | null>(null)
     const [isloaded, setload] = useState(false)
     const [data, setdata] = useState<mpvimg | undefined>(undefined)
+
     const init = () => {
         var observer = new IntersectionObserver((entries) => {
             entries.forEach(item => {
@@ -22,12 +26,8 @@ export function MPVImage({ gid, page, mpvdata, mpvkey }: { gid: number, page: nu
                  * item.target：目标元素，图中黑色边框的部分。
                  */
                 if (item.isIntersecting) {
-                    get_image(gid, page, mpvdata.k, mpvkey).then((e) => {
-                        setdata(e)
-                    })
-                    if (ref.current) {
-                        observer.observe(ref.current)
-                    }
+                    control(page)
+                    observer.disconnect()
                 }
             })
         });
@@ -37,23 +37,26 @@ export function MPVImage({ gid, page, mpvdata, mpvkey }: { gid: number, page: nu
         return () => observer.disconnect()
     }
 
-    useEffect(() => init(), [])
-
-
+    useEffect(() => {
+        if (load) {
+            get_image(gid, page, mpvdata.k, mpvkey).then((e) => {
+                setdata(e)
+            })
+        }
+        return init()
+    }, [gid, page, load])
 
     return <>
-        {data && <>
-            <img
+        <div ref={ref} >
+            {data && <img
                 id="pic_cover"
-                loading="lazy"
+                loading="eager"
                 className="lazyload blur-up"
-                data-src={"https://aeiljuispo.cloudimg.io/" + data.i}
+                src={"https://aeiljuispo.cloudimg.io/" + data.i}
                 onLoad={() => setload(true)}
                 style={{ width: "100%" }}
-            />
-            {/* <p>{data.d}</p> */}
-        </>}
-        {!isloaded && <Skeleton variant="rectangular" width="100%" height="800px" ref={ref} />}
+            />}
+            {!isloaded && <Skeleton variant="rectangular" width="100%" height="800px" />}
+        </div>
     </>
-
 }
