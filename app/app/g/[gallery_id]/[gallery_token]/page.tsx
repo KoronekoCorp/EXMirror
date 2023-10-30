@@ -2,11 +2,16 @@ import { API } from "@/Data/EXAPI"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { db } from "@/Data/EXDB"
+import { R } from "@/app/push"
+import { Cookie } from "@/app/Cookies"
 
 export default async function G({ params: { gallery_id, gallery_token } }: { params: { gallery_id: string, gallery_token: string } }) {
     const id = parseInt(gallery_id)
     if (id < 0) { notFound() }
     const a = new API()
+    if (!a.header.cookie.includes("igneous")) {
+        return <R url="/login" />
+    }
     const __tr = db.getDB()
     const __r = a.gdata([[id, gallery_token]])
     const __thumbnail = a.gallery_info(id, gallery_token)
@@ -24,14 +29,13 @@ export default async function G({ params: { gallery_id, gallery_token } }: { par
                         <img
                             id="pic_cover"
                             loading="lazy"
-                            src="/assets/images/noimg_1.jpg"
                             className="lazyload blur-up"
                             data-src={r.gmetadata[0].thumb.replace("s.exhentai.org", "aeiljuispo.cloudimg.io/v7/https://ehgt.org")}
                         />
                         <br />
                         <button className="shadowed small tertiary">
-                            <Link href={`/book/${r.gmetadata[0].thumb}/catalog/`} className="color_white">
-                                <i className="fa fa-object-ungroup" aria-hidden="true" /> 章节目录
+                            <Link href={`/mpv/${id}/${gallery_token}`} className="color_white">
+                                <i className="fa fa-object-ungroup" aria-hidden="true" /> 正统mpv阅读
                             </Link>
                             {/* <Prefetch url={[`/book/${r.gmetadata[0].thumb}/catalog/`]} time={1000} /> */}
                         </button>
@@ -72,7 +76,7 @@ export default async function G({ params: { gallery_id, gallery_token } }: { par
                             <b>
                                 <i className="fa fa-clock-o" aria-hidden="true"></i> 发布于:
                             </b>{' '}
-                            <span id="book_uptime">UTC+0 {d.getFullYear()}.{d.getMonth() + 1}.{d.getDate()} {d.getHours()}:{d.getMinutes()}</span>
+                            <span id="book_uptime">{d.getFullYear()}.{d.getMonth() + 1}.{d.getDate()} {d.getHours() + 8}:{d.getMinutes()}</span>
                         </p>
                         <p>
                             <b>
@@ -116,5 +120,6 @@ export default async function G({ params: { gallery_id, gallery_token } }: { par
                 </div>)}
             </div>
         </div>
+        <Cookie c={a.cookies} />
     </>
 }
