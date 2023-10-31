@@ -1,10 +1,15 @@
 "use client"
 import Link from 'next/link'
 import Script from 'next/script'
+import style from './style.module.css'
 
 export const Footer = () => (
     <>
-        <footer className="center footer1">            
+        <a className={style.footerbutton} onClick={() => { document.body.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' }) }}>
+            <i className={`${style.footerbuttonin} fa fa-arrow-up`}></i>
+        </a>
+
+        <footer className="center footer1">
             <p>
                 <Link prefetch={false} href="/settings">
                     <span style={{ color: "#fff" }}>

@@ -42,7 +42,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
     }
 
     return <>
-        <title>{r.gmetadata[0].title}</title>
+        <title>{r.gmetadata[0].title.replaceAll("amp;", "")}</title>
         <div className="container" style={{ paddingTop: 10 }}>
             <div className="row">
                 <div className="col-sm-12 col-md-4">
@@ -67,7 +67,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                 <div className="col-sm-12 col-md-8">
                     <div className="box-colored">
                         <h1 className="post-title detail_title book_title_search">
-                            {r.gmetadata[0].title}
+                            {r.gmetadata[0].title.replaceAll("amp;", "")}
                         </h1>
                         <h3 className="post-title detail_title book_title_search" style={{ textAlign: "center" }}>
                             {r.gmetadata[0].title_jpn}

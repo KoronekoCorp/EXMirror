@@ -84,7 +84,7 @@ const Header = () => {
                             type="text"
                             name="q"
                             style={{ width: '50%' }}
-                            placeholder="输入您要找的作品名称 / 作者名称 / Ciweimao上的鏈接"
+                            placeholder="输入您要找的作品名称 / 作者名称 / EX/EH上的鏈接"
                             className="s search-input"
                             id="searchContent"
                             onChange={(e) => { setWord(e.target.value) }}
