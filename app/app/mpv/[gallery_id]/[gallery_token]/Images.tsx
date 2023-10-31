@@ -1,7 +1,7 @@
 "use client"
 
 import { mpvdata } from "@/Data/EType";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MPVImage } from "./Image";
 import { Control } from "./Control";
 
@@ -12,17 +12,13 @@ export function MPVImages({ gid, mpvdata, mpvkey }: { gid: number, mpvdata: mpvd
 
     const changeload = (i: number) => {
         const s = state.slice()
-        for (let j = i - preload; j <= i + preload; j++) {
-            if (j > 0 && j < s.length) {
+        for (let j = i - preload; j < i + preload; j++) {
+            if (j >= 0 && j < s.length) {
                 s[j] = true
             }
         }
         setstate(s)
     }
-    useEffect(() => {
-        //@ts-ignore
-        window.state = () => state
-    }, [])
 
     return <>
         <Control.Provider value={changeload} >

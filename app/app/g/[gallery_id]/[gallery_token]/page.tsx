@@ -4,24 +4,45 @@ import Link from "next/link"
 import { db } from "@/Data/EXDB"
 import { R } from "@/app/push"
 import { Cookie } from "@/app/Cookies"
+import { NextPage } from "./client"
 
-export default async function G({ params: { gallery_id, gallery_token } }: { params: { gallery_id: string, gallery_token: string } }) {
+export default async function G({ params: { gallery_id, gallery_token }, searchParams }:
+    { params: { gallery_id: string, gallery_token: string }, searchParams: { [key: string]: string | undefined } }) {
     const id = parseInt(gallery_id)
     if (id < 0) { notFound() }
     const a = new API()
     if (!a.header.cookie.includes("igneous")) {
         return <R url="/login" />
     }
+
     const __tr = db.getDB()
     const __r = a.gdata([[id, gallery_token]])
-    const __thumbnail = a.gallery_info(id, gallery_token)
+    const __thumbnail = []
+    const p = parseInt(searchParams.p ?? "1")
+    for (let page = 1; page <= p; page++) {
+        __thumbnail.push(a.gallery_info(id, gallery_token, page))
+    }
 
     const r = await __r
     const d = new Date(parseInt(r.gmetadata[0].posted) * 1000)
     const tr = await __tr
-    const [thumbnail, thumbnail_url] = await __thumbnail
+    const thumbnail: RegExpMatchArray[] = []
+    const thumbnail_url: RegExpMatchArray[] = []
+
+    // __thumbnail.map(async (e) => {
+    //     const [r1, r2] = await e
+    //     r1.map((e) => thumbnail.push(e))
+    //     r2.map((e) => thumbnail_url.push(e))
+    //     return []
+    // })
+    for (let i = 0; i < __thumbnail.length; i++) {
+        const [r1, r2] = await __thumbnail[i]
+        r1.map((e) => thumbnail.push(e))
+        r2.map((e) => thumbnail_url.push(e))
+    }
 
     return <>
+        <title>{r.gmetadata[0].title}</title>
         <div className="container" style={{ paddingTop: 10 }}>
             <div className="row">
                 <div className="col-sm-12 col-md-4">
@@ -120,6 +141,7 @@ export default async function G({ params: { gallery_id, gallery_token } }: { par
                 </div>)}
             </div>
         </div>
+        {parseInt(r.gmetadata[0].filecount) > thumbnail.length && <NextPage gallery_id={gallery_id} gallery_token={gallery_token} p={p} />}
         <Cookie c={a.cookies} />
     </>
 }

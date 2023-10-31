@@ -95,10 +95,14 @@ class API {
      * 画廊详细数据
      * @param gallery_id 
      * @param gallery_token 
+     * @param p 
      * @returns 
      */
-    async gallery_info(gallery_id: number, gallery_token: string) {
-        const r = await this.get(`https://exhentai.org/g/${gallery_id}/${gallery_token}/`, [`https://exhentai.org/g/${gallery_id}/${gallery_token}/`], 3600 * 24)
+    async gallery_info(gallery_id: number, gallery_token: string, p: number = 1): Promise<[RegExpMatchArray[], RegExpMatchArray[]]> {
+        const url = p === 1 ?
+            `https://exhentai.org/g/${gallery_id}/${gallery_token}/` :
+            `https://exhentai.org/g/${gallery_id}/${gallery_token}/?p=${p - 1}`
+        const r = await this.get(url, [url], 3600 * 24)
         const html = await r.text()
         return [
             Array.from(html.matchAll(/src=\"https:\/\/s.exhentai.org\/t\/(.*?).(.*?)\"/g)),
