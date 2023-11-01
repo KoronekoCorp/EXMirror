@@ -17,7 +17,7 @@ const Header = () => {
         <div>
             <div className="center dark header1">
                 <div style={{ padding: '10px' }}>
-                    <Link prefetch={false} href="/">
+                    <Link href="/">
                         <img width="75px" src="/assets/images/logo.png" alt="Logo" />
                         <p className="logo_color" style={{ fontFamily: 'Fredoka One, cursive', fontSize: '25px' }}>
                             Koroneko Corp
@@ -27,25 +27,26 @@ const Header = () => {
             </div>
             <header className="center header_color1">
                 <button className="button">
-                    <i className="fa fa-bar-chart" aria-hidden="true"></i> <Link prefetch={false} className="header_menu1" href="/rank">
+                    <i className="fa fa-folder" aria-hidden="true"></i> <Link className="header_menu1" href="/i">
+                        首页
+                    </Link>
+
+                </button>
+                |
+                <button className="button">
+                    <i className="fa fa-bar-chart" aria-hidden="true"></i> <Link className="header_menu1" href="/rank">
                         排行
                     </Link>
                 </button>
                 |
                 <button className="button">
-                    <i className="fa fa-folder" aria-hidden="true"></i> <Link prefetch={false} className="header_menu1" href="/booklists/hot">
-                        书单
-                    </Link>
-                </button>
-                |
-                <button className="button">
-                    <i className="fa fa-users" aria-hidden="true"></i> <Link prefetch={false} className="header_menu1" href="/bbs.php">
+                    <i className="fa fa-users" aria-hidden="true"></i> <Link className="header_menu1" href="/bbs.php">
                         社区
                     </Link>
                 </button>
                 |
                 <button className="button">
-                    <i className="fa fa-coffee" aria-hidden="true"></i> <Link prefetch={false} className="header_menu1" href="/userchap/1">
+                    <i className="fa fa-coffee" aria-hidden="true"></i> <Link className="header_menu1" href="/userchap/1">
                         User chap
                     </Link>
                 </button>
@@ -53,26 +54,26 @@ const Header = () => {
                 {login ?
                     <><button className="button">
                         <i className="fa fa-user-circle" aria-hidden="true"></i>{' '}
-                        <Link prefetch={false} className="header_menu1" href="/account">
+                        <Link className="header_menu1" href="/account">
                             账户
                         </Link>
                     </button>|</>
                     : <></>}
                 <button className="button">
-                    <i className="fa fa-sign-in" aria-hidden="true"></i> <Link prefetch={false} className="header_menu1" href="/login">
+                    <i className="fa fa-sign-in" aria-hidden="true"></i> <Link className="header_menu1" href="/login">
                         登录
                     </Link>
                 </button>
 
                 |
                 <button className="button">
-                    <i className="fa fa-bookmark" aria-hidden="true"></i> <Link prefetch={false} className="header_menu1" href="/bookmark">
+                    <i className="fa fa-bookmark" aria-hidden="true"></i> <Link className="header_menu1" href="/bookmark">
                         收藏
                     </Link>
                 </button>
                 |
                 <button className="button">
-                    <i className="fa fa-history" aria-hidden="true"></i> <Link prefetch={false} className="header_menu1" href="/history">
+                    <i className="fa fa-history" aria-hidden="true"></i> <Link className="header_menu1" href="/history">
                         历史
                     </Link>
                 </button>

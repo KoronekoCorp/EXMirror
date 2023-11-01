@@ -45,10 +45,10 @@ class DB {
         return null
     }
 
-    translate(key: `${string}:${string}`, dbindex: DBindex) {
+    translate(key: string, dbindex: DBindex) {
         const k = key.split(":")
         try {
-            return dbindex[k[0]].data[k[1]].name.replace("raw.githubusercontent.com", "aeiljuispo.cloudimg.io/v7/https://raw.githubusercontent.com").replace("<p>", "").replace("</p>", "")
+            return dbindex[k[0]].data[k[1]].name.replace("https://", "https://aeiljuispo.cloudimg.io/v7/https://").replace("<p>", "").replace("</p>", "")
         } catch (e) {
             return key
         }
