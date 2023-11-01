@@ -12,6 +12,18 @@ export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, pa
     const ref = useRef<HTMLDivElement | null>(null)
     const [isloaded, setload] = useState(false)
     const [data, setdata] = useState<mpvimg | undefined>(undefined)
+    const [error, seterror] = useState(0)
+
+    const get_url = (): string => {
+        switch (error) {
+            case 0:
+                return "https://aeiljuispo.cloudimg.io/" + data?.i
+            case 1:
+                return data?.i ?? ""
+            default:
+                return "https://static.sirin.top/" + data?.i
+        }
+    }
 
     const init = () => {
         var observer = new IntersectionObserver((entries) => {
@@ -52,8 +64,9 @@ export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, pa
                 id="pic_cover"
                 loading="eager"
                 className="lazyload blur-up"
-                src={"https://aeiljuispo.cloudimg.io/" + data.i}
+                src={get_url()}
                 onLoad={() => setload(true)}
+                onError={() => seterror(error + 1)}
                 style={{ width: "100%" }}
             />}
             {!isloaded && <Skeleton variant="rectangular" width="100%" height="800px" />}

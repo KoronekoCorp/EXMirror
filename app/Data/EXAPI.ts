@@ -1,6 +1,7 @@
 import { cookies } from "next/headers"
 import { gdata, mpvdata, mpvimg } from "./EType"
 import { unstable_cache } from "next/cache"
+import { writeFile } from "fs"
 
 class API {
     BASE = "https://s.exhentai.org/api.php"
@@ -168,11 +169,12 @@ class API {
     async s_info(page_token: string, gallery_id: string) {
         const r = await this.get(`https://exhentai.org/s/${page_token}/${gallery_id}`, [`s_${page_token}/${gallery_id}`], 3600 * 24)
         const html = await r.text()
+        writeFile("./0.html", html, 'utf-8', () => { })
         return [
             (html.match(/<title>(.*?)<\/title>/) ?? ["", "Unknown Title"])[1],
             (html.match(/<a href="https:\/\/exhentai.org\/g\/(.*?)">/) ?? [])[1],
             (html.match(/<img id=\"img\" src=\"(.*?)"/) ?? [])[1],
-            (html.match(/<a href="https:\/\/exhentai.org\/fullimg.php(.*?)">/) ?? [])[1],
+            (html.match(/https:\/\/exhentai.org\/fullimg\/(.*?)\">/) ?? [])[1],
             (html.match(/<a id=\"prev\"(.*?)href=\"https:\/\/exhentai.org\/s\/(.*?)\"/) ?? [])[2],
             (html.match(/<a id=\"next\"(.*?)href=\"https:\/\/exhentai.org\/s\/(.*?)\"/) ?? [])[2]
         ]
