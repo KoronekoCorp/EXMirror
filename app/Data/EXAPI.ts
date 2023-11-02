@@ -170,6 +170,7 @@ class API {
     async s_info(page_token: string, gallery_id: string) {
         const r = await this.get(`https://exhentai.org/s/${page_token}/${gallery_id}`, [`s_${page_token}/${gallery_id}`], 3600 * 24)
         const html = await r.text()
+        writeFile("./0.html", html, 'utf-8', () => { })
         return [
             (html.match(/<title>(.*?)<\/title>/) ?? ["", "Unknown Title"])[1],
             (html.match(/<a href="https:\/\/exhentai.org\/g\/(.*?)">/) ?? [])[1],

@@ -5,7 +5,7 @@ interface tag {
     style: string | null
 }
 
-interface G_JSDOM_DATA {
+export interface G_JSDOM_DATA {
     href: string
     src: string
     title: string
@@ -21,7 +21,7 @@ interface G_JSDOM_DATA {
  * @param html 
  * @returns 
  */
-export function Index(html: string) {
+export function Index(html: string): [G_JSDOM_DATA[], string | undefined, string | undefined] {
     const dom = new JSDOM(html, { contentType: 'text/html' })
     const container = dom.window.document.querySelector("table.itg.glte") ?? new Element()
 
@@ -45,5 +45,11 @@ export function Index(html: string) {
         }
         fin.push(d)
     }
-    return fin
+    return [
+        fin,
+        //@ts-ignore
+        dom.window.document.getElementById("dprev").href,
+        //@ts-ignore
+        dom.window.document.getElementById("dnext").href
+    ]
 }
