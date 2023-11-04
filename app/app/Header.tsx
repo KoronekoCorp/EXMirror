@@ -40,14 +40,14 @@ const Header = () => {
                 </button>
                 |
                 <button className="button">
-                    <i className="fa fa-users" aria-hidden="true"></i> <Link className="header_menu1" href="/bbs.php">
-                        社区
+                    <i className="fa fa-users" aria-hidden="true"></i> <Link className="header_menu1" href="/popular">
+                        热门
                     </Link>
                 </button>
                 |
                 <button className="button">
-                    <i className="fa fa-coffee" aria-hidden="true"></i> <Link className="header_menu1" href="/userchap/1">
-                        User chap
+                    <i className="fa fa-coffee" aria-hidden="true"></i> <Link className="header_menu1" href="/watched">
+                        订阅
                     </Link>
                 </button>
                 |
@@ -67,7 +67,7 @@ const Header = () => {
 
                 |
                 <button className="button">
-                    <i className="fa fa-bookmark" aria-hidden="true"></i> <Link className="header_menu1" href="/bookmark">
+                    <i className="fa fa-bookmark" aria-hidden="true"></i> <Link className="header_menu1" href="/favorites">
                         收藏
                     </Link>
                 </button>

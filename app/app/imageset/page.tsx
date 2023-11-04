@@ -5,7 +5,7 @@ import { GDatas } from "../GDatas"
 import Link from "next/link"
 
 
-export default async function G({ searchParams }:
+export default async function P({ searchParams }:
     { searchParams: { [key: string]: string } }) {
 
     const a = new API()
@@ -13,16 +13,16 @@ export default async function G({ searchParams }:
         return <R url="/login" />
     }
     const __tr = db.getDB()
-    const __d = a.index(searchParams)
+    const __d = a.index(searchParams, "https://exhentai.org/imageset", 3600)
     const [d, prev, next] = await __d
-    
+
     const tr = await __tr
     return <>
         <GDatas G={d} TR={(e) => db.translate(e, tr)} />
         <div className="center">
             <div className="pagination" id="paginationSection">
-                {prev && <Link prefetch={false} href={prev.replace("https://exhentai.org/", "/i")}>上一页</Link>}
-                {next && <Link prefetch={false} href={next.replace("https://exhentai.org/", "/i")}>下一页</Link>}
+                {prev && <Link href={prev.replace("https://exhentai.org/imageset", "/imageset")}>上一页</Link>}
+                {next && <Link href={next.replace("https://exhentai.org/imageset", "/imageset")}>下一页</Link>}
             </div>
         </div>
     </>

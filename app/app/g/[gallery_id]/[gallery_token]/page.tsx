@@ -103,7 +103,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                             <b>
                                 <i className="fa fa-bars" aria-hidden="true"></i> 分类:
                             </b>{' '}
-                            <Link prefetch={false} href={`/rank?cate=${r.gmetadata[0].category}`}>
+                            <Link prefetch={false} href={`/${r.gmetadata[0].category.toLocaleLowerCase().replaceAll(" ", "")}`}>
                                 {r.gmetadata[0].category}
                             </Link>
                         </p>

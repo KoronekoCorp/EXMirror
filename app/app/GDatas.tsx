@@ -58,7 +58,15 @@ export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string
                                     {e.title}
                                 </Link>
                             </h3>
-                            <p style={{ fontSize: '14px' }}>
+                            <p>
+                                <b>
+                                    <i className="fa fa-bars" aria-hidden="true"></i> 分类:
+                                </b>{' '}
+                                <Link prefetch={false} href={`/${e.catalog.toLocaleLowerCase().replaceAll(" ", "")}`}>
+                                    {e.catalog}
+                                </Link>
+                            </p>
+                            <p>
                                 <i className="fa fa-user" aria-hidden="true"></i>{' '}
                                 <Link prefetch={false} className="book_author_search" href={`/search/${e.uploader}`} title={e.uploader}>
                                     {e.uploader}

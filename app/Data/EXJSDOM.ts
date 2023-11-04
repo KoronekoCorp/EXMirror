@@ -29,6 +29,7 @@ export function Index(html: string): [G_JSDOM_DATA[], string | undefined, string
     const gl2e = container.querySelectorAll("td.gl2e")
     const fin: G_JSDOM_DATA[] = []
     for (let i = 0; i < gl1e.length; i++) {
+        // console.log(gl2e[i].children[0].children[0].children[3].innerHTML)
         const d = {
             //@ts-ignore
             href: gl1e[i].children[0].children[0].href,
@@ -37,7 +38,7 @@ export function Index(html: string): [G_JSDOM_DATA[], string | undefined, string
             title: gl2e[i].children[0].children[1].children[0].children[0].innerHTML,
             catalog: gl2e[i].children[0].children[0].children[0].innerHTML,
             time: gl2e[i].children[0].children[0].children[1].innerHTML,
-            uploader: gl2e[i].children[0].children[0].children[3].children[0].innerHTML,
+            uploader: gl2e[i].children[0].children[0].children[3].children[0]?.innerHTML ?? "(已放弃)",
             //@ts-ignore
             tag: Array.from(gl2e[i].querySelectorAll("td div.gt")).map((e) => { return { title: e.title, style: e.getAttribute('style') } }),
             //@ts-ignore

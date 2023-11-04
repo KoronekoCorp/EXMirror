@@ -181,12 +181,12 @@ class API {
         ]
     }
 
-    async index(searchParams: { [key: string]: string }) {
-        const u = new URL("https://exhentai.org")
+    async index(searchParams: { [key: string]: string }, endpoint = "https://exhentai.org", cache = 3600) {
+        const u = new URL(endpoint)
         for (let i in searchParams) {
             u.searchParams.set(i, searchParams[i])
         }
-        const r = await this.get(u, [u.href], 3600 * 24)
+        const r = await this.get(u, [u.href], cache)
         const html = await r.text()
         // writeFile("./0.html", html, 'utf-8', () => { })
         return Index(html)
