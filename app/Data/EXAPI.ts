@@ -2,7 +2,7 @@ import { cookies } from "next/headers"
 import { gdata, mpvdata, mpvimg } from "./EType"
 import { unstable_cache } from "next/cache"
 import { writeFile } from "fs"
-import { Index } from "./EXJSDOM"
+import { EXJSDOM } from "./EXJSDOM"
 
 class API {
     BASE = "https://s.exhentai.org/api.php"
@@ -100,16 +100,14 @@ class API {
      * @param p 
      * @returns 
      */
-    async gallery_info(gallery_id: number, gallery_token: string, p: number = 1): Promise<[RegExpMatchArray[], RegExpMatchArray[]]> {
+    async gallery_info(gallery_id: number, gallery_token: string, p: number = 1): Promise<[string[], string[]]> {
         const url = p === 1 ?
             `https://exhentai.org/g/${gallery_id}/${gallery_token}/` :
             `https://exhentai.org/g/${gallery_id}/${gallery_token}/?p=${p - 1}`
         const r = await this.get(url, [url], 3600 * 24)
         const html = await r.text()
-        return [
-            Array.from(html.matchAll(/src=\"https:\/\/s.exhentai.org\/t\/(.*?).(.*?)\"/g)),
-            Array.from(html.matchAll(/<a href="https:\/\/exhentai.org\/s\/(.*?)">/g))
-        ]
+        // writeFile("./public/0.html", html, 'utf-8', () => { })
+        return EXJSDOM.gallery_imgs(html)
     }
 
     /**
@@ -170,7 +168,7 @@ class API {
     async s_info(page_token: string, gallery_id: string) {
         const r = await this.get(`https://exhentai.org/s/${page_token}/${gallery_id}`, [`s_${page_token}/${gallery_id}`], 3600 * 24)
         const html = await r.text()
-        writeFile("./0.html", html, 'utf-8', () => { })
+        // writeFile("./public/0.html", html, 'utf-8', () => { })
         return [
             (html.match(/<title>(.*?)<\/title>/) ?? ["", "Unknown Title"])[1],
             (html.match(/<a href="https:\/\/exhentai.org\/g\/(.*?)">/) ?? [])[1],
@@ -188,8 +186,8 @@ class API {
         }
         const r = await this.get(u, [u.href], cache)
         const html = await r.text()
-        // writeFile("./0.html", html, 'utf-8', () => { })
-        return Index(html)
+        // writeFile("./public/0.html", html, 'utf-8', () => { })
+        return EXJSDOM.Index(html)
     }
 }
 

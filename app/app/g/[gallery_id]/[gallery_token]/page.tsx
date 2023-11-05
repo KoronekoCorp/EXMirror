@@ -26,8 +26,8 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
     const r = await __r
     const d = new Date(parseInt(r.gmetadata[0].posted) * 1000)
     const tr = await __tr
-    const thumbnail: RegExpMatchArray[] = []
-    const thumbnail_url: RegExpMatchArray[] = []
+    const thumbnail: string[] = []
+    const thumbnail_url: string[] = []
 
     // __thumbnail.map(async (e) => {
     //     const [r1, r2] = await e
@@ -126,13 +126,13 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
             <div className="row">
                 {thumbnail.map((t, index) => <div className="col-sm-12 col-md-3" key={t[0]}>
                     <div className="box-colored center">
-                        <Link href={`/s/${thumbnail_url[index][1]}`}>
+                        <Link href={thumbnail_url[index]}>
                             <img
                                 id="pic_cover"
                                 loading="lazy"
                                 src="/assets/images/noimg_1.jpg"
                                 className="lazyload blur-up"
-                                data-src={"https://aeiljuispo.cloudimg.io/v7/https://ehgt.org" + t[0].slice(27, -1)}
+                                data-src={"https://aeiljuispo.cloudimg.io/v7/https://ehgt.org" + t.slice(22)}
                             />
                         </Link>
                         <br />
