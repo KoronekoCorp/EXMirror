@@ -27,7 +27,7 @@ export default async function G({ params: { page_token, gallery_id } }: { params
         <title>{title}</title>
         <ul className="breadcrumb center">
             <li>
-                <Link prefetch={false} id="book_id" href={`/g/${gallery_url}`}>
+                <Link id="book_id" href={`/g/${gallery_url}`}>
                     <i className="fa fa-book" aria-hidden="true" />
                 </Link>
             </li>
@@ -35,17 +35,17 @@ export default async function G({ params: { page_token, gallery_id } }: { params
         <Image src={url} />
         <ul className="breadcrumb center">
             <li>
-                <Link prefetch={false} id="book_id" href={`/s/${prev}`}>
+                <Link id="book_id" href={`/s/${prev}`}>
                     <i className="fa fa-chevron-left" aria-hidden="true"></i>
                 </Link>
             </li>
             <li>
-                <Link prefetch={false} id="book_id" href={`/g/${gallery_url}`}>
+                <Link id="book_id" href={`/g/${gallery_url}`}>
                     <i className="fa fa-book" aria-hidden="true" />
                 </Link>
             </li>
             <li>
-                <Link prefetch={false} id="book_id" href={`/s/${next}`}>
+                <Link id="book_id" href={`/s/${next}`}>
                     <i className="fa fa-chevron-right" aria-hidden="true"></i>
                 </Link>
             </li>

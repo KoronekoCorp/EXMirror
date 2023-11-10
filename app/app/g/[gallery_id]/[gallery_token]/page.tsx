@@ -76,7 +76,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                             <b>
                                 <i className="fa fa-user" aria-hidden="true"></i> 上传者:
                             </b>
-                            <Link prefetch={false} className="book_title_search" id="book_author" href={`/search/${r.gmetadata[0].uploader}`}>
+                            <Link className="book_title_search" id="book_author" href={`/search/${r.gmetadata[0].uploader}`}>
                                 {r.gmetadata[0].uploader}
                             </Link>
                         </p>
@@ -103,7 +103,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                             <b>
                                 <i className="fa fa-bars" aria-hidden="true"></i> 分类:
                             </b>{' '}
-                            <Link prefetch={false} href={`/${r.gmetadata[0].category.toLocaleLowerCase().replaceAll(" ", "")}`}>
+                            <Link href={`/${r.gmetadata[0].category.toLocaleLowerCase().replaceAll(" ", "")}`}>
                                 {r.gmetadata[0].category}
                             </Link>
                         </p>
@@ -113,7 +113,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                             </b>{" "}
                             <span id="book_tags">
                                 {r.gmetadata[0].tags.map((tag) => (
-                                    <Link prefetch={false} key={tag} href={`/tag/${tag}`}>
+                                    <Link key={tag} href={`/tag/${tag}`}>
                                         <button className="shadowed small" dangerouslySetInnerHTML={{ __html: db.translate(tag, tr) }}></button>
                                     </Link>
                                 ))}

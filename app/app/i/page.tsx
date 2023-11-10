@@ -15,14 +15,14 @@ export default async function G({ searchParams }:
     const __tr = db.getDB()
     const __d = a.index(searchParams)
     const [d, prev, next] = await __d
-    
+
     const tr = await __tr
     return <>
         <GDatas G={d} TR={(e) => db.translate(e, tr)} />
         <div className="center">
             <div className="pagination" id="paginationSection">
-                {prev && <Link prefetch={false} href={prev.replace("https://exhentai.org/", "/i")}>上一页</Link>}
-                {next && <Link prefetch={false} href={next.replace("https://exhentai.org/", "/i")}>下一页</Link>}
+                {prev && <Link href={prev.replace("https://exhentai.org/", "/i")}>上一页</Link>}
+                {next && <Link href={next.replace("https://exhentai.org/", "/i")}>下一页</Link>}
             </div>
         </div>
     </>

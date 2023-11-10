@@ -29,7 +29,7 @@ export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string
                     <div className="row">
                         <div className="col-sm-6 col-md-3" key={e.href}>
                             <div className="section" style={{ height: 'auto', margin: '0.5rem' }}>
-                                <Link prefetch={false} href={e.href.replace("https://exhentai.org", "")} title={e.title}>
+                                <Link href={e.href.replace("https://exhentai.org", "")} title={e.title}>
                                     <img
                                         style={{ border: '1px ridge black', height: '60%' }}
                                         loading="lazy"
@@ -40,13 +40,13 @@ export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string
                                     />
                                 </Link>
                                 {/* <h6>
-                                    <Link prefetch={false} className="book_title_search" href={e.href.replace("https://exhentai.org", "")} title={e.title}>
+                                    <Link  className="book_title_search" href={e.href.replace("https://exhentai.org", "")} title={e.title}>
                                         {e.title}
                                     </Link>
                                 </h6> */}
                                 {/* <p style={{ fontSize: '14px' }}>
                                     <i className="fa fa-user" aria-hidden="true"></i>{' '}
-                                    <Link prefetch={false} className="book_author_search" href={`/search/${e.uploader}`} title={e.uploader}>
+                                    <Link  className="book_author_search" href={`/search/${e.uploader}`} title={e.uploader}>
                                         {e.uploader}
                                     </Link>
                                 </p> */}
@@ -54,7 +54,7 @@ export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string
                         </div>
                         <div className="col-sm-12 col-md-8">
                             <h3>
-                                <Link prefetch={false} className="book_title_search" href={e.href.replace("https://exhentai.org", "")} title={e.title}>
+                                <Link className="book_title_search" href={e.href.replace("https://exhentai.org", "")} title={e.title}>
                                     {e.title}
                                 </Link>
                             </h3>
@@ -62,13 +62,13 @@ export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string
                                 <b>
                                     <i className="fa fa-bars" aria-hidden="true"></i> 分类:
                                 </b>{' '}
-                                <Link prefetch={false} href={`/${e.catalog.toLocaleLowerCase().replaceAll(" ", "")}`}>
+                                <Link href={`/${e.catalog.toLocaleLowerCase().replaceAll(" ", "")}`}>
                                     {e.catalog}
                                 </Link>
                             </p>
                             <p>
                                 <i className="fa fa-user" aria-hidden="true"></i>{' '}
-                                <Link prefetch={false} className="book_author_search" href={`/search/${e.uploader}`} title={e.uploader}>
+                                <Link className="book_author_search" href={`/search/${e.uploader}`} title={e.uploader}>
                                     {e.uploader}
                                 </Link>
                             </p>
@@ -79,17 +79,17 @@ export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string
                                 <span id="book_tags">
                                     {e.tag.map((tag) => (
                                         //由于format_style导出的style中background会莫名其妙失效，采用innerhtml解决
-                                        <Link prefetch={false} key={e.href + tag.title} href={`/tag/${tag.title}`}
+                                        <Link key={e.href + tag.title} href={`/tag/${tag.title}`}
                                             dangerouslySetInnerHTML={{ __html: `<button class="shadowed small" style=${tag.style}>${TR(tag.title)}</button>` }}>
                                         </Link>
                                     ))}
                                     {e.lowtag.map((tag) => (
-                                        // <Link prefetch={false} key={e.href + tag.title} href={`/tag/${tag.title}`} >
+                                        // <Link  key={e.href + tag.title} href={`/tag/${tag.title}`} >
                                         //     <button className="shadowed small" style={tag.style ? format_style(tag.style) : {}} >
                                         //         <div dangerouslySetInnerHTML={{ __html: TR(tag.title) }}></div>
                                         //     </button>
                                         // </Link>
-                                        <Link prefetch={false} key={e.href + tag.title} href={`/tag/${tag.title}`}
+                                        <Link key={e.href + tag.title} href={`/tag/${tag.title}`}
                                             dangerouslySetInnerHTML={{ __html: `<button class="shadowed small" style=${tag.style}>${TR(tag.title)}</button>` }}>
                                         </Link>
                                     ))}

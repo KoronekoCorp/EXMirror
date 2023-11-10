@@ -11,9 +11,14 @@ export const Footer = () => (
 
         <footer className="center footer1">
             <p>
-                <Link prefetch={false} href="/settings">
+                <Link href="/settings">
                     <span style={{ color: "#fff" }}>
                         <i className="fa fa-cogs" aria-hidden="true" /> 设置
+                    </span>
+                </Link>{" "}
+                <Link href="/extra">
+                    <span style={{ color: "#fff" }}>
+                        <i className="fa fa-server" aria-hidden="true" /> 服务器信息
                     </span>
                 </Link>{" "}
             </p>
