@@ -10,10 +10,14 @@ export default function Setting() {
     const [ip, setip] = useState<IP>()
 
     const IP = () => {
-        Get_ip().then((e) => {
-            setip(e)
-            enqueueSnackbar(e, { variant: "success" })
-        })
+        Get_ip()
+            .then((e) => {
+                setip(e)
+                enqueueSnackbar("IP信息获取成功", { variant: "success" })
+            })
+            .catch((e) => {
+                enqueueSnackbar(`IP信息获取失败:${e}`, { variant: "error" })
+            })
     }
 
 
