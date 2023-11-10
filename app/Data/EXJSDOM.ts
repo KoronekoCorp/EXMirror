@@ -1,4 +1,5 @@
 import { JSDOM } from 'jsdom'
+import { Script } from 'vm'
 
 interface tag {
     title: string
@@ -18,13 +19,23 @@ export interface G_JSDOM_DATA {
 
 
 class EXJSDOM {
+    static GetDom(html: string | JSDOM) {
+        if (html instanceof JSDOM) {
+            console.log("[DOM]")
+            return html
+        } else {
+            console.log("[STR]")
+            return new JSDOM(html, { contentType: 'text/html' })
+        }
+    }
+
     /**
      * 解析总览页面信息
      * @param html 
      * @returns 
      */
-    static Index(html: string): [G_JSDOM_DATA[], string | undefined, string | undefined] {
-        const dom = new JSDOM(html, { contentType: 'text/html' })
+    static Index(html: string | JSDOM): [G_JSDOM_DATA[], string | undefined, string | undefined] {
+        const dom = EXJSDOM.GetDom(html)
         const container = dom.window.document.querySelector("table.itg.glte") ?? new Element()
 
         const gl1e = container.querySelectorAll("td.gl1e")
@@ -62,8 +73,8 @@ class EXJSDOM {
      * @param html 
      * @returns 
      */
-    static gallery_imgs(html: string): [string[], string[]] {
-        const dom = new JSDOM(html, { contentType: 'text/html' })
+    static gallery_imgs(html: string | JSDOM): [string[], string[]] {
+        const dom = EXJSDOM.GetDom(html)
         const all = Array.from(dom.window.document.getElementsByClassName("gdtl"))
         const urls: string[] = []
         const imgs: string[] = []
@@ -74,6 +85,30 @@ class EXJSDOM {
             imgs.push(e.children[0].children[0].src)
         })
         return [imgs, urls]
+    }
+
+
+    static setting(html: string) {
+        const dom = new JSDOM(html, { contentType: 'text/html', runScripts: 'dangerously' })
+        //原始方式无法访问数据
+        // const d = new FormData(dom.window.document.forms[1])
+        // dom.window.eval(`window.d=new FormData(document.forms[1])`)
+        const s = new Script(`window.d=new FormData(document.forms[1])`)
+        const vmContext = dom.getInternalVMContext();
+        s.runInContext(vmContext)
+        return Array.from(dom.window.d) as [string, FormDataEntryValue][]
+    }
+
+    /**
+     * 获取收藏顶栏信息
+     * @param html 
+     * @returns [收藏夹url,收藏夹信息][]
+     */
+    static fav(html: string | JSDOM): string[] {
+        const dom = EXJSDOM.GetDom(html)
+        const all = Array.from(dom.window.document.querySelectorAll("div.fp"))
+
+        return all.map((e) => { return e.children[2]?.innerHTML })
     }
 }
 

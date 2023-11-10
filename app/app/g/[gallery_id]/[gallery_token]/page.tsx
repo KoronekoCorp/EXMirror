@@ -36,7 +36,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
     //     return []
     // })
     for (let i = 0; i < __thumbnail.length; i++) {
-        const [r1, r2] = await __thumbnail[i]
+        const [r1, r2, r3] = await __thumbnail[i]
         r1.map((e) => thumbnail.push(e))
         r2.map((e) => thumbnail_url.push(e))
     }

@@ -100,7 +100,7 @@ class API {
      * @param p 
      * @returns 
      */
-    async gallery_info(gallery_id: number, gallery_token: string, p: number = 1): Promise<[string[], string[]]> {
+    async gallery_info(gallery_id: number, gallery_token: string, p: number = 1): Promise<[string[], string[], string[]?]> {
         const url = p === 1 ?
             `https://exhentai.org/g/${gallery_id}/${gallery_token}/` :
             `https://exhentai.org/g/${gallery_id}/${gallery_token}/?p=${p - 1}`
@@ -179,15 +179,75 @@ class API {
         ]
     }
 
-    async index(searchParams: { [key: string]: string }, endpoint = "https://exhentai.org", cache = 3600) {
+    /**
+     * 解析标准列视图
+     * @param searchParams 
+     * @param endpoint 
+     * @param cache 
+     * @returns 
+     */
+    async http(searchParams: { [key: string]: string }, endpoint = "https://exhentai.org", cache = 3600) {
         const u = new URL(endpoint)
         for (let i in searchParams) {
             u.searchParams.set(i, searchParams[i])
         }
         const r = await this.get(u, [u.href], cache)
         const html = await r.text()
+        writeFile("./public/0.html", html, 'utf-8', () => { })
+        return EXJSDOM.GetDom(html)
+    }
+
+    /**
+     * 解析标准列视图
+     * @param searchParams 
+     * @param endpoint 
+     * @param cache 
+     * @returns 
+     */
+    async index(searchParams: { [key: string]: string }, endpoint = "https://exhentai.org", cache = 3600) {
+        const dom = await this.http(searchParams, endpoint, cache)
+        return EXJSDOM.Index(dom)
+    }
+
+    async favourite(searchParams: { [key: string]: string }) {
+        const dom = await this.http(searchParams, "https://exhentai.org/favorites.php")
+        return {
+            index: EXJSDOM.Index(dom),
+            fav: EXJSDOM.fav(dom)
+        }
+    }
+
+
+    /**
+     * 获取用户设置
+     * @returns 
+     */
+    async get_setting() {
+        const r = await this.get("https://exhentai.org/uconfig.php", [`uconfig`], 180)
+        const html = await r.text()
         // writeFile("./public/0.html", html, 'utf-8', () => { })
-        return EXJSDOM.Index(html)
+        return EXJSDOM.setting(html)
+    }
+
+    /**
+     * 更改用户设置
+     * @param data 
+     * @returns 
+     */
+    async change_setting(data: string) {
+        const html = await (await fetch("https://exhentai.org/uconfig.php", {
+            "headers": {
+                ...this.header,
+                "cache-control": "max-age=0",
+                "content-type": "application/x-www-form-urlencoded",
+                "Referer": "https://exhentai.org/uconfig.php",
+                "Referrer-Policy": "strict-origin-when-cross-origin"
+            },
+            "body": data,
+            "method": "POST"
+        })).text()
+        writeFile("./public/0.html", html, 'utf-8', () => { })
+        return EXJSDOM.setting(html)
     }
 }
 
