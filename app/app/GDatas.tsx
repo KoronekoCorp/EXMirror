@@ -23,6 +23,7 @@ export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string
     // }
 
     return <>
+        {G.length === 0 && <p style={{ textAlign: 'center' }}>什么都没有呢</p>}
         {G.map((e) => {
             return <div className="container" style={{ paddingTop: 10 }} key={e.href}>
                 <div className="card fluid">
@@ -80,7 +81,7 @@ export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string
                                     {e.tag.map((tag) => (
                                         //由于format_style导出的style中background会莫名其妙失效，采用innerhtml解决
                                         <Link key={e.href + tag.title} href={`/tag/${tag.title}`}
-                                            dangerouslySetInnerHTML={{ __html: `<button class="shadowed small" style=${tag.style}>${TR(tag.title)}</button>` }}>
+                                            dangerouslySetInnerHTML={{ __html: `<button class="shadowed small" style='${tag.style}'>${TR(tag.title)}</button>` }}>
                                         </Link>
                                     ))}
                                     {e.lowtag.map((tag) => (
@@ -90,7 +91,7 @@ export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string
                                         //     </button>
                                         // </Link>
                                         <Link key={e.href + tag.title} href={`/tag/${tag.title}`}
-                                            dangerouslySetInnerHTML={{ __html: `<button class="shadowed small" style=${tag.style}>${TR(tag.title)}</button>` }}>
+                                            dangerouslySetInnerHTML={{ __html: `<button class="shadowed small" style='${tag.style};border: 1px dashed #8c8c8c;'>${TR(tag.title)}</button>` }}>
                                         </Link>
                                     ))}
                                 </span>

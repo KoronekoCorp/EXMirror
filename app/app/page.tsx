@@ -1,9 +1,28 @@
+import Link from "next/link";
 
 export default function Home() {
   return (
     <>
-      <h1 style={{ textAlign: "center" }}>首页东西有点多，摸鱼ing</h1>
-      <h1 style={{ textAlign: "center" }}>但是其他内容已大部分完工</h1>
+      <div className="container" style={{ paddingTop: 10 }}>
+
+        <div className="row">
+          <div className="col-sm-12 col-md-6" style={{ height: '50vh', textAlign: 'center' }}>
+            <div style={{ height: "20%" }}> </div>
+            <h1>EX Mirror</h1>
+            <p>一个没啥用的项目</p>
+            <p>项目地址：<Link href='https://github.com/KoronekoCorp/EXMirror'>https://github.com/KoronekoCorp/EXMirror</Link></p>
+          </div>
+          <div className="col-sm-12 col-md-6">
+            <img
+              loading="lazy"
+              className="lazyload blur-up"
+              data-src="https://koroneko.co/img/1.png"
+              style={{ borderRadius: 10 }}
+            />
+          </div>
+        </div>
+      </div>
+
     </>
   )
 }

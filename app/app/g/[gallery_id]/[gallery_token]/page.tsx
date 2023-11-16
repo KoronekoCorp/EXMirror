@@ -5,6 +5,7 @@ import { db } from "@/Data/EXDB"
 import { R } from "@/app/push"
 import { Cookie } from "@/app/Cookies"
 import { NextPage } from "./client"
+import { ginfo } from "@/Data/EXJSDOM"
 
 export default async function G({ params: { gallery_id, gallery_token }, searchParams }:
     { params: { gallery_id: string, gallery_token: string }, searchParams: { [key: string]: string | undefined } }) {
@@ -16,33 +17,29 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
     }
 
     const __tr = db.getDB()
-    const __r = a.gdata([[id, gallery_token]])
     const __thumbnail = []
     const p = parseInt(searchParams.p ?? "1")
     for (let page = 1; page <= p; page++) {
         __thumbnail.push(a.gallery_info(id, gallery_token, page))
     }
 
-    const r = await __r
-    const d = new Date(parseInt(r.gmetadata[0].posted) * 1000)
     const tr = await __tr
     const thumbnail: string[] = []
     const thumbnail_url: string[] = []
+    let gdata: ginfo | undefined = undefined
 
-    // __thumbnail.map(async (e) => {
-    //     const [r1, r2] = await e
-    //     r1.map((e) => thumbnail.push(e))
-    //     r2.map((e) => thumbnail_url.push(e))
-    //     return []
-    // })
     for (let i = 0; i < __thumbnail.length; i++) {
         const [r1, r2, r3] = await __thumbnail[i]
         r1.map((e) => thumbnail.push(e))
         r2.map((e) => thumbnail_url.push(e))
+        if (r3) { gdata = r3 }
+    }
+    if (!gdata) {
+        return notFound()
     }
 
     return <>
-        <title>{r.gmetadata[0].title.replaceAll("amp;", "")}</title>
+        <title>{gdata.gn}</title>
         <div className="container" style={{ paddingTop: 10 }}>
             <div className="row">
                 <div className="col-sm-12 col-md-4">
@@ -51,7 +48,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                             id="pic_cover"
                             loading="lazy"
                             className="lazyload blur-up"
-                            data-src={r.gmetadata[0].thumb.replace("s.exhentai.org", "aeiljuispo.cloudimg.io/v7/https://ehgt.org")}
+                            data-src={thumbnail[0].replace("s.exhentai.org", "aeiljuispo.cloudimg.io/v7/https://ehgt.org")}
                         />
                         <br />
                         <button className="shadowed small tertiary">
@@ -67,44 +64,45 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                 <div className="col-sm-12 col-md-8">
                     <div className="box-colored">
                         <h1 className="post-title detail_title book_title_search">
-                            {r.gmetadata[0].title.replaceAll("amp;", "")}
+                            {gdata.gn}
                         </h1>
                         <h3 className="post-title detail_title book_title_search" style={{ textAlign: "center" }}>
-                            {r.gmetadata[0].title_jpn}
+                            {gdata.gj}
                         </h3>
                         <p>
                             <b>
                                 <i className="fa fa-user" aria-hidden="true"></i> 上传者:
                             </b>
-                            <Link className="book_title_search" id="book_author" href={`/search/${r.gmetadata[0].uploader}`}>
-                                {r.gmetadata[0].uploader}
+                            <Link className="book_title_search" id="book_author" href={`/search/${gdata.uploader}`}>
+                                {gdata.uploader}
                             </Link>
                         </p>
                         <p>
                             <b>
                                 <i className="fa fa-circle-o-notch" aria-hidden="true"></i> 文件总数:
                             </b>{' '}
-                            <span id="chapter_amount">{r.gmetadata[0].filecount}</span> / <b>文件大小:</b>{' '}
-                            <span id="book_total_word_count">{(r.gmetadata[0].filesize / 1048576).toFixed(2)}MiB</span>
+                            <span id="chapter_amount">{gdata.Length}</span> / <b>文件大小:</b>{' '}
+                            <span id="book_total_word_count">{gdata["File Size"]}</span>
                         </p>
                         <p>
                             <b>
                                 <i className="fa fa-trophy" aria-hidden="true"></i> 评分:
                             </b>{' '}
-                            <span id="total_yp">{r.gmetadata[0].rating}</span>
+                            <span id="total_yp">{gdata.Average?.replace("Average: ", "")}</span> / <b>评分次数:</b>{' '}
+                            <span id="book_total_word_count">{gdata.count}</span>
                         </p>
                         <p>
                             <b>
                                 <i className="fa fa-clock-o" aria-hidden="true"></i> 发布于:
                             </b>{' '}
-                            <span id="book_uptime">{d.getFullYear()}.{d.getMonth() + 1}.{d.getDate()} {d.getHours() + 8}:{d.getMinutes()}</span>
+                            <span id="book_uptime">{gdata.Posted}</span>
                         </p>
                         <p>
                             <b>
                                 <i className="fa fa-bars" aria-hidden="true"></i> 分类:
                             </b>{' '}
-                            <Link href={`/${r.gmetadata[0].category.toLocaleLowerCase().replaceAll(" ", "")}`}>
-                                {r.gmetadata[0].category}
+                            <Link href={`/${gdata.catalog?.toLocaleLowerCase().replaceAll(" ", "")}`}>
+                                {gdata.catalog}
                             </Link>
                         </p>
                         <p>
@@ -112,13 +110,22 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                                 <i className="fa fa-hashtag" aria-hidden="true" /> 标签:
                             </b>{" "}
                             <span id="book_tags">
-                                {r.gmetadata[0].tags.map((tag) => (
+                                {gdata.tags.map((tag) => (
                                     <Link key={tag} href={`/tag/${tag}`}>
                                         <button className="shadowed small" dangerouslySetInnerHTML={{ __html: db.translate(tag, tr) }}></button>
                                     </Link>
                                 ))}
+                                {gdata.lowtag.map((tag) => (
+                                    <Link key={tag} href={`/tag/${tag}`}>
+                                        <button className="shadowed small" style={{ border: "1px dashed #8c8c8c" }} dangerouslySetInnerHTML={{ __html: db.translate(tag, tr) }}></button>
+                                    </Link>
+                                ))}
                             </span>
                         </p>
+                        {gdata.uploadercomment && <p className="detail_des">
+                            <br />
+                            <span id="book_description" dangerouslySetInnerHTML={{ __html: gdata.uploadercomment }}></span>
+                        </p>}
                     </div>
                 </div>
             </div>
@@ -141,7 +148,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                 </div>)}
             </div>
         </div>
-        {parseInt(r.gmetadata[0].filecount) > thumbnail.length && <NextPage gallery_id={gallery_id} gallery_token={gallery_token} p={p} />}
+        {gdata.Length > thumbnail.length && <NextPage gallery_id={gallery_id} gallery_token={gallery_token} p={p} />}
         <Cookie c={a.cookies} />
     </>
 }

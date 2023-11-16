@@ -22,7 +22,11 @@ export default function Button() {
                 />
                 <button onClick={(e) => {
                     e.preventDefault()
-                    router.push(`/favorites?favcat=all&f_search=${word}`)
+                    const u = new URL(location.href)
+                    u.searchParams.delete("next")
+                    u.searchParams.delete("prev")
+                    u.searchParams.set("f_search", word)
+                    router.push(u.href)
                 }}>
                     <i className="fa fa-folder" aria-hidden="true" /> 搜索收藏
                 </button>

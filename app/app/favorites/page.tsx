@@ -4,6 +4,7 @@ import { R } from "@/app/push"
 import { GDatas } from "../GDatas"
 import Link from "next/link"
 import Button from "./client"
+import { Cookie } from "../Cookies"
 
 const favcolor = ["#818181", "#f83333", "#fd903b", "#fdf23f", "#2ad853", "#a5f331", "#2ce4e5", "#3b2ef4", "#9732f6", "#ce309e", "#0e0e0e"]
 
@@ -17,7 +18,6 @@ export default async function P({ searchParams }:
     const __tr = db.getDB()
     const __d = a.favourite(searchParams)
     const { index: [d, prev, next], fav: fav } = await __d
-    console.log(fav)
 
     const tr = await __tr
     return <>
@@ -41,5 +41,6 @@ export default async function P({ searchParams }:
                 {next && <Link href={next.replace("https://exhentai.org/favorites.php", "/favorites")}>下一页</Link>}
             </div>
         </div>
+        <Cookie c={a.cookies} />
     </>
 }

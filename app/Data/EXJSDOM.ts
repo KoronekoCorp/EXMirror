@@ -17,6 +17,57 @@ export interface G_JSDOM_DATA {
     lowtag: tag[]
 }
 
+export interface ginfo {
+    /** 发布时间 */
+    "Posted": string
+    "Parent": string
+    /**
+     * @example "Yes"
+     */
+    "Visible": string,
+    /**
+     * @example `Chinese &nbsp;<span class="halp" title="This gallery has been translated from the original language text.">TR</span>`
+     */
+    "Language": string
+    "File Size": string
+    /**
+     * 文件总数
+     * @example "383 pages"
+     */
+    "Length": number
+    /**
+     * @example "453 times"
+     */
+    "Favorited": string,
+    catalog: string | undefined
+    uploader: string | undefined
+    tags: string[]
+    lowtag: string[]
+    /**
+     * 画廊均分
+     * @example "Average: 4.11"
+     */
+    Average: string | undefined
+    /**
+     * 评分总数
+     */
+    count: string | undefined
+    /**
+     * @example "[House Saibai Mochi (Shiratama Moti)] Yuri Ranbou Shidoushitsu [Chinese] [Digital"]
+     */
+    gn: string | undefined
+    /**
+     * @example "[ハウス栽培もち (白玉もち)] 百合乱暴指導室 [中国翻訳]"
+     */
+    gj: string | undefined
+    /**
+     * 收藏夹序号
+     */
+    fav: number | undefined
+
+    uploadercomment: string | undefined
+}
+
 
 class EXJSDOM {
     static GetDom(html: string | JSDOM) {
@@ -36,7 +87,10 @@ class EXJSDOM {
      */
     static Index(html: string | JSDOM): [G_JSDOM_DATA[], string | undefined, string | undefined] {
         const dom = EXJSDOM.GetDom(html)
-        const container = dom.window.document.querySelector("table.itg.glte") ?? new Element()
+        const container = dom.window.document.querySelector("table.itg.glte")
+        if (!container) {
+            return [[], undefined, undefined]
+        }
 
         const gl1e = container.querySelectorAll("td.gl1e")
         const gl2e = container.querySelectorAll("td.gl2e")
@@ -79,12 +133,89 @@ class EXJSDOM {
         const urls: string[] = []
         const imgs: string[] = []
         all.forEach((e) => {
-            //@ts-ignore
-            urls.push(e.children[0].href.replace("https://exhentai.org", ""))
-            //@ts-ignore
-            imgs.push(e.children[0].children[0].src)
+            urls.push((e.children[0] as HTMLAnchorElement).href.replace("https://exhentai.org", ""))
+            imgs.push((e.children[0].children[0] as HTMLImageElement).src)
         })
         return [imgs, urls]
+    }
+
+    /**
+     * 解析画廊页面
+     * @param html 
+     * @returns 
+     */
+    static gallery_info(html: string | JSDOM): ginfo {
+        /** 用于转换得到收藏夹序号 */
+        const tr: {
+            '0px -2px': 1,
+            '0px -21px': 2,
+            '0px -40px': 3,
+            '0px -59px': 4,
+            '0px -78px': 5,
+            '0px -97px': 6,
+            '0px -116px': 7,
+            '0px -135px': 8,
+            '0px -154px': 9,
+            '0px -173px': 10,
+            [key: string]: number | undefined,
+            undefined: undefined,
+        } = {
+            '0px -2px': 1,
+            '0px -21px': 2,
+            '0px -40px': 3,
+            '0px -59px': 4,
+            '0px -78px': 5,
+            '0px -97px': 6,
+            '0px -116px': 7,
+            '0px -135px': 8,
+            '0px -154px': 9,
+            '0px -173px': 10,
+            undefined: undefined
+        }
+        const document = EXJSDOM.GetDom(html).window.document
+        const data = {
+            "Posted": "2021-06-22 15:39",
+            "Parent": "None",
+            "Visible": "Yes",
+            "Language": `Chinese &nbsp;<span class="halp" title="This gallery has been translated from the original language text.">TR</span>`,
+            "File Size": "462.6 MiB",
+            "Length": 0,
+            "Favorited": "453 times",
+            catalog: document.querySelector("div#gdc")?.children[0].innerHTML,
+            uploader: document.querySelector("div#gdn")?.children[0].innerHTML,
+            tags: [...document.querySelectorAll("div.gt")].map((e) => e.id.replace('td_', '').replaceAll("_", " ")),
+            lowtag: [...document.querySelectorAll("div.gtl")].map((e) => e.id.replace('td_', '').replaceAll("_", " ")),
+            /**
+             * 画廊均分
+             * @example Average: 4.11
+             */
+            Average: document.querySelector("td#rating_label")?.innerHTML,
+            /**
+             * 评分总数
+             */
+            count: document.querySelector("#rating_count")?.innerHTML,
+            /**
+             * @example [House Saibai Mochi (Shiratama Moti)] Yuri Ranbou Shidoushitsu [Chinese] [Digital]
+             */
+            gn: document.querySelector("#gn")?.innerHTML,
+            /**
+             * @example [ハウス栽培もち (白玉もち)] 百合乱暴指導室 [中国翻訳]
+             */
+            gj: document.querySelector("#gj")?.innerHTML,
+            /**
+             * 收藏夹序号
+             */
+            fav: tr[(document.querySelectorAll("div.i")[0] as HTMLDivElement)?.style.getPropertyValue('background-position')],
+
+            uploadercomment: document.querySelector("#comment_0")?.innerHTML
+        }
+
+
+        //提取Posted ~ Favorited的数据
+        //@ts-ignore 
+        const b = [...document.querySelectorAll("tbody")[0].children].map((e) => { data[e.children[0].innerHTML.replace(":", "")] = e.children[1].innerHTML })
+        data.Length = parseInt(data.Length as any)
+        return data
     }
 
 
