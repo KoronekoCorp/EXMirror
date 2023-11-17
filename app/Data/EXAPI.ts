@@ -106,7 +106,6 @@ class API {
             `https://exhentai.org/g/${gallery_id}/${gallery_token}/?p=${p - 1}`
         const r = await this.get(url, [url], 3600 * 24)
         const html = await r.text()
-        writeFile("./public/0.html", html, 'utf-8', () => { })
         const dom = EXJSDOM.GetDom(html)
         return p === 1 ? [...EXJSDOM.gallery_imgs(dom), EXJSDOM.gallery_info(dom)] : EXJSDOM.gallery_imgs(dom)
     }
@@ -115,16 +114,12 @@ class API {
      * 通过MPV方式获取具体信息
      * @param gallery_id 
      * @param gallery_token 
-     * @returns [图片信息, mpvkey]
+     * @returns [图片信息, mpvkey, title]
      */
-    async mpv_info(gallery_id: number, gallery_token: string): Promise<[mpvdata[], string]> {
+    async mpv_info(gallery_id: number, gallery_token: string): Promise<[mpvdata[], string, string]> {
         const r = await this.get(`https://exhentai.org/mpv/${gallery_id}/${gallery_token}/`, [`https://exhentai.org/mpv/${gallery_id}/${gallery_token}/`], 3600 * 24)
         const html = await r.text()
-
-        return [
-            JSON.parse(Array.from(html.matchAll(/var imagelist =(.*?);/g))[0][1]) as mpvdata[],//图片信息
-            Array.from(html.matchAll(/var mpvkey = "(.*?)"/g))[0][1]//请求顶级key
-        ]
+        return EXJSDOM.MPVdata(html) as [mpvdata[], string, string]
     }
 
     /**

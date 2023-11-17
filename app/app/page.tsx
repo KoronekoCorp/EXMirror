@@ -1,4 +1,5 @@
 import Link from "next/link";
+import style from './style.module.css'
 
 export default function Home() {
   return (
@@ -15,9 +16,8 @@ export default function Home() {
           <div className="col-sm-12 col-md-6">
             <img
               loading="lazy"
-              className="lazyload blur-up"
+              className={`lazyload blur-up ${style.anime}`}
               data-src="https://koroneko.co/img/1.png"
-              style={{ borderRadius: 10 }}
             />
           </div>
         </div>

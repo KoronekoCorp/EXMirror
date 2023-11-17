@@ -1,4 +1,4 @@
-import { JSDOM } from 'jsdom'
+import { JSDOM, ConstructorOptions } from 'jsdom'
 import { Script } from 'vm'
 
 interface tag {
@@ -70,13 +70,13 @@ export interface ginfo {
 
 
 class EXJSDOM {
-    static GetDom(html: string | JSDOM) {
+    static GetDom(html: string | JSDOM, option?: ConstructorOptions) {
         if (html instanceof JSDOM) {
             console.log("[DOM]")
             return html
         } else {
             console.log("[STR]")
-            return new JSDOM(html, { contentType: 'text/html' })
+            return new JSDOM(html, { contentType: 'text/html', ...option })
         }
     }
 
@@ -220,7 +220,7 @@ class EXJSDOM {
 
 
     static setting(html: string) {
-        const dom = new JSDOM(html, { contentType: 'text/html', runScripts: 'dangerously' })
+        const dom = EXJSDOM.GetDom(html, { runScripts: 'dangerously' })
         //原始方式无法访问数据
         // const d = new FormData(dom.window.document.forms[1])
         // dom.window.eval(`window.d=new FormData(document.forms[1])`)
@@ -240,6 +240,16 @@ class EXJSDOM {
         const all = Array.from(dom.window.document.querySelectorAll("div.fp"))
 
         return all.map((e) => { return e.children[2]?.innerHTML })
+    }
+
+    /**
+     * MPV数据
+     * @param html 
+     * @returns [图片信息, mpvkey, title]
+     */
+    static MPVdata(html: string | JSDOM) {
+        const dom = EXJSDOM.GetDom(html, { runScripts: 'dangerously' })
+        return [dom.window.imagelist, dom.window.mpvkey, dom.window.document.title.replace("- ExHentai.org", "")]
     }
 }
 

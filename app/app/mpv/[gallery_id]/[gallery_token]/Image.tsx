@@ -3,14 +3,13 @@
 import { mpvdata, mpvimg } from "@/Data/EType";
 import { useContext, useEffect, useRef, useState } from "react";
 import { get_image } from "./API";
-import { Skeleton } from "@mui/material"
 import { Control } from "./Control";
+import { Skeleton } from "@mui/material";
 
 export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, page: number, mpvdata: mpvdata, mpvkey: string, load: boolean }) {
     const control = useContext(Control)
 
     const ref = useRef<HTMLDivElement | null>(null)
-    const [isloaded, setload] = useState(false)
     const [data, setdata] = useState<mpvimg | undefined>(undefined)
     const [error, seterror] = useState(0)
 
@@ -60,16 +59,14 @@ export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, pa
 
     return <>
         <div ref={ref} >
-            {data && <img
+            {data ? <img
                 id="pic_cover"
                 loading="eager"
                 className="lazyload blur-up"
                 src={get_url()}
-                onLoad={() => setload(true)}
                 onError={() => seterror(error + 1)}
-                style={{ width: "100%" }}
-            />}
-            {!isloaded && <Skeleton variant="rectangular" width="100%" height="800px" />}
+                style={{ width: "100%", minHeight: 800 }}
+            /> : <Skeleton variant="rectangular" width="100%" height="800px" />}
         </div>
     </>
 }

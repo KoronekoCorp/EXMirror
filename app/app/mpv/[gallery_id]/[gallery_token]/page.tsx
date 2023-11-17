@@ -13,12 +13,10 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
     if (!a.header.cookie.includes("igneous")) {
         return <R url="/login" />
     }
-    const _ginfo = a.gdata([[id, gallery_token]])
     const _mpv = a.mpv_info(id, gallery_token)
-    const ginfo = (await _ginfo).gmetadata[0]
-    const [r, mpvkey] = await _mpv
+    const [r, mpvkey, title] = await _mpv
     return <>
-        <title>{ginfo.title}</title>
+        <title>{title}</title>
         <ul className="breadcrumb center">
             <li>
                 <Link id="book_id" href={`/g/${id}/${gallery_token}`}>
@@ -27,7 +25,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
             </li>
         </ul>
         <h1 className="post-title detail_title book_title_search" id="book_name" itemProp="name headline">
-            {ginfo.title}
+            {title}
         </h1>
         <div className="container center" style={{ padding: 20 }}>
             {/* {r.map((e, i) => <MPVImage key={e.n} gid={id} page={i + 1} mpvdata={e} mpvkey={mpvkey} />)} */}

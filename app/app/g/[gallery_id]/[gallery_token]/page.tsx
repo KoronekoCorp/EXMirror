@@ -124,7 +124,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                         </p>
                         {gdata.uploadercomment && <p className="detail_des">
                             <br />
-                            <span id="book_description" dangerouslySetInnerHTML={{ __html: gdata.uploadercomment }}></span>
+                            <span id="book_description" dangerouslySetInnerHTML={{ __html: gdata.uploadercomment.replaceAll("exhentai.org", "ex.koroneko.co") }}></span>
                         </p>}
                     </div>
                 </div>
