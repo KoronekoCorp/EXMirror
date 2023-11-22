@@ -12,6 +12,7 @@ export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, pa
     const ref = useRef<HTMLDivElement | null>(null)
     const [data, setdata] = useState<mpvimg | undefined>(undefined)
     const [error, seterror] = useState(0)
+    const [loaded, setloaded] = useState(false)
 
     const get_url = (): string => {
         switch (error) {
@@ -72,7 +73,8 @@ export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, pa
                 className="lazyload blur-up"
                 src={get_url()}
                 onError={() => seterror(error + 1)}
-                style={{ width: "100%", minHeight: 800 }}
+                onLoad={() => setloaded(true)}
+                style={{ width: "100%", minHeight: loaded ? 0 : 800 }}
             /> : <Skeleton variant="rectangular" width="100%" height="800px" />}
         </div>
     </>
