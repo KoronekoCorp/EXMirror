@@ -5,6 +5,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { get_image } from "./API";
 import { Control } from "./Control";
 import { Skeleton } from "@mui/material";
+import { enqueueSnackbar } from "notistack";
 
 export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, page: number, mpvdata: mpvdata, mpvkey: string, load: boolean }) {
     const control = useContext(Control)
@@ -48,11 +49,20 @@ export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, pa
         return () => observer.disconnect()
     }
 
-    useEffect(() => {
-        if (load) {
-            get_image(gid, page, mpvdata.k, mpvkey).then((e) => {
+    const loaddata = () => {
+        get_image(gid, page, mpvdata.k, mpvkey)
+            .then((e) => {
                 setdata(e)
             })
+            .catch((e: Error) => {
+                enqueueSnackbar(`Error:${e.message}`, { variant: "error", transitionDuration: 1000 })
+                setTimeout(loaddata, 1000);
+            })
+    }
+
+    useEffect(() => {
+        if (load) {
+            loaddata()
         }
         return init()
     }, [gid, page, load])
