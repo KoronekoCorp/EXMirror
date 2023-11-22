@@ -2,7 +2,6 @@
 
 import { mpvdata, mpvimg } from "@/Data/EType";
 import { useContext, useEffect, useRef, useState } from "react";
-import { get_image } from "./API";
 import { Control } from "./Control";
 import { Skeleton } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
@@ -49,15 +48,13 @@ export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, pa
         return () => observer.disconnect()
     }
 
-    const loaddata = () => {
-        get_image(gid, page, mpvdata.k, mpvkey)
-            .then((e) => {
-                setdata(e)
-            })
-            .catch((e: Error) => {
-                enqueueSnackbar(`Error:${e.message}`, { variant: "error", transitionDuration: 1000 })
-                setTimeout(loaddata, 1000);
-            })
+    const loaddata = async () => {
+        try {
+            setdata(await (await fetch(`/api/mpv/${gid}/${page}/${mpvdata.k}/${mpvkey}`)).json())
+        } catch (e) {
+            enqueueSnackbar(`Error:${e}`, { variant: "error", transitionDuration: 1000 })
+            loaddata()
+        }
     }
 
     useEffect(() => {
