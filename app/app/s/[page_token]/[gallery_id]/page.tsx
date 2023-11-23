@@ -13,11 +13,10 @@ export default async function G({ params: { page_token, gallery_id } }: { params
         return <R url="/login" />
     }
 
-    const [title, gallery_url, prev, next, url] = await CacheEveryThing(async () => {
-        const __r = a.s_info(page_token, gallery_id)
-        const fullimg = cookies().get("fullimg")?.value == "true"
+    const fullimg = cookies().get("fullimg")?.value == "true"
 
-        const [title, gallery_url, src, fullimage_url, prev, next] = await __r
+    const [title, gallery_url, prev, next, url] = await CacheEveryThing(async () => {
+        const [title, gallery_url, src, fullimage_url, prev, next] = await a.s_info(page_token, gallery_id)
         let url: string
         if (fullimg && fullimage_url) {
             url = await a.no_redirt("https://exhentai.org/fullimg/" + fullimage_url.replaceAll("amp;", ""), [`${page_token}_${gallery_id}`], 3600 * 24)
@@ -25,7 +24,7 @@ export default async function G({ params: { page_token, gallery_id } }: { params
             url = src
         }
         return [title, gallery_url, prev, next, url]
-    }, [`s/${page_token}/${gallery_id}`], 86400)()
+    }, [`s/${page_token}/${gallery_id}?fullimg=${fullimg}`], 86400)()
 
 
     return <>

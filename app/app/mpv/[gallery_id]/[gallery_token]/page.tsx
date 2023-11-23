@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import { Cookie } from "@/app/Cookies"
 import { MPVImages } from "./Images"
+import { CacheEveryThing } from "@/Data/cache"
 
 export default async function G({ params: { gallery_id, gallery_token }, searchParams }:
     { params: { gallery_id: string, gallery_token: string }, searchParams: { [key: string]: string | undefined } }) {
@@ -13,8 +14,8 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
     if (!a.header.cookie.includes("igneous")) {
         return <R url="/login" />
     }
-    const _mpv = a.mpv_info(id, gallery_token)
-    const [r, mpvkey, title] = await _mpv
+    const [r, mpvkey, title] = await CacheEveryThing(async () => a.mpv_info(id, gallery_token),
+        [`mpv/${id}/${gallery_token}`], 86400)()
     return <>
         <title>{title}</title>
         <ul className="breadcrumb center">
