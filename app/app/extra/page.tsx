@@ -13,22 +13,22 @@ export default function Setting() {
         Get_ip()
             .then((e) => {
                 setip(e)
-                enqueueSnackbar("连接信息获取成功", { variant: "success" })
+                enqueueSnackbar("IP信息获取成功", { variant: "success" })
             })
-            .catch((e) => {
-                enqueueSnackbar(`连接信息获取失败:${e}`, { variant: "error" })
-            })
+            // .catch((e) => {
+            //     enqueueSnackbar(`IP信息获取失败:${e}`, { variant: "error" })
+            // })
     }
 
     const link = () => {
         Link()
             .then((e) => {
                 setl(e)
-                enqueueSnackbar("IP信息获取成功", { variant: "success" })
+                enqueueSnackbar("连接信息获取成功", { variant: "success" })
             })
-            .catch((e) => {
-                enqueueSnackbar(`IP信息获取失败:${e}`, { variant: "error" })
-            })
+            // .catch((e) => {
+            //     enqueueSnackbar(`连接信息获取失败:${e}`, { variant: "error" })
+            // })
     }
 
 

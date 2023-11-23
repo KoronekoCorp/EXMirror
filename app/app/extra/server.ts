@@ -35,6 +35,15 @@ export async function Get_ip() {
 
 export async function Link() {
     const time = Date.now()
-    await fetch("https://s.exhentai.org/")
+    await fetch("https://s.exhentai.org/", {
+        method: "POST",
+        body: JSON.stringify({
+            "method": "gdata",
+            "gidlist": [
+                [2231376, "a7584a5932"]
+            ],
+            "namespace": 1
+        })
+    })
     return Date.now() - time
 }
