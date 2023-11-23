@@ -65,16 +65,13 @@ class API {
 
     }
 
-    async no_redirt(url: string, tags: string[] | undefined, revalidate: number | false | undefined = 7200) {
-        return unstable_cache(async () => {
-            const r = await fetch(url,
-                {
-                    headers: this.header, redirect: 'manual',
-                    next: { revalidate: revalidate, tags: tags }
-                }
-            )
-            return r.headers.get("location") ?? ""
-        }, tags, { revalidate: revalidate, tags: tags })()
+    async no_redirt(url: string) {
+        const r = await fetch(url,
+            {
+                headers: this.header, redirect: 'manual',
+            }
+        )
+        return r.headers.get("location") ?? ""
     }
 
     /**
@@ -150,7 +147,7 @@ class API {
      */
     async mpv_full_img(gid: number, page: number, imgkey: string, mpvkey: string) {
         const d = await this.mpv_get_img(gid, page, imgkey, mpvkey)
-        const r = await this.no_redirt("https://exhentai.org/" + d.lf, [`mpv_full_img_${gid}_${page}_${imgkey}`], 3600 * 24)
+        const r = await this.no_redirt("https://exhentai.org/" + d.lf)
         return { ...d, "i": r == "" ? d.i : r }
     }
 

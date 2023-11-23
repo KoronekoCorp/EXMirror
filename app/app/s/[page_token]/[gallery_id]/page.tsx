@@ -19,7 +19,7 @@ export default async function G({ params: { page_token, gallery_id } }: { params
         const [title, gallery_url, src, fullimage_url, prev, next] = await a.s_info(page_token, gallery_id)
         let url: string
         if (fullimg && fullimage_url) {
-            url = await a.no_redirt("https://exhentai.org/fullimg/" + fullimage_url.replaceAll("amp;", ""), [`${page_token}_${gallery_id}`], 3600 * 24)
+            url = await a.no_redirt("https://exhentai.org/fullimg/" + fullimage_url.replaceAll("amp;", ""))
         } else {
             url = src
         }
