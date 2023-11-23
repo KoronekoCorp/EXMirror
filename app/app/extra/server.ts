@@ -32,3 +32,9 @@ export interface IP {
 export async function Get_ip() {
     return (await fetch("http://ip-api.com/json/?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,offset,currency,isp,org,as,asname,reverse,mobile,proxy,hosting,query")).json() as Promise<IP>
 }
+
+export async function Link() {
+    const time = Date.now()
+    await fetch("https://s.exhentai.org/")
+    return Date.now() - time
+}
