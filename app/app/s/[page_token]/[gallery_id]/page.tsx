@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import { Image } from "./client";
 import { Cookie } from "@/app/Cookies";
+import { CacheEveryThing } from "@/Data/cache";
 
 
 export default async function G({ params: { page_token, gallery_id } }: { params: { page_token: string, gallery_id: string } }) {
@@ -11,17 +12,21 @@ export default async function G({ params: { page_token, gallery_id } }: { params
     if (!a.header.cookie.includes("igneous")) {
         return <R url="/login" />
     }
-    const __r = a.s_info(page_token, gallery_id)
-    const fullimg = cookies().get("fullimg")?.value == "true"
 
+    const [title, gallery_url, prev, next, url] = await CacheEveryThing(async () => {
+        const __r = a.s_info(page_token, gallery_id)
+        const fullimg = cookies().get("fullimg")?.value == "true"
 
-    const [title, gallery_url, src, fullimage_url, prev, next] = await __r
-    let url: string
-    if (fullimg && fullimage_url) {
-        url = await a.no_redirt("https://exhentai.org/fullimg/" + fullimage_url.replaceAll("amp;", ""), [`${page_token}_${gallery_id}`], 3600 * 24)
-    } else {
-        url = src
-    }
+        const [title, gallery_url, src, fullimage_url, prev, next] = await __r
+        let url: string
+        if (fullimg && fullimage_url) {
+            url = await a.no_redirt("https://exhentai.org/fullimg/" + fullimage_url.replaceAll("amp;", ""), [`${page_token}_${gallery_id}`], 3600 * 24)
+        } else {
+            url = src
+        }
+        return [title, gallery_url, prev, next, url]
+    }, [`s/${page_token}/${gallery_id}`], 86400)()
+
 
     return <>
         <title>{title}</title>

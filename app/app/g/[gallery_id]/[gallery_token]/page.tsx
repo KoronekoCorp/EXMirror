@@ -6,6 +6,7 @@ import { R } from "@/app/push"
 import { Cookie } from "@/app/Cookies"
 import { NextPage } from "./client"
 import { ginfo } from "@/Data/EXJSDOM"
+import { CacheEveryThing } from "@/Data/cache"
 
 export default async function G({ params: { gallery_id, gallery_token }, searchParams }:
     { params: { gallery_id: string, gallery_token: string }, searchParams: { [key: string]: string | undefined } }) {
@@ -20,7 +21,11 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
     const __thumbnail = []
     const p = parseInt(searchParams.p ?? "1")
     for (let page = 1; page <= p; page++) {
-        __thumbnail.push(a.gallery_info(id, gallery_token, page))
+        __thumbnail.push(
+            CacheEveryThing(async () => a.gallery_info(id, gallery_token, page),
+                [`g/${id}/${gallery_token}?p=${page}`], 86400
+            )()
+        )
     }
 
     const tr = await __tr

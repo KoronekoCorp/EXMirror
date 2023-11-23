@@ -48,22 +48,21 @@ class API {
     }
 
     async post(data: string, tags: string[] | undefined, revalidate: number | false | undefined = 7200, useCookie: boolean = false) {
-        const r = await fetch(this.BASE, {
-            method: "POST",
-            headers: {
-                ...this.header,
-                "cookie": useCookie ? this.header.cookie : "",
-                "Content-Type": "application/json",
-                "Content-Length": data.length.toString(),
-                "Accept-Encoding": "gzip",
-            },
-            body: data,
-            next: {
-                revalidate: revalidate,
-                tags: tags
-            },
-        })
-        return await r.json()
+        return unstable_cache(async () => {
+            const r = await fetch(this.BASE, {
+                method: "POST",
+                headers: {
+                    ...this.header,
+                    "cookie": useCookie ? this.header.cookie : "",
+                    "Content-Type": "application/json",
+                    "Content-Length": data.length.toString(),
+                    "Accept-Encoding": "gzip",
+                },
+                body: data
+            })
+            return r.json()
+        }, tags, { revalidate: revalidate, tags: tags })()
+
     }
 
     async no_redirt(url: string, tags: string[] | undefined, revalidate: number | false | undefined = 7200) {
