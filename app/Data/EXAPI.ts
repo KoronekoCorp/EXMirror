@@ -27,14 +27,6 @@ class API {
     }
 
     async get(url: URL | string, tags: string[] | undefined, revalidate: number | false | undefined = 7200) {
-        // return fetch(url, {
-        //     headers: this.header,
-        //     next: {
-        //         revalidate: revalidate,
-        //         tags: tags
-        //     },
-        //     cache: cache
-        // })
         const r = await fetch(url, {
             headers: this.header,
             next: {
@@ -48,21 +40,18 @@ class API {
     }
 
     async post(data: string, tags: string[] | undefined, revalidate: number | false | undefined = 7200, useCookie: boolean = false) {
-        return unstable_cache(async () => {
-            const r = await fetch(this.BASE, {
-                method: "POST",
-                headers: {
-                    ...this.header,
-                    "cookie": useCookie ? this.header.cookie : "",
-                    "Content-Type": "application/json",
-                    "Content-Length": data.length.toString(),
-                    "Accept-Encoding": "gzip",
-                },
-                body: data
-            })
-            return r.json()
-        }, tags, { revalidate: revalidate, tags: tags })()
-
+        const r = await fetch(this.BASE, {
+            method: "POST",
+            headers: {
+                ...this.header,
+                "cookie": useCookie ? this.header.cookie : "",
+                "Content-Type": "application/json",
+                "Content-Length": data.length.toString(),
+                "Accept-Encoding": "gzip",
+            },
+            body: data
+        })
+        return r.json()
     }
 
     async no_redirt(url: string) {
@@ -160,7 +149,6 @@ class API {
     async s_info(page_token: string, gallery_id: string) {
         const r = await this.get(`https://exhentai.org/s/${page_token}/${gallery_id}`, [`s_${page_token}/${gallery_id}`], 3600 * 24)
         const html = await r.text()
-        // writeFile("./public/0.html", html, 'utf-8', () => { })
         return [
             (html.match(/<title>(.*?)<\/title>/) ?? ["", "Unknown Title"])[1],
             (html.match(/<a href="https:\/\/exhentai.org\/g\/(.*?)">/) ?? [])[1],
@@ -185,7 +173,6 @@ class API {
         }
         const r = await this.get(u, [u.href], cache)
         const html = await r.text()
-        writeFile("./public/0.html", html, 'utf-8', () => { })
         return EXJSDOM.GetDom(html)
     }
 
@@ -217,7 +204,6 @@ class API {
     async get_setting() {
         const r = await this.get("https://exhentai.org/uconfig.php", [`uconfig`], 180)
         const html = await r.text()
-        // writeFile("./public/0.html", html, 'utf-8', () => { })
         return EXJSDOM.setting(html)
     }
 
@@ -238,7 +224,6 @@ class API {
             "body": data,
             "method": "POST"
         })).text()
-        writeFile("./public/0.html", html, 'utf-8', () => { })
         return EXJSDOM.setting(html)
     }
 }

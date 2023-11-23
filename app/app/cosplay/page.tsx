@@ -13,7 +13,7 @@ export default async function P({ searchParams }:
         return <R url="/login" />
     }
     const __tr = db.getDB()
-    const __d = a.index(searchParams, "https://exhentai.org/imageset")
+    const __d = a.index(searchParams, "https://exhentai.org/cosplay")
     const [d, prev, next] = await __d
 
     const tr = await __tr

@@ -64,7 +64,7 @@ export interface ginfo {
      * 收藏夹序号
      */
     fav: number | undefined
-
+    favname: string | undefined
     uploadercomment: string | undefined
 }
 
@@ -182,7 +182,7 @@ class EXJSDOM {
             "Length": 0,
             "Favorited": "453 times",
             catalog: document.querySelector("div#gdc")?.children[0].innerHTML,
-            uploader: document.querySelector("div#gdn")?.children[0].innerHTML,
+            uploader: document.querySelector("div#gdn")?.children[0]?.innerHTML ?? "(已放弃)",
             tags: [...document.querySelectorAll("div.gt")].map((e) => e.id.replace('td_', '').replaceAll("_", " ")),
             lowtag: [...document.querySelectorAll("div.gtl")].map((e) => e.id.replace('td_', '').replaceAll("_", " ")),
             /**
@@ -206,7 +206,7 @@ class EXJSDOM {
              * 收藏夹序号
              */
             fav: tr[(document.querySelectorAll("div.i")[0] as HTMLDivElement)?.style.getPropertyValue('background-position')],
-
+            favname: document.querySelector("#favoritelink")?.innerHTML,
             uploadercomment: document.querySelector("#comment_0")?.innerHTML
         }
 

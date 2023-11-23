@@ -8,6 +8,9 @@ import { NextPage } from "./client"
 import { ginfo } from "@/Data/EXJSDOM"
 import { CacheEveryThing } from "@/Data/cache"
 
+const favcolor = ["#818181", "#f83333", "#fd903b", "#fdf23f", "#2ad853", "#a5f331", "#2ce4e5", "#3b2ef4", "#9732f6", "#ce309e", "#0e0e0e"]
+const favtext = [0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0]
+
 export default async function G({ params: { gallery_id, gallery_token }, searchParams }:
     { params: { gallery_id: string, gallery_token: string }, searchParams: { [key: string]: string | undefined } }) {
     const id = parseInt(gallery_id)
@@ -60,7 +63,13 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                             <Link href={`/mpv/${id}/${gallery_token}`} className="color_white">
                                 <i className="fa fa-object-ungroup" aria-hidden="true" /> 正统mpv阅读
                             </Link>
-                            {/* <Prefetch url={[`/book/${r.gmetadata[0].thumb}/catalog/`]} time={1000} /> */}
+
+                        </button>
+                        <br />
+                        <button className="shadowed small" style={{ backgroundColor: favcolor[(gdata.fav ?? 10) - 1], color: "black" }}>
+                            <Link href={`/g/${id}/${gallery_token}/fav`} style={{ color: favtext[(gdata.fav ?? 10) - 1] ? "black" : "white" }}>
+                                <i className="fa fa-object-ungroup" aria-hidden="true" /> {gdata.favname ? gdata.favname : "收藏"}
+                            </Link>
                         </button>
                         <br />
                     </div>

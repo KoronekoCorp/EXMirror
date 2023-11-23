@@ -7,6 +7,7 @@ import Button from "./client"
 import { Cookie } from "../Cookies"
 
 const favcolor = ["#818181", "#f83333", "#fd903b", "#fdf23f", "#2ad853", "#a5f331", "#2ce4e5", "#3b2ef4", "#9732f6", "#ce309e", "#0e0e0e"]
+const favtext = [0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0]
 
 export default async function P({ searchParams }:
     { searchParams: { [key: string]: string } }) {
@@ -29,7 +30,7 @@ export default async function P({ searchParams }:
                         显示所有收藏夹
                     </Link >
                 }
-                return <Link className="shadowed button secondary" href={`/favorites?favcat=${j}`} style={{ backgroundColor: favcolor[j] }} key={i}>
+                return <Link className="shadowed button secondary" href={`/favorites?favcat=${j}`} style={{ backgroundColor: favcolor[j], color: favtext[j] ? "black" : "white" }} key={i}>
                     {i}
                 </Link >
             })}
