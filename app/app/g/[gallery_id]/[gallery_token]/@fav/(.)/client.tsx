@@ -114,7 +114,19 @@ export function Favlist({ fav, favs, favmsg, params: { gallery_id, gallery_token
         }
     }
 
-    return <Dig index={fav} title="收藏" actions={[{ name: "保存", func: Save, style: { backgroundColor: "#0277bd", color: "white" } }]}>
+    const del = async (close: () => void) => {
+        close()
+        if (await add(gallery_id, gallery_token, "favdel", "")) {
+            enqueueSnackbar("删除成功", { variant: "success" })
+        } else {
+            enqueueSnackbar("删除失败", { variant: "error" })
+        }
+    }
+
+    return <Dig index={fav} title="收藏" actions={[
+        { name: "保存", func: Save, style: { backgroundColor: "#0277bd", color: "white" } },
+        { name: "删除收藏", func: del, style: { backgroundColor: "red", color: "white" } }
+    ]}>
         <Grid container alignItems="center" className="center">
             <Grid item xs={12}>
                 <FormControl>
