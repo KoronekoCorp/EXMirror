@@ -1,6 +1,6 @@
 import { cookies } from "next/headers"
 import { gdata, mpvdata, mpvimg } from "./EType"
-import { unstable_cache } from "next/cache"
+import { revalidateTag, unstable_cache } from "next/cache"
 import { writeFile } from "fs"
 import { EXJSDOM, ginfo } from "./EXJSDOM"
 
@@ -225,6 +225,46 @@ class API {
             "method": "POST"
         })).text()
         return EXJSDOM.setting(html)
+    }
+
+    /**
+     * 某画廊的收藏数据
+     * @param gallery_id 
+     * @param gallery_token 
+     * @returns 
+     */
+    async fav_get(gallery_id: number | string, gallery_token: string) {
+        const r = (await this.get(`https://exhentai.org/gallerypopups.php?gid=${gallery_id}&t=${gallery_token}&act=addfav`,
+            [`https://exhentai.org/gallerypopups.php?gid=${gallery_id}&t=${gallery_token}&act=addfav`], 3600)).text()
+        return EXJSDOM.gallery_fav(await r)
+    }
+
+    /**
+     * 修改画廊收藏数据
+     * @param gallery_id 
+     * @param gallery_token 
+     * @param favcat 收藏夹序列号0~9，如果移出收藏夹则为favdel
+     * @param favnote 
+     * @returns 
+     */
+    async fav_post(gallery_id: number | string, gallery_token: string, favcat: string, favnote: string) {
+        const r = await fetch(
+            `https://exhentai.org/gallerypopups.php?gid=${gallery_id}&t=${gallery_token}&act=addfav`,
+            {
+                method: "POST",
+                body: `favcat=${favcat}&favnote=${favnote}&apply=%E5%BA%94%E7%94%A8%E6%9B%B4%E6%94%B9&update=1`,
+                headers: {
+                    ...this.header,
+                    "cache-control": "max-age=0",
+                    "content-type": "application/x-www-form-urlencoded",
+                    "Referer": `https://exhentai.org/gallerypopups.php?gid=${gallery_id}&t=${gallery_token}&act=addfav`,
+                    "Referrer-Policy": "strict-origin-when-cross-origin"
+                }
+            }
+        )
+        revalidateTag(`https://exhentai.org/gallerypopups.php?gid=${gallery_id}&t=${gallery_token}&act=addfav`)
+        revalidateTag(`g/${gallery_id}/${gallery_token}?p=1`)
+        return r.status === 200
     }
 }
 

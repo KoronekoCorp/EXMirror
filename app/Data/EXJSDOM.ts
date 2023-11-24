@@ -251,6 +251,19 @@ class EXJSDOM {
         const dom = EXJSDOM.GetDom(html, { runScripts: 'dangerously' })
         return [dom.window.imagelist, dom.window.mpvkey, dom.window.document.title.replace("- ExHentai.org", "")]
     }
+
+    /**
+     * 某画廊的收藏数据
+     * @param html 
+     */
+    static gallery_fav(html: string | JSDOM) {
+        const dom = EXJSDOM.GetDom(html)
+        const f = dom.window.document.querySelector("div.nosel") as HTMLDivElement
+        return {
+            favs: Array.from(f.children).map((i) => i.children[2].innerHTML).slice(0, 10),
+            favmsg: dom.window.document.querySelector("textarea")?.value
+        }
+    }
 }
 
 export { EXJSDOM }
