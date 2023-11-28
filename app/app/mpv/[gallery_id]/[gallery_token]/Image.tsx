@@ -17,7 +17,7 @@ export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, pa
     const get_url = (): string => {
         switch (error) {
             case 0:
-                return "https://aeiljuispo.cloudimg.io/" + data?.i
+                return "https://aeiljuispo.cloudimg.io/v7/" + data?.i
             case 1:
                 return data?.i ?? ""
             default:

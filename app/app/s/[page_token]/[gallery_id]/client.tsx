@@ -14,7 +14,7 @@ export function Image({ src }: { src: string }) {
                     id="pic_cover"
                     loading="lazy"
                     className="lazyload blur-up"
-                    data-src={"https://aeiljuispo.cloudimg.io/" + src}
+                    data-src={"https://aeiljuispo.cloudimg.io/v7/" + src}
                     style={{ width: "100%", minHeight: loaded ? 0 : 800 }}
                     onLoad={() => setloaded(true)}
                     onError={() => seterror(error + 1)}

@@ -42,6 +42,7 @@ export default function Login() {
                     }
                     break
             }
+            u.searchParams.set("apply", "应用")
         }
         return [error, u]
     }
