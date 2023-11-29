@@ -7,6 +7,8 @@ import { Cookie } from "@/app/Cookies"
 import { NextPage } from "./client"
 import { ginfo } from "@/Data/EXJSDOM"
 import { CacheEveryThing } from "@/Data/cache"
+import { cookies } from "next/headers"
+import { Image } from "./Image"
 
 const favcolor = ["#818181", "#f83333", "#fd903b", "#fdf23f", "#2ad853", "#a5f331", "#2ce4e5", "#3b2ef4", "#9732f6", "#ce309e", "#0e0e0e"]
 const favtext = [0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0]
@@ -26,7 +28,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
     for (let page = 1; page <= p; page++) {
         __thumbnail.push(
             CacheEveryThing(async () => a.gallery_info(id, gallery_token, page),
-                [`g/${id}/${gallery_token}?p=${page}`], 86400
+                [`g/${id}/${gallery_token}?p=${page}`, `${cookies().get("ipb_member_id")}`], 86400
             )()
         )
     }
@@ -45,19 +47,14 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
     if (!gdata) {
         return notFound()
     }
-
+    const mirror = cookies().get("mirror")?.value ?? "aeiljuispo.cloudimg.io"
     return <>
         <title>{gdata.gn}</title>
         <div className="container" style={{ paddingTop: 10 }}>
             <div className="row">
                 <div className="col-sm-12 col-md-4">
                     <div className="box-colored center">
-                        <img
-                            id="pic_cover"
-                            loading="lazy"
-                            className="lazyload blur-up"
-                            data-src={thumbnail[0].replace("s.exhentai.org", "aeiljuispo.cloudimg.io/v7/https://ehgt.org")}
-                        />
+                        <Image src={"https://ehgt.org" + thumbnail[0].slice(22)} />
                         <br />
                         <button className="shadowed small tertiary">
                             <Link href={`/mpv/${id}/${gallery_token}`} className="color_white">
@@ -137,7 +134,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                         </p>
                         {gdata.uploadercomment && <p className="detail_des">
                             <br />
-                            <span id="book_description" dangerouslySetInnerHTML={{ __html: gdata.uploadercomment.replaceAll("exhentai.org", "ex.koroneko.co") }}></span>
+                            <span id="book_description" dangerouslySetInnerHTML={{ __html: gdata.uploadercomment.replaceAll("s.exhentai.org", `aeiljuispo.cloudimg.io/v7/https://ehgt.org`).replaceAll("exhentai.org", "ex.koroneko.co") }}></span>
                         </p>}
                     </div>
                 </div>
@@ -147,13 +144,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                 {thumbnail.map((t, index) => <div className="col-sm-12 col-md-3" key={t[0]}>
                     <div className="box-colored center">
                         <Link href={thumbnail_url[index]}>
-                            <img
-                                id="pic_cover"
-                                loading="lazy"
-                                src="/assets/images/noimg_1.jpg"
-                                className="lazyload blur-up"
-                                data-src={"https://aeiljuispo.cloudimg.io/v7/https://ehgt.org" + t.slice(22)}
-                            />
+                            <Image src={"https://ehgt.org" + t.slice(22)} />
                         </Link>
                         <br />
                         {index + 1}

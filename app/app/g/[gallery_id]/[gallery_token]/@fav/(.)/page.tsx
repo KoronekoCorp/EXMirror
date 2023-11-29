@@ -3,7 +3,6 @@ import { Favlist } from "./client"
 
 export default async function Default({ params: { gallery_id, gallery_token }, searchParams }:
     { params: { gallery_id: string, gallery_token: string }, searchParams: { [key: string]: string | undefined } }) {
-    console.log(searchParams)
 
     if (searchParams.fav === undefined) return null
     const a = new API()

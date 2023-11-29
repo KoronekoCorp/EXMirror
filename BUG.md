@@ -80,23 +80,3 @@ MPVImage中的如下示例又是正常的,初步判断是同步错误速度产�
 ServerAction内部的逻辑导致无论是try catch还是then catch都无法奏效
 
 最为简单的处理方式是直接切换为传统api访问，请求完全由客户端自定义，而不是裹挟在next的ServerAction中进行，但是与之而来的是相对麻烦：类型校验/设置、接口配置等等
-
-还有一种极端的措施：就比如这个场景
-
-`app/app/mpv/[gallery_id]/[gallery_token]/Image.tsx`
-
-```ts
-const loaddata = () => {
-    get_image(gid, page, mpvdata.k, mpvkey)
-        .then((e) => {
-            setdata(e)
-        })
-    setTimeout(() => {
-        if (data === undefined) {
-            loaddata()
-        }
-    }, 10000);
-}
-```
-
-在实际中，这个ServerAction(指`get_image`)要么成功要么只会出现`504 Time out`，vercel的限制是10s，那我设置10s检查数据是否已经获取成功，失败那就重试，实际上时间并没有损耗。

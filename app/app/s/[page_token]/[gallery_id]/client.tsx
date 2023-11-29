@@ -1,10 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export function Image({ src }: { src: string }) {
     const [error, seterror] = useState(0)
     const [loaded, setloaded] = useState(false)
+    const [mir, setmir] = useState<string>()
+    useEffect(() => {
+        setmir(localStorage.getItem("mirror") ?? "aeiljuispo.cloudimg.io")
+    }, [src])
 
     // onError有时不触发, BUG.md.2
     const Img = (): JSX.Element => {
@@ -14,7 +18,7 @@ export function Image({ src }: { src: string }) {
                     id="pic_cover"
                     loading="lazy"
                     className="lazyload blur-up"
-                    data-src={"https://aeiljuispo.cloudimg.io/v7/" + src}
+                    data-src={`https://${mir}/v7/` + src}
                     style={{ width: "100%", minHeight: loaded ? 0 : 800 }}
                     onLoad={() => setloaded(true)}
                     onError={() => seterror(error + 1)}
@@ -33,6 +37,6 @@ export function Image({ src }: { src: string }) {
     }
 
     return <>
-        <Img />
+        {mir && <Img />}
     </>
 }

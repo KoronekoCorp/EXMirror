@@ -8,7 +8,7 @@ const Header = () => {
     const [word, setWord] = useState("")
     const router = useRouter()
     useEffect(() => {
-        if (document.cookie.includes('ci_login_token') && document.cookie.includes('ci_account')) {
+        if (document.cookie.includes('igneous')) {
             setlogin(true)
         }
     }, []);

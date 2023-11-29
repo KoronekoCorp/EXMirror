@@ -13,11 +13,12 @@ export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, pa
     const [data, setdata] = useState<mpvimg | undefined>(undefined)
     const [error, seterror] = useState(0)
     const [loaded, setloaded] = useState(false)
+    const mirror = localStorage.getItem("mirror") ?? "aeiljuispo.cloudimg.io"
 
     const get_url = (): string => {
         switch (error) {
             case 0:
-                return "https://aeiljuispo.cloudimg.io/v7/" + data?.i
+                return `https://${mirror}/v7/` + data?.i
             case 1:
                 return data?.i ?? ""
             default:

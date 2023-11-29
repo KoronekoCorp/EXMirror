@@ -17,8 +17,7 @@ export default async function P({ searchParams }:
         return <R url="/login" />
     }
     const __tr = db.getDB()
-    const __d = a.favourite(searchParams)
-    const { index: [d, prev, next], fav: fav } = await __d
+    const { index: [d, prev, next], fav: fav } = await a.favourite(searchParams)
 
     const tr = await __tr
     return <>

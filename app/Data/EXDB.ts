@@ -56,5 +56,5 @@ class DB {
 }
 
 const db = new DB()
-
+setTimeout(async () => db.getDB())
 export { db }

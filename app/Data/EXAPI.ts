@@ -1,6 +1,6 @@
 import { cookies } from "next/headers"
 import { gdata, mpvdata, mpvimg } from "./EType"
-import { revalidateTag, unstable_cache } from "next/cache"
+import { revalidateTag } from "next/cache"
 import { writeFile } from "fs"
 import { EXJSDOM, ginfo } from "./EXJSDOM"
 
