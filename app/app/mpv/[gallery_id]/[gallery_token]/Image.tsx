@@ -68,7 +68,6 @@ export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, pa
     return <>
         <div ref={ref} >
             {data ? <img
-                id="pic_cover"
                 loading="eager"
                 className="lazyload blur-up"
                 src={get_url()}

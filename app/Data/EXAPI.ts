@@ -65,6 +65,7 @@ class API {
 
     /**
      * 画廊总览数据
+     * @deprecated API不使用
      * @param glist 
      * @returns 
      */
@@ -181,6 +182,11 @@ class API {
         return EXJSDOM.Index(dom)
     }
 
+    /**
+     * 获取用户收藏
+     * @param searchParams 
+     * @returns 
+     */
     async favourite(searchParams: { [key: string]: string }) {
         const dom = await this.http(searchParams, "https://exhentai.org/favorites.php")
         return {

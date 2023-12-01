@@ -52,6 +52,11 @@ export default async function G({ params: { page_token, gallery_id } }: { params
                 </Link>
             </li>
             <li>
+                <Link href={data.gallery}>
+                    <i className="fa fa-book" aria-hidden="true" />
+                </Link>
+            </li>
+            <li>
                 <Link href={data.next}>
                     <i className="fa fa-chevron-right" aria-hidden="true"></i>
                 </Link>
