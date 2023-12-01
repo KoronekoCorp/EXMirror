@@ -42,7 +42,7 @@ export default function Setting() {
         </div>
         <div className="container center" style={{ paddingTop: 10 }}>
             <p>请注意，图片代理质量越高会导致加载速度的变慢，请均衡选择</p>
-            <p>代理列表数据生成于2023.11.29</p>
+            <p>代理列表数据生成于2023.11.29,<a href="https://github.com/KoronekoCorp/Tools">使用此工具生成</a></p>
             <FormControl>
                 <Select
                     autoFocus
@@ -57,6 +57,13 @@ export default function Setting() {
                     {mirror.map(i => <MenuItem value={i.name} key={i.name}>{i.name} 质量{i.length}</MenuItem>)}
                 </Select>
             </FormControl>
+            <p>请注意下述图片能否正常加载</p>
+            <img src={`https://${img}/v7/https://koroneko.co/img/1.png`}
+                loading="lazy"
+                className="lazyload blur-up"
+                style={{ width: "50%", }}
+                onError={() => { enqueueSnackbar("图片加载失败", { variant: "error" }) }}
+            />
         </div>
     </>
 }

@@ -10,9 +10,8 @@ export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, pa
     const control = useContext(Control)
 
     const ref = useRef<HTMLDivElement | null>(null)
-    const [data, setdata] = useState<mpvimg | undefined>(undefined)
+    const [data, setdata] = useState<mpvimg>()
     const [error, seterror] = useState(0)
-    const [loaded, setloaded] = useState(false)
     const mirror = localStorage.getItem("mirror") ?? "aeiljuispo.cloudimg.io"
 
     const get_url = (): string => {
@@ -74,9 +73,8 @@ export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, pa
                 className="lazyload blur-up"
                 src={get_url()}
                 onError={() => seterror(error + 1)}
-                onLoad={() => setloaded(true)}
-                style={{ width: "100%", minHeight: loaded ? 0 : 800 }}
-            /> : <Skeleton variant="rectangular" width="100%" height="800px" />}
+                style={{ width: "100%", aspectRatio: parseInt(data.xres) / parseInt(data.yres) }}
+            /> : <Skeleton variant="rectangular" width="100%" height="50vh" />}
         </div>
     </>
 }

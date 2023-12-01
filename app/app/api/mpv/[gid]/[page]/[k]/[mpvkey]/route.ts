@@ -13,6 +13,11 @@ export async function GET(request: Request, { params: { gid, page, k, mpvkey } }
                 return a.mpv_full_img(parseInt(gid), parseInt(page), k, mpvkey)
             }
             return a.mpv_get_img(parseInt(gid), parseInt(page), k, mpvkey)
-        }, [`api/mpv/${gid}/${page}/${k}?fullimg=${fullimg}`], 86400)()
+        }, [`api/mpv/${gid}/${page}/${k}?fullimg=${fullimg}`], 86400)(),
+        {
+            headers: {
+                'Cache-Control': 'max-age=86400'
+            }
+        }
     )
 }
