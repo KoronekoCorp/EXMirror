@@ -1,5 +1,6 @@
 import { G_JSDOM_DATA } from "@/Data/EXJSDOM";
 import Link from "next/link";
+import { Image } from "./Image";
 
 export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string }) {
     //由于format_style导出的style中background会莫名其妙失效，采用innerhtml解决
@@ -28,29 +29,11 @@ export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string
             return <div className="container" style={{ paddingTop: 10 }} key={e.href}>
                 <div className="card fluid">
                     <div className="row">
-                        <div className="col-sm-6 col-md-3" key={e.href}>
+                        <div className="col-sm-12 col-md-3" key={e.href}>
                             <div className="section" style={{ height: 'auto', margin: '0.5rem' }}>
                                 <Link href={e.href.replace("https://exhentai.org", "")} title={e.title}>
-                                    <img
-                                        style={{ border: '1px ridge black', height: '60%' }}
-                                        loading="lazy"
-                                        src="/assets/images/logo.png"
-                                        className="lazyload blur-up"
-                                        data-src={e.src.replace("s.exhentai.org", "aeiljuispo.cloudimg.io/v7/https://ehgt.org")}
-                                        alt={e.title}
-                                    />
+                                    <Image src={e.src.replace("s.exhentai.org", "ehgt.org")} style={{ border: '1px ridge black', }} />
                                 </Link>
-                                {/* <h6>
-                                    <Link  className="book_title_search" href={e.href.replace("https://exhentai.org", "")} title={e.title}>
-                                        {e.title}
-                                    </Link>
-                                </h6> */}
-                                {/* <p style={{ fontSize: '14px' }}>
-                                    <i className="fa fa-user" aria-hidden="true"></i>{' '}
-                                    <Link  className="book_author_search" href={`/search/${e.uploader}`} title={e.uploader}>
-                                        {e.uploader}
-                                    </Link>
-                                </p> */}
                             </div>
                         </div>
                         <div className="col-sm-12 col-md-8">

@@ -144,19 +144,12 @@ class API {
      * 常规单页信息
      * @param page_token 
      * @param gallery_id 
-     * @returns [标题, 画廊根页, 图片url, 源图片获取url, 上一页, 下一页]
+     * @returns 
      */
     async s_info(page_token: string, gallery_id: string) {
         const r = await this.get(`https://exhentai.org/s/${page_token}/${gallery_id}`, [`s_${page_token}/${gallery_id}`], 3600 * 24)
         const html = await r.text()
-        return [
-            (html.match(/<title>(.*?)<\/title>/) ?? ["", "Unknown Title"])[1],
-            (html.match(/<a href="https:\/\/exhentai.org\/g\/(.*?)">/) ?? [])[1],
-            (html.match(/<img id=\"img\" src=\"(.*?)"/) ?? [])[1],
-            (html.match(/https:\/\/exhentai.org\/fullimg\/(.*?)\">/) ?? [])[1],
-            (html.match(/<a id=\"prev\"(.*?)href=\"https:\/\/exhentai.org\/s\/(.*?)\"/) ?? [])[2],
-            (html.match(/<a id=\"next\"(.*?)href=\"https:\/\/exhentai.org\/s\/(.*?)\"/) ?? [])[2]
-        ]
+        return EXJSDOM.sinfo(html)
     }
 
     /**

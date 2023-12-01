@@ -1,8 +1,8 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { CSSProperties, useEffect, useState } from "react"
 
-export function Image({ src }: { src: string }) {
+export function Image({ src, style }: { src: string, style?: CSSProperties }) {
     const [mir, setmir] = useState<string>()
     useEffect(() => {
         setmir(localStorage.getItem("mirror") ?? "aeiljuispo.cloudimg.io")
@@ -10,11 +10,11 @@ export function Image({ src }: { src: string }) {
 
     return <>
         {mir && <img
-            id="pic_cover"
             loading="lazy"
-            src="/assets/images/noimg_1.jpg"
+            src="/assets/images/logo.png"
             className="lazyload blur-up"
             data-src={`https://${mir}/v7/${src}`}
+            style={style}
         />}
     </>
 }

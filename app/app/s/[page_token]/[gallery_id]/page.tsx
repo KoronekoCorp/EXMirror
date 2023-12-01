@@ -14,42 +14,50 @@ export default async function G({ params: { page_token, gallery_id } }: { params
     }
 
     const fullimg = cookies().get("fullimg")?.value == "true"
-
-    const [title, gallery_url, prev, next, url] = await CacheEveryThing(async () => {
-        const [title, gallery_url, src, fullimage_url, prev, next] = await a.s_info(page_token, gallery_id)
+    const { data, url } = await CacheEveryThing(async () => {
+        const data = await a.s_info(page_token, gallery_id)
         let url: string
-        if (fullimg && fullimage_url) {
-            url = await a.no_redirt("https://exhentai.org/fullimg/" + fullimage_url.replaceAll("amp;", ""))
+        if (fullimg && data.fullimg) {
+            url = await a.no_redirt(data.fullimg)
         } else {
-            url = src
+            url = data.img
         }
-        return [title, gallery_url, prev, next, url]
+        return { data, url }
     }, [`s/${page_token}/${gallery_id}?fullimg=${fullimg}`], 86400)()
 
-
     return <>
-        <title>{title}</title>
+        <title>{data.title}</title>
         <ul className="breadcrumb center">
             <li>
-                <Link id="book_id" href={`/g/${gallery_url}`}>
+                <Link href={data.gallery}>
                     <i className="fa fa-book" aria-hidden="true" />
                 </Link>
             </li>
         </ul>
-        <Image src={url} />
+        <Image src={url} aspectRatio={data.imgw / data.imgh} />
         <ul className="breadcrumb center">
             <li>
-                <Link id="book_id" href={`/s/${prev}`}>
+                <Link href={data.first}>
                     <i className="fa fa-chevron-left" aria-hidden="true"></i>
                 </Link>
             </li>
             <li>
-                <Link id="book_id" href={`/g/${gallery_url}`}>
-                    <i className="fa fa-book" aria-hidden="true" />
+                <Link href={data.prev}>
+                    <i className="fa fa-chevron-left" aria-hidden="true"></i>
                 </Link>
             </li>
             <li>
-                <Link id="book_id" href={`/s/${next}`}>
+                <Link href={data.imgsearch}>
+                    <i className="fa fa-search" aria-hidden="true" />
+                </Link>
+            </li>
+            <li>
+                <Link href={data.next}>
+                    <i className="fa fa-chevron-right" aria-hidden="true"></i>
+                </Link>
+            </li>
+            <li>
+                <Link href={data.end}>
                     <i className="fa fa-chevron-right" aria-hidden="true"></i>
                 </Link>
             </li>

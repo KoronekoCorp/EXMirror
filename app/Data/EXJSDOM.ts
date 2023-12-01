@@ -264,6 +264,29 @@ class EXJSDOM {
             favmsg: dom.window.document.querySelector("textarea")?.value
         }
     }
+
+    /**
+     * 解析s/gid/gtoken的页面信息
+     * @param html 
+     */
+    static sinfo(html: string | JSDOM) {
+        const dom = EXJSDOM.GetDom(html)
+        const t = Array.from(dom.window.document.querySelectorAll("div div div a")) as HTMLAnchorElement[]
+        const img = dom.window.document.querySelector("img#img") as HTMLImageElement
+        return {
+            title: dom.window.document.title,
+            img: img.src,
+            imgh: parseInt(img.style.getPropertyValue("height")),
+            imgw: parseInt(img.style.getPropertyValue("width")),
+            first: t[0].href.replace("https://exhentai.org", ""),
+            prev: t[1].href.replace("https://exhentai.org", ""),
+            next: t[2].href.replace("https://exhentai.org", ""),
+            end: t[3].href.replace("https://exhentai.org", ""),
+            gallery: t[8].href.replace("https://exhentai.org", ""),
+            fullimg: t[11].href,
+            imgsearch: t[9].href.replace("https://exhentai.org/", "/i")
+        }
+    }
 }
 
 export { EXJSDOM }
