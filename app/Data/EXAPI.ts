@@ -96,6 +96,14 @@ class API {
         return p === 1 ? [...EXJSDOM.gallery_imgs(dom), EXJSDOM.gallery_info(dom)] : EXJSDOM.gallery_imgs(dom)
     }
 
+    async gallery_comments(gallery_id: number, gallery_token: string) {
+        const url = `https://exhentai.org/g/${gallery_id}/${gallery_token}/`
+        const r = await this.get(url, [url], 3600 * 24)
+        const html = await r.text()
+        const dom = EXJSDOM.GetDom(html, { runScripts: 'dangerously' })
+        return [EXJSDOM.gallery_info(dom), EXJSDOM.comments(dom)]
+    }
+
     /**
      * 通过MPV方式获取具体信息
      * @param gallery_id 
@@ -265,6 +273,7 @@ class API {
         revalidateTag(`g/${gallery_id}/${gallery_token}?p=1`)
         return r.status === 200
     }
+
 }
 
 

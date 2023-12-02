@@ -283,8 +283,34 @@ class EXJSDOM {
             next: t[2].href.replace("https://exhentai.org", ""),
             end: t[3].href.replace("https://exhentai.org", ""),
             gallery: t[8].href.replace("https://exhentai.org", ""),
-            fullimg: t[11].href,
+            fullimg: t[11]?.href,
             imgsearch: t[9].href.replace("https://exhentai.org/", "/i")
+        }
+    }
+
+
+    static comments(html: string | JSDOM) {
+        const dom = EXJSDOM.GetDom(html)
+        const document = dom.window.document
+        let all: Element[]
+        if (document.querySelectorAll("div.c1").length == document.querySelectorAll("div.c5").length) {
+            all = Array.from(document.querySelectorAll("div.c1"))
+        } else {
+            all = Array.from(document.querySelectorAll("div.c1")).slice(1)
+        }
+        const fin = all.map((i) => {
+            return {
+                name: i.children[0].children[0].children[0].innerHTML,
+                text: i.children[1].innerHTML,
+                score: i.children[0].children[2].children[0].innerHTML,
+                scorelog: i.children[2].innerHTML,
+                id: i.children[1].id.replace("comment_", "")
+            }
+        })
+        return {
+            apikey: dom.window.apikey,
+            apiuid: dom.window.apiuid,
+            data: fin
         }
     }
 }

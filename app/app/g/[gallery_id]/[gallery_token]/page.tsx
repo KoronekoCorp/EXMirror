@@ -47,7 +47,6 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
     if (!gdata) {
         return notFound()
     }
-    const mirror = cookies().get("mirror")?.value ?? "aeiljuispo.cloudimg.io"
     return <>
         <title>{gdata.gn}</title>
         <div className="container" style={{ paddingTop: 10 }}>
