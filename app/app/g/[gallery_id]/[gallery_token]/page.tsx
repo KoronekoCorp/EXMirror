@@ -24,8 +24,8 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
 
     const __tr = db.getDB()
     const __thumbnail = []
-    const p = parseInt(searchParams.p ?? "1")
-    for (let page = 1; page <= p; page++) {
+    const p = parseInt(searchParams.p ?? "0")
+    for (let page = 0; page <= p; page++) {
         __thumbnail.push(
             CacheEveryThing(async () => a.gallery_info(id, gallery_token, page),
                 [`g/${id}/${gallery_token}?p=${page}`, `${cookies().get("ipb_member_id")}`], 86400

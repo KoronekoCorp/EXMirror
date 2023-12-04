@@ -86,14 +86,14 @@ class API {
      * @param p 
      * @returns 
      */
-    async gallery_info(gallery_id: number, gallery_token: string, p: number = 1): Promise<[string[], string[], ginfo?]> {
-        const url = p === 1 ?
+    async gallery_info(gallery_id: number, gallery_token: string, p: number = 0): Promise<[string[], string[], ginfo?]> {
+        const url = p === 0 ?
             `https://exhentai.org/g/${gallery_id}/${gallery_token}/` :
-            `https://exhentai.org/g/${gallery_id}/${gallery_token}/?p=${p - 1}`
+            `https://exhentai.org/g/${gallery_id}/${gallery_token}/?p=${p}`
         const r = await this.get(url, [url], 3600 * 24)
         const html = await r.text()
         const dom = EXJSDOM.GetDom(html)
-        return p === 1 ? [...EXJSDOM.gallery_imgs(dom), EXJSDOM.gallery_info(dom)] : EXJSDOM.gallery_imgs(dom)
+        return p === 0 ? [...EXJSDOM.gallery_imgs(dom), EXJSDOM.gallery_info(dom)] : EXJSDOM.gallery_imgs(dom)
     }
 
     async gallery_comments(gallery_id: number, gallery_token: string) {
