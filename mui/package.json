@@ -1,0 +1,33 @@
+{
+  "name": "mirror",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.19",
+    "@mui/material": "^5.14.15",
+    "js-cookie": "^3.0.5",
+    "jsdom": "^22.1.0",
+    "next": "^14.0.3",
+    "notistack": "^3.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.5",
+    "@types/jsdom": "^21.1.4",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "^14.0.3",
+    "typescript": "^5"
+  }
+}
