@@ -75,9 +75,9 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                         <h1 className="post-title detail_title book_title_search">
                             {gdata.gn}
                         </h1>
-                        <h3 className="post-title detail_title book_title_search" style={{ textAlign: "center" }}>
+                        {gdata.gj != "" && <h3 className="post-title detail_title book_title_search" style={{ textAlign: "center" }}>
                             {gdata.gj}
-                        </h3>
+                        </h3>}
                         <p>
                             <b>
                                 <i className="fa fa-user" aria-hidden="true"></i> 上传者:

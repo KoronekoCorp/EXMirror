@@ -1,4 +1,4 @@
-# 1. app/app/GDatas.tsx
+# 1. app/app/GDatas.tsx(已解决)
 
 由于format_style导出的style中background会莫名其妙失效，采用innerhtml解决
 
@@ -38,6 +38,18 @@ const format_style = (style: string) => {
 <Link prefetch={false} key={e.href + tag.title} href={`/tag/${tag.title}`}
     dangerouslySetInnerHTML={{ __html: `<button class="shadowed small" style=${tag.style}>${TR(tag.title)}</button>` }}>
 </Link>
+```
+
+**新解决方案：**
+
+background失效原因是因为在末尾包含了`!important`，replace即可恢复正常
+
+```json
+{
+  color: '#090909',
+  borderColor: '#FFD8F3',
+  background: 'radial-gradient(#FFD8F3,#dfb8d3) !important'
+}
 ```
 
 # 2. app/app/s/[page_token]/[gallery_id]/client.tsx

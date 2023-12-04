@@ -23,7 +23,7 @@ export default async function G({ params: { page_token, gallery_id } }: { params
             url = data.img
         }
         return { data, url }
-    }, [`s/${page_token}/${gallery_id}?fullimg=${fullimg}`], 86400)()
+    }, [`s/${page_token}/${gallery_id}?fullimg=${fullimg}`], 3600)()
 
     return <>
         <title>{data.title}</title>

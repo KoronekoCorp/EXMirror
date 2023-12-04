@@ -270,10 +270,9 @@ class API {
             }
         )
         revalidateTag(`https://exhentai.org/gallerypopups.php?gid=${gallery_id}&t=${gallery_token}&act=addfav`)
-        revalidateTag(`g/${gallery_id}/${gallery_token}?p=1`)
+        revalidateTag(`g/${gallery_id}/${gallery_token}?p=0`)
         return r.status === 200
     }
-
 }
 
 
