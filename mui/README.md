@@ -3,7 +3,7 @@
 快速使用MUI主题颜色
 
 ```tsx
-<Grid item sm={12} md={6} sx={{ height: '100vh', textAlign: 'center', color: "text.primary" }} >
+<Grid item xs={12} md={6} sx={{ height: '100vh', textAlign: 'center', color: "text.primary" }} >
     <div style={{ height: "20%" }}> </div>
     <h1>EX Mirror</h1>
     <p>一个没啥用的项目</p>

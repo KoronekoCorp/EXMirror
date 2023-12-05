@@ -4,7 +4,7 @@ import Link from 'next/link';
 import HomeIcon from '@mui/icons-material/Home';
 import StarIcon from '@mui/icons-material/Star';
 import SettingsIcon from '@mui/icons-material/Settings';
-import LogoutIcon from '@mui/icons-material/Logout';
+// import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
 import LoginIcon from '@mui/icons-material/Login';
 import StorageIcon from '@mui/icons-material/Storage';
@@ -29,7 +29,7 @@ const PLACEHOLDER_LINKS = [
     { text: 'Settings', href: '/settings', icon: SettingsIcon },
     { text: 'Server', href: '/extra', icon: StorageIcon },
     { text: 'Login', href: '/login', icon: LoginIcon },
-    { text: 'Logout', href: '/api/auth/signout', icon: LogoutIcon },
+    // { text: 'Logout', href: '/api/auth/signout', icon: LogoutIcon },
 ];
 
 export function Root({ children }: { children: ReactNode }) {

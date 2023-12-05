@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <Container sx={{ paddingTop: 10, textAlign: 'center' }}>
       <Grid container>
-        <Grid item sm={12} md={6}>
+        <Grid item xs={12} md={6}>
           <img
             loading="lazy"
             className={style.anime}
@@ -16,11 +16,11 @@ export default function Home() {
             style={{ maxWidth: "100%" }}
           />
         </Grid>
-        <Grid item sm={12} md={6} sx={{ height: '100vh', color: "text.primary" }} >
+        <Grid item xs={12} md={6} sx={{ height: '100vh', color: "text.primary", width: "100%" }} >
           <div style={{ height: "20%" }}> </div>
           <h1>EX Mirror</h1>
           <p>一个没啥用的项目</p>
-          <p>项目地址：<Link href='https://github.com/KoronekoCorp/EXMirror'>https://github.com/KoronekoCorp/EXMirror</Link></p>
+          <p>项目地址：<Link href='https://github.com/KoronekoCorp/EXMirror'>GITHUB</Link></p>
         </Grid>
       </Grid>
     </Container>

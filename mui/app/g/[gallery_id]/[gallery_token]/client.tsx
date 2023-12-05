@@ -37,7 +37,7 @@ export function NextPage({ gallery_id, gallery_token, p }: { gallery_id: string,
 
     useEffect(() => init(), [gallery_id, gallery_token, p])
 
-    return <div style={{ margin: 10 }} ref={ref}>
+    return <div style={{ padding: 10 }} ref={ref}>
         <LinearProgress />
     </div>
 }

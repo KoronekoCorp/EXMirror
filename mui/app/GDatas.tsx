@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Image } from "./Image";
 import { Button, Typography, Grid, Card, CardActionArea, CardContent, CardActions, Container } from "@mui/material";
 import DataSaverOffIcon from '@mui/icons-material/DataSaverOff';
+import { Top } from "./push";
 
 export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string }) {
     //由于format_style导出的style中background会莫名其妙失效，采用innerhtml解决
@@ -30,10 +31,10 @@ export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string
             return <Card key={e.href}>
                 <CardActionArea LinkComponent={Link} href={e.href.replace("https://exhentai.org", "")}>
                     <Grid container>
-                        <Grid sm={12} md={3} item>
+                        <Grid xs={12} md={3} item>
                             <Image src={e.src.replace("s.exhentai.org", "ehgt.org")} style={{ maxWidth: "100%" }} />
                         </Grid>
-                        <Grid sm={12} md={9} item>
+                        <Grid xs={12} md={9} item>
                             <CardContent sx={{ flex: '1 0 auto' }}>
                                 <Typography component="div" variant="h5">
                                     {e.title}
@@ -68,5 +69,6 @@ export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string
                 </CardActions>
             </Card>
         })}
+        <Top index={G[0].title} />
     </Container>
 }

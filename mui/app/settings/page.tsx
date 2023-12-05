@@ -32,7 +32,7 @@ export default function Setting() {
             justifyContent="center"
             alignItems="stretch" spacing={2}>
 
-            <Grid item sm={12} md={6}>
+            <Grid item xs={12} md={6}>
                 <H2>
                     <SettingsIcon /> 是否加载原图
                 </H2>
@@ -51,7 +51,7 @@ export default function Setting() {
                 </div>
             </Grid>
 
-            <Grid item sm={12} md={6}>
+            <Grid item xs={12} md={6}>
                 <H2>
                     <ImageIcon />图片代理
                 </H2>

@@ -57,3 +57,8 @@ export function S({ index, id }: { index: string, id: string }) {
 
     return <></>
 }
+
+export function Top({ index }: { index: string }) {
+    useEffect(() => window.scrollTo({ top: 0, behavior: 'smooth' }), [index])
+    return <></>
+}

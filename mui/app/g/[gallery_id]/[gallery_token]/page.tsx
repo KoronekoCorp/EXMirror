@@ -2,7 +2,7 @@ import { API } from "@/Data/EXAPI"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { db } from "@/Data/EXDB"
-import { R } from "@/app/push"
+import { R, Top } from "@/app/push"
 import { Cookie } from "@/app/Cookies"
 import { NextPage } from "./client"
 import { ginfo } from "@/Data/EXJSDOM"
@@ -61,7 +61,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
         <title>{gdata.gn}</title>
         <Container sx={{ paddingTop: 10, color: "text.primary" }}>
             <Grid container>
-                <Grid item sm={12} md={4} sx={{ width: "100%", textAlign: 'center' }}>
+                <Grid item xs={12} md={4} sx={{ width: "100%", textAlign: 'center' }}>
                     <Image src={"https://ehgt.org" + thumbnail[0].slice(22)} style={{ width: "100%" }} />
                     <Button LinkComponent={Link} href={`/mpv/${id}/${gallery_token}`} variant="contained" sx={{ m: 1 }}
                         startIcon={<BurstModeIcon />}>
@@ -74,7 +74,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                         {gdata.fav ? gdata.favname : "收藏"}
                     </Button>
                 </Grid>
-                <Grid item sm={12} md={8} sx={{ width: "100%" }}>
+                <Grid item xs={12} md={8} sx={{ width: "100%" }}>
                     <H2>
                         {gdata.gn}
                     </H2>
@@ -142,7 +142,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                 </Grid>
             </Grid>
             <Grid container alignItems="center" textAlign="center" sx={{ "& > div": { p: 1 } }}>
-                {thumbnail.map((t, index) => <Grid sm={12} md={3} key={t[0]} item>
+                {thumbnail.map((t, index) => <Grid xs={6} md={3} key={t[0]} item>
                     <Link href={thumbnail_url[index]}>
                         <Image src={"https://ehgt.org" + t.slice(22)} style={{ width: "100%" }} />
                     </Link>
@@ -151,7 +151,8 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                 </Grid>)}
             </Grid>
             {gdata.Length > thumbnail.length && <NextPage gallery_id={gallery_id} gallery_token={gallery_token} p={p} />}
-            < Cookie c={a.cookies} />
+            <Cookie c={a.cookies} />
+            <Top index={gallery_token} />
         </Container >
     </>
 }

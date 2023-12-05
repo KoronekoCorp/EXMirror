@@ -1,5 +1,5 @@
 import { API } from "@/Data/EXAPI";
-import { R } from "@/app/push";
+import { R, Top } from "@/app/push";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { Image } from "./client";
@@ -76,5 +76,6 @@ export default async function G({ params: { page_token, gallery_id } }: { params
                 endIcon={<LastPageIcon />}>末页</Button>
         </Box>
         <Cookie c={a.cookies} />
+        <Top index={page_token} />
     </Container>
 }

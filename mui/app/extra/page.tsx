@@ -43,7 +43,7 @@ export default function Setting() {
                 paddingTop: 10,
             }}
             spacing={2}>
-            <Grid item sm={12} md={6}>
+            <Grid item xs={12} md={6}>
                 <Typography variant="h5" sx={{ backgroundColor: "background.paper" }}>
                     <StorageIcon />IP地址
                 </Typography>
@@ -72,7 +72,7 @@ export default function Setting() {
                     获取服务器IP信息
                 </Button>
             </Grid>
-            <Grid item sm={12} md={6}>
+            <Grid item xs={12} md={6}>
                 <Typography variant="h5" sx={{ backgroundColor: "background.paper" }}>
                     <StorageIcon />连接
                 </Typography>
