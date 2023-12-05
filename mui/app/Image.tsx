@@ -1,6 +1,7 @@
 "use client"
 
 import { CSSProperties, useEffect, useState } from "react"
+import './Image.css'
 
 export function Image({ src, style }: { src: string, style?: CSSProperties }) {
     const [mir, setmir] = useState<string>()

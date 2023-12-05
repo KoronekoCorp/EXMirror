@@ -32,7 +32,7 @@ export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string
                 <CardActionArea LinkComponent={Link} href={e.href.replace("https://exhentai.org", "")}>
                     <Grid container>
                         <Grid xs={12} md={3} item>
-                            <Image src={e.src.replace("s.exhentai.org", "ehgt.org")} style={{ maxWidth: "100%" }} />
+                            <Image src={e.src.replace("s.exhentai.org", "ehgt.org")} style={{ width: "100%" }} />
                         </Grid>
                         <Grid xs={12} md={9} item>
                             <CardContent sx={{ flex: '1 0 auto' }}>
