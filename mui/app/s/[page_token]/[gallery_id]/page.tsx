@@ -5,7 +5,13 @@ import Link from "next/link";
 import { Image } from "./client";
 import { Cookie } from "@/app/Cookies";
 import { CacheEveryThing } from "@/Data/cache";
-
+import { Box, Button, Container } from "@mui/material";
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import LastPageIcon from '@mui/icons-material/LastPage';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import FindInPageIcon from '@mui/icons-material/FindInPage';
 
 export default async function G({ params: { page_token, gallery_id } }: { params: { page_token: string, gallery_id: string } }) {
     const a = new API()
@@ -25,48 +31,50 @@ export default async function G({ params: { page_token, gallery_id } }: { params
         return { data, url }
     }, [`s/${page_token}/${gallery_id}?fullimg=${fullimg}`], 86400)()
 
-    return <>
+    return <Container>
         <title>{data.title}</title>
-        <ul className="breadcrumb center">
-            <li>
-                <Link href={data.gallery}>
-                    <i className="fa fa-book" aria-hidden="true" />
-                </Link>
-            </li>
-        </ul>
-        <Image src={url} aspectRatio={data.imgw / data.imgh} />
-        <ul className="breadcrumb center">
-            <li>
-                <Link href={data.first}>
-                    <i className="fa fa-chevron-left" aria-hidden="true"></i>
-                </Link>
-            </li>
-            <li>
-                <Link href={data.prev}>
-                    <i className="fa fa-chevron-left" aria-hidden="true"></i>
-                </Link>
-            </li>
-            <li>
-                <Link href={data.imgsearch}>
-                    <i className="fa fa-search" aria-hidden="true" />
-                </Link>
-            </li>
-            <li>
-                <Link href={data.gallery}>
-                    <i className="fa fa-book" aria-hidden="true" />
-                </Link>
-            </li>
-            <li>
-                <Link href={data.next}>
-                    <i className="fa fa-chevron-right" aria-hidden="true"></i>
-                </Link>
-            </li>
-            <li>
-                <Link href={data.end}>
-                    <i className="fa fa-chevron-right" aria-hidden="true"></i>
-                </Link>
-            </li>
-        </ul>
+        <div style={{ padding: 10, textAlign: 'center' }}>
+            <Button LinkComponent={Link} href={data.gallery}>
+                <MenuBookIcon />
+            </Button>
+        </div>
+        <Link href={data.next}>
+            <Image src={url} aspectRatio={data.imgw / data.imgh} />
+        </Link>
+        {/* <Box sx={{ padding: 1, textAlign: 'center', display: { xs: 'none', md: 'block' } }}>
+            <Button LinkComponent={Link} href={data.first}
+                startIcon={<FirstPageIcon />}>首页</Button>
+            <Button LinkComponent={Link} href={data.prev}
+                startIcon={<KeyboardArrowLeftIcon />}>上一页</Button>
+            <Button LinkComponent={Link} href={data.gallery}>
+                <MenuBookIcon />
+            </Button>
+            <Button LinkComponent={Link} href={data.next}
+                endIcon={<KeyboardArrowRightIcon />}>下一页</Button>
+            <Button LinkComponent={Link} href={data.end}
+                endIcon={<LastPageIcon />}>末页</Button>
+            <br />
+            <Button LinkComponent={Link} href={data.imgsearch}>
+                <FindInPageIcon />
+            </Button>
+        </Box> */}
+        <Box sx={{ padding: 1, textAlign: 'center' }}>
+            <Button LinkComponent={Link} href={data.prev}
+                startIcon={<KeyboardArrowLeftIcon />}>上一页</Button>
+            <Button LinkComponent={Link} href={data.gallery}>
+                <MenuBookIcon />
+            </Button>
+            <Button LinkComponent={Link} href={data.next}
+                endIcon={<KeyboardArrowRightIcon />}>下一页</Button>
+            <br />
+            <Button LinkComponent={Link} href={data.first}
+                startIcon={<FirstPageIcon />}>首页</Button>
+            <Button LinkComponent={Link} href={data.imgsearch}>
+                <FindInPageIcon />
+            </Button>
+            <Button LinkComponent={Link} href={data.end}
+                endIcon={<LastPageIcon />}>末页</Button>
+        </Box>
         <Cookie c={a.cookies} />
-    </>
+    </Container>
 }

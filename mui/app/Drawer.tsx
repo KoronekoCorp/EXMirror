@@ -3,12 +3,13 @@ import { useState, ReactNode, useEffect } from 'react';
 import Link from 'next/link';
 import HomeIcon from '@mui/icons-material/Home';
 import StarIcon from '@mui/icons-material/Star';
-import ChecklistIcon from '@mui/icons-material/Checklist';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
 import LoginIcon from '@mui/icons-material/Login';
 import StorageIcon from '@mui/icons-material/Storage';
+import LoyaltyIcon from '@mui/icons-material/Loyalty';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
 import { ListItemIcon, SwipeableDrawer, Box, IconButton, AppBar, Drawer, Toolbar, Typography, Divider, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
@@ -19,8 +20,9 @@ const DRAWER_WIDTH = 240;
 
 const LINKS = [
     { text: 'Home', href: '/i', icon: HomeIcon },
-    { text: '收藏', href: '/favorites', icon: StarIcon },
-    { text: 'Tasks', href: '/api/examples/session', icon: ChecklistIcon },
+    { text: 'Popular', href: '/popular', icon: WhatshotIcon },
+    { text: 'Subscription', href: '/watched', icon: LoyaltyIcon },
+    { text: 'Favourite', href: '/favorites', icon: StarIcon },
 ];
 
 const PLACEHOLDER_LINKS = [

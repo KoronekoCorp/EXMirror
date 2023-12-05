@@ -3,6 +3,9 @@ import { db } from "@/Data/EXDB"
 import { R } from "@/app/push"
 import { GDatas } from "../GDatas"
 import Link from "next/link"
+import { Button } from "@mui/material"
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
 
 export default async function P({ searchParams }:
@@ -19,11 +22,11 @@ export default async function P({ searchParams }:
     const tr = await __tr
     return <>
         <GDatas G={d} TR={(e) => db.translate(e, tr)} />
-        <div className="center">
-            <div className="pagination" id="paginationSection">
-                {prev && <Link href={prev.replace("https://exhentai.org/", "/")}>上一页</Link>}
-                {next && <Link href={next.replace("https://exhentai.org/", "/")}>下一页</Link>}
-            </div>
+        <div style={{ padding: 10, textAlign: 'center' }}>
+            {prev && <Button LinkComponent={Link} href={prev.replace("https://exhentai.org/", "/")}
+                startIcon={<KeyboardArrowLeftIcon />}>上一页</Button>}
+            {next && <Button LinkComponent={Link} href={next.replace("https://exhentai.org/", "/")}
+                endIcon={<KeyboardArrowRightIcon />}>下一页</Button>}
         </div>
     </>
 }

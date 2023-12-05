@@ -88,7 +88,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                         </p>
                         <p>
                             <b>
-                                <i className="fa fa-circle-o-notch" aria-hidden="true"></i> 文件总数:
+                                <i className="fa fa-circle-o-notch" aria-hidden="true"></i> 页数:
                             </b>{' '}
                             <span id="chapter_amount">{gdata.Length}</span> / <b>文件大小:</b>{' '}
                             <span id="book_total_word_count">{gdata["File Size"]}</span>

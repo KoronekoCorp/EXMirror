@@ -13,6 +13,5 @@ export default function RootLayout({
             {children}
         </Suspense>
         <Suspense fallback={<></>}>{fav}</Suspense>
-        {/* <Suspense fallback={<></>}>{Security}</Suspense> */}
     </>
 }

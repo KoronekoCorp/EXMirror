@@ -1,3 +1,5 @@
+"use client"
+
 import { styled } from "@mui/material";
 
 export const H2 = styled("h2")(({ theme }) => ({
