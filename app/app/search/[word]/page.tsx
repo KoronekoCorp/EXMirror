@@ -1,4 +1,4 @@
-import { R } from "@/app/push"
+import { R } from "@/components/push"
 
 export default async function Page({ params: { word } }: { params: { word: string } }) {
     const url = decodeURIComponent(word).match(/\/g\/(\d*?)\/(.*)/g)

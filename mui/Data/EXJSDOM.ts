@@ -270,6 +270,7 @@ class EXJSDOM {
         const f = dom.window.document.querySelector("div.nosel") as HTMLDivElement
         return {
             favs: Array.from(f.children).map((i) => i.children[2].innerHTML).slice(0, 10),
+            selectid: Array.from(f.children).slice(0, 10).map((i) => (i.children[0].children[0] as HTMLInputElement).checked).findIndex((i) => i),
             favmsg: dom.window.document.querySelector("textarea")?.value
         }
     }

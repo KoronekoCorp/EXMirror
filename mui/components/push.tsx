@@ -1,7 +1,7 @@
 "use client"
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import Loading from "./loading";
+import Loading from "../app/loading";
 
 export function R({ url }: { url: string }) {
     const router = useRouter()

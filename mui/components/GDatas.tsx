@@ -1,31 +1,38 @@
+"use client"
+
 import { G_JSDOM_DATA } from "@/Data/EXJSDOM";
 import Link from "next/link";
 import { Image } from "./Image";
 import { Button, Typography, Grid, Card, CardActionArea, CardContent, CardActions, Container } from "@mui/material";
-import DataSaverOffIcon from '@mui/icons-material/DataSaverOff';
 import { Top } from "./push";
+import StarIcon from '@mui/icons-material/Star';
+import DataSaverOffIcon from '@mui/icons-material/DataSaverOff';
+import { useRouter } from "next/navigation";
 
-export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string }) {
-    //由于format_style导出的style中background会莫名其妙失效，采用innerhtml解决
-    const format_style = (style: string) => {
-        const d = style.split(";").map((e) => e.split(":"))
-        const s: { [key: string]: string } = {}
-        d.forEach((e) => {
-            switch (e[0]) {
-                case "border-color":
-                    s["borderColor"] = e[1]
-                    break
-                case "background":
-                    s["background"] = e[1].replace("!important", "")
-                    break
-                case "background-color":
-                    s["backgroundColor"] = e[1]
-                default:
-                    s[e[0]] = e[1]
-            }
-        })
-        return s
-    }
+//由于format_style导出的style中background会莫名其妙失效，采用innerhtml解决
+const format_style = (style: string) => {
+    const d = style.split(";").map((e) => e.split(":"))
+    const s: { [key: string]: string } = {}
+    d.forEach((e) => {
+        switch (e[0]) {
+            case "border-color":
+                s["borderColor"] = e[1]
+                break
+            case "background":
+                s["background"] = e[1].replace("!important", "")
+                break
+            case "background-color":
+                s["backgroundColor"] = e[1]
+                break
+            default:
+                s[e[0]] = e[1]
+        }
+    })
+    return s
+}
+
+export function GDatas({ G }: { G: G_JSDOM_DATA[] }) {
+    const router = useRouter()
 
     return <Container sx={{ "& > div": { m: 1 } }}>
         {G.length === 0 && <p style={{ textAlign: 'center' }}>什么都没有呢</p>}
@@ -48,14 +55,14 @@ export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string
                                     {e.tag.map((tag) => (
                                         <Grid key={e.href + tag.title}>
                                             <Button LinkComponent={Link} href={`/tag/${tag.title}`} sx={tag.style ? format_style(tag.style) : {}} >
-                                                <div dangerouslySetInnerHTML={{ __html: TR(tag.title) }}></div>
+                                                <div dangerouslySetInnerHTML={{ __html: tag.title }}></div>
                                             </Button>
                                         </Grid>
                                     ))}
                                     {e.lowtag.map((tag) => (
                                         <Grid key={e.href + tag.title}>
                                             <Button LinkComponent={Link} href={`/tag/${tag.title}`} sx={{ border: "1px dashed #8c8c8c", ...(tag.style ? format_style(tag.style) : {}) }} >
-                                                <div dangerouslySetInnerHTML={{ __html: TR(tag.title) }}></div>
+                                                <div dangerouslySetInnerHTML={{ __html: tag.title }}></div>
                                             </Button>
                                         </Grid>
                                     ))}
@@ -64,9 +71,20 @@ export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string
                         </Grid>
                     </Grid>
                 </CardActionArea>
-                <CardActions>
+                <CardActions sx={{ "& > a": { ml: 1, mr: 1 } }}>
                     <Button size="small" LinkComponent={Link} href={`/${e.catalog.toLocaleLowerCase().replaceAll(" ", "")}`} color="primary" startIcon={<DataSaverOffIcon />}>
                         {e.catalog}
+                    </Button>
+                    <Button size="small" startIcon={<StarIcon />} sx={format_style(e.favstyle)}
+                        onClick={() => {
+                            const d = e.href.split("/")
+                            // const u = new URL(document.location.origin + "/fav")
+                            const u = new URL(document.location.href)
+                            u.searchParams.set("gallery_id", d[4])
+                            u.searchParams.set("gallery_token", d[5])
+                            router.push(u.href)
+                        }}>
+                        {e.favname == "" ? "收藏" : e.favname}
                     </Button>
                 </CardActions>
             </Card>

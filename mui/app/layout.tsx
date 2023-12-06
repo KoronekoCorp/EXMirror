@@ -12,8 +12,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  gfav
 }: {
   children: React.ReactNode
+  gfav: React.ReactNode
 }) {
   return (
     <html lang="zh">
@@ -26,6 +28,9 @@ export default function RootLayout({
             <Snackbar>
               {children}
             </Snackbar>
+          </Suspense>
+          <Suspense fallback={<></>}>
+            {gfav}
           </Suspense>
         </Root>
       </body>

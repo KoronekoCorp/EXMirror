@@ -273,7 +273,6 @@ class API {
         revalidateTag(`g/${gallery_id}/${gallery_token}?p=0`)
         return r.status === 200
     }
-
 }
 
 

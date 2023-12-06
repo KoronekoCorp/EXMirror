@@ -1,5 +1,5 @@
 import { API } from "@/Data/EXAPI"
-import { R } from "@/app/push"
+import { R } from "@/components/push"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { Cookie } from "@/app/Cookies"

@@ -55,6 +55,15 @@ class DB {
     }
 }
 
+export function translate(key: string, dbindex: DBindex) {
+    const k = key.split(":")
+    try {
+        return dbindex[k[0]].data[k[1]].name.replace("https://", "https://aeiljuispo.cloudimg.io/v7/https://").replace("<p>", "").replace("</p>", "")
+    } catch (e) {
+        return key
+    }
+}
+
 const db = new DB()
 setTimeout(async () => db.getDB())
 export { db }

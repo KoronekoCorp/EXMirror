@@ -1,5 +1,5 @@
 import { API } from "@/Data/EXAPI";
-import { R } from "@/app/push";
+import { R } from "@/components/push";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { Image } from "./client";

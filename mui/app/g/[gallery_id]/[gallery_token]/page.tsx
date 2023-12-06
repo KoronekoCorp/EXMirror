@@ -2,13 +2,13 @@ import { API } from "@/Data/EXAPI"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { db } from "@/Data/EXDB"
-import { R, Top } from "@/app/push"
-import { Cookie } from "@/app/Cookies"
+import { R, Top } from "@/components/push"
+import { Cookie } from "@/components/Cookies"
 import { NextPage } from "./client"
 import { ginfo } from "@/Data/EXJSDOM"
 import { CacheEveryThing } from "@/Data/cache"
 import { cookies } from "next/headers"
-import { Image } from "@/app/Image"
+import { Image } from "@/components/Image"
 import { Button, Container, Grid, Rating, Stack } from "@mui/material"
 import { H2 } from "@/H2"
 import BurstModeIcon from '@mui/icons-material/BurstMode';
@@ -69,7 +69,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                     </Button>
                     <br />
                     <Button sx={{ m: 1, backgroundColor: favcolor[(gdata.fav ?? 11) - 1], color: favtext[(gdata.fav ?? 11) - 1] ? "black" : "white" }}
-                        LinkComponent={Link} href={`/g/${id}/${gallery_token}?fav=${gdata.fav}`} variant="contained"
+                        LinkComponent={Link} href={`/g/${id}/${gallery_token}?fav=true`} variant="contained"
                         startIcon={<BookmarksIcon />}>
                         {gdata.fav ? gdata.favname : "收藏"}
                     </Button>

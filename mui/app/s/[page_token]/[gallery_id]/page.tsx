@@ -1,9 +1,9 @@
 import { API } from "@/Data/EXAPI";
-import { R, Top } from "@/app/push";
+import { R, Top } from "@/components/push";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { Image } from "./client";
-import { Cookie } from "@/app/Cookies";
+import { Cookie } from "@/components/Cookies";
 import { CacheEveryThing } from "@/Data/cache";
 import { Box, Button, Container } from "@mui/material";
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';

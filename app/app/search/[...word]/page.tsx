@@ -1,4 +1,4 @@
-import { R } from "@/app/push"
+import { R } from "@/components/push"
 import { join } from "path"
 
 

@@ -1,13 +1,15 @@
 import { API } from "@/Data/EXAPI"
 import { db } from "@/Data/EXDB"
-import { R } from "@/app/push"
-import { GDatas } from "../GDatas"
+import { R } from "@/components/push"
+import { GDatas } from "@/components/GDatas"
 import Link from "next/link"
 import Search from "./client"
-import { Cookie } from "../Cookies"
+import { Cookie } from "@/components/Cookies"
 import { Button, Container, Grid } from "@mui/material"
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import { GdataTr } from "@/Data/ETools"
+
 const favcolor = ["#818181", "#f83333", "#fd903b", "#fdf23f", "#2ad853", "#a5f331", "#2ce4e5", "#3b2ef4", "#9732f6", "#ce309e", "#0e0e0e"]
 const favtext = [0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0]
 
@@ -41,7 +43,7 @@ export default async function P({ searchParams }:
                 </Grid>
             })}
         </Grid>
-        <GDatas G={d} TR={(e) => db.translate(e, tr)} />
+        <GDatas G={GdataTr(d, tr)} />
         <div style={{ padding: 10, textAlign: 'center' }}>
             {prev && <Button LinkComponent={Link} href={prev.replace("https://exhentai.org/favorites.php", "/favorites")}
                 startIcon={<KeyboardArrowLeftIcon />}>上一页</Button>}

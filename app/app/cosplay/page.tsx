@@ -1,6 +1,6 @@
 import { API } from "@/Data/EXAPI"
 import { db } from "@/Data/EXDB"
-import { R } from "@/app/push"
+import { R } from "@/components/push"
 import { GDatas } from "../GDatas"
 import Link from "next/link"
 
