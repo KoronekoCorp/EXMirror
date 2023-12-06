@@ -64,7 +64,6 @@ export function Heads() {
         rel="stylesheet"
       /> */}
       <link rel="stylesheet" href="/assets/css/style5.css" />
-      <link rel="stylesheet" href="/console.css" />
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/jquery.swipebox/1.4.4/css/swipebox.css"

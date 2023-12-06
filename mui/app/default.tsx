@@ -1,4 +1,4 @@
 export default function Default() {
-    console.log("g")
+    console.log("gfav" + __dirname)
     return null;
 }

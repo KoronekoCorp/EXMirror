@@ -13,6 +13,12 @@ export interface G_JSDOM_DATA {
     catalog: string
     time: string
     uploader: string
+    pages: number
+    /**
+     * @example ""
+     */
+    favname: string
+    favstyle: string
     tag: tag[]
     lowtag: tag[]
 }
@@ -106,6 +112,9 @@ class EXJSDOM {
                 catalog: gl2e[i].children[0].children[0].children[0].innerHTML,
                 time: gl2e[i].children[0].children[0].children[1].innerHTML,
                 uploader: gl2e[i].children[0].children[0].children[3].children[0]?.innerHTML ?? "(已放弃)",
+                pages: parseInt(gl2e[i].children[0].children[0].children[4].innerHTML),
+                favname: (gl2e[i].children[0].children[0].children[1] as HTMLDivElement).title,
+                favstyle: gl2e[i].children[0].children[0].children[1].getAttribute('style') ?? "",
                 //@ts-ignore
                 tag: Array.from(gl2e[i].querySelectorAll("td div.gt")).map((e) => { return { title: e.title, style: e.getAttribute('style') } }),
                 //@ts-ignore
@@ -261,6 +270,7 @@ class EXJSDOM {
         const f = dom.window.document.querySelector("div.nosel") as HTMLDivElement
         return {
             favs: Array.from(f.children).map((i) => i.children[2].innerHTML).slice(0, 10),
+            selectid: Array.from(f.children).slice(0, 10).map((i) => (i.children[0].children[0] as HTMLInputElement).checked).findIndex((i) => i),
             favmsg: dom.window.document.querySelector("textarea")?.value
         }
     }

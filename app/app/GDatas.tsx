@@ -1,27 +1,30 @@
 import { G_JSDOM_DATA } from "@/Data/EXJSDOM";
 import Link from "next/link";
 import { Image } from "./Image";
+import { FavButton } from "./Gclient";
 
 export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string }) {
     //由于format_style导出的style中background会莫名其妙失效，采用innerhtml解决
-    // const format_style = (style: string) => {
-    //     const d = style.split(";").map((e) => e.split(":"))
-    //     const s: { [key: string]: string } = {}
-    //     d.forEach((e) => {
-    //         switch (e[0]) {
-    //             case "border-color":
-    //                 s["borderColor"] = e[1]
-    //                 break
-    //             case "background":
-    //                 s["background"] = e[1]
-    //                 break
-    //             default:
-    //                 s[e[0]] = e[1]
-    //         }
-    //     })
-    //     console.log(s)
-    //     return s
-    // }
+    const format_style = (style: string) => {
+        const d = style.split(";").map((e) => e.split(":"))
+        const s: { [key: string]: string } = {}
+        d.forEach((e) => {
+            switch (e[0]) {
+                case "border-color":
+                    s["borderColor"] = e[1]
+                    break
+                case "background":
+                    s["background"] = e[1].replace("!important", "")
+                    break
+                case "background-color":
+                    s["backgroundColor"] = e[1]
+                    break
+                default:
+                    s[e[0]] = e[1]
+            }
+        })
+        return s
+    }
 
     return <>
         {G.length === 0 && <p style={{ textAlign: 'center' }}>什么都没有呢</p>}
@@ -32,7 +35,7 @@ export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string
                         <div className="col-sm-12 col-md-3" key={e.href}>
                             <div className="section" style={{ height: 'auto', margin: '0.5rem' }}>
                                 <Link href={e.href.replace("https://exhentai.org", "")} title={e.title}>
-                                    <Image src={e.src.replace("s.exhentai.org", "ehgt.org")} style={{ border: '1px ridge black', }} />
+                                    <Image src={e.src.replace("s.exhentai.org", "ehgt.org")} style={{ border: '1px ridge black' }} />
                                 </Link>
                             </div>
                         </div>
@@ -55,6 +58,12 @@ export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string
                                 <Link className="book_author_search" href={`/search/${e.uploader}`} title={e.uploader}>
                                     {e.uploader}
                                 </Link>
+                            </p>
+                            <p>
+                                <b>页数：</b>{e.pages}
+                            </p>
+                            <p>
+                                {e.favname != "" && <FavButton name={e.favname} url={e.href} style={format_style(e.favstyle)} />}
                             </p>
                             <p>
                                 <b>

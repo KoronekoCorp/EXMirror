@@ -18,6 +18,8 @@ export function GDatas({ G, TR }: { G: G_JSDOM_DATA[], TR: (e: string) => string
                 case "background":
                     s["background"] = e[1].replace("!important", "")
                     break
+                case "background-color":
+                    s["backgroundColor"] = e[1]
                 default:
                     s[e[0]] = e[1]
             }
