@@ -171,9 +171,10 @@ class API {
     async http(searchParams: { [key: string]: string }, endpoint = "https://exhentai.org", cache = 3600) {
         const u = new URL(endpoint)
         for (let i in searchParams) {
-            u.searchParams.set(i, searchParams[i])
+            if (!["gallery_id", "gallery_token"].includes(i)) u.searchParams.set(i, searchParams[i])
         }
-        const r = await this.get(u, [u.href], cache)
+        console.log(u.href)
+        const r = await this.get(u.href, [u.href], cache)
         const html = await r.text()
         return EXJSDOM.GetDom(html)
     }

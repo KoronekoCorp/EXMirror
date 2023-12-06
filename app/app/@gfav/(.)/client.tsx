@@ -72,7 +72,7 @@ export function Dig({ title, children, index, actions }:
 
     if (index == null) { return <></> }
     const handleClose = () => {
-        setOpen(false); setTimeout(router.back, 500)
+        setOpen(false); setTimeout(router.back)
     }
 
     return <Dialog open={open} onClose={handleClose}>

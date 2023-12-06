@@ -1,3 +1,12 @@
 # ExMirror
 
-我曾经在一怒之下搓出了这个，原因？没有原因
+学习用项目
+
+### 演示站点
+
+- [融合样式](https://ex.koroneko.co/)
+- [MUI样式](https://mex.koroneko.co/)
+
+融合样式，指`mini.css` + `MUI`，互相影响，问题有那么亿点点大
+
+`MUI`样式由于组件数量过多，存在较大的性能问题

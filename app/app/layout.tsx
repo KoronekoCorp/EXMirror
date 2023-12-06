@@ -30,9 +30,7 @@ export default function RootLayout({
             {children}
           </Snackbar>
         </Suspense>
-        <Suspense fallback={<></>}>
-          {gfav}
-        </Suspense>
+        {gfav}
         <Footer />
       </body>
     </html>

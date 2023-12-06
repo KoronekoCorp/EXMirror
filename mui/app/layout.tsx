@@ -24,14 +24,12 @@ export default function RootLayout({
       </head>
       <body style={{ margin: "auto" }}>
         <Root>
-          <Suspense fallback={<Loading />}>
-            <Snackbar>
+          <Snackbar>
+            <Suspense fallback={<Loading />}>
               {children}
-            </Snackbar>
-          </Suspense>
-          <Suspense fallback={<></>}>
+            </Suspense>
             {gfav}
-          </Suspense>
+          </Snackbar>
         </Root>
       </body>
     </html>
