@@ -110,3 +110,62 @@ ServerAction内部的逻辑导致无论是try catch还是then catch都无法奏�
 ```
 
 两种不同情况，两种不同反应，很难办啊
+
+**经过分析**
+
+问题原因在于`searchParams`
+
+1. `mui/app/g/[gallery_id]/[gallery_token]/page.tsx` 正常
+
+2. `mui/app/favorites/page.tsx` 不正常
+
+二者均对`searchParams`进行了不同程度的使用
+
+1. 取出了一个变量`searchParams.p`进行使用，该变量为页数
+
+2. 则是直接将整个`searchParams`传递到API实现进行URL拼接，但在实际上产生了新的fetch请求
+
+当然，是推测是产生了新的请求，原本的缓存由fetch的选项实现，实际上的原理并不清楚
+
+```ts
+async get(url: URL | string, tags: string[] | undefined, revalidate: number | false | undefined = 7200) {
+    const r = await fetch(url, {
+        headers: this.header,
+        next: {
+            revalidate: revalidate,
+            tags: tags
+        }
+    })
+    console.log(r.headers.getSetCookie())
+    r.headers.getSetCookie().forEach((e) => this.cookies.push(e))
+    return r
+}
+```
+
+当按下述代码将内容强制缓存之后，确实不会强制弹到顶部，之后存在一点上下位移，可以忽略不计
+
+```tsx
+const { index: [d, prev, next], fav: fav } = await CacheEveryThing(async () => {
+    console.log(searchParams);
+    return a.favourite(searchParams)
+}, [searchParams.next ?? "next", searchParams.prev ?? "prev"], 3600)()
+```
+
+但，强制缓存并不明智
+
+最终选择对传入参数进行处理
+
+```tsx
+//在EXAPI.ts中的最远处理
+for (let i in searchParams) {
+    if (!["gallery_id", "gallery_token"].includes(i)) u.searchParams.set(i, searchParams[i])
+}
+
+//在page.tsx中的最近处理
+const search = { ...searchParams } //必须复制，不能对原searchParams进行修改，否则并行路由会没反应
+delete search.gallery_id
+delete search.gallery_token
+console.log(search);
+```
+
+很遗憾，在开发环境中上述各种策略时有生效，但在生产环境下均完全不奏效

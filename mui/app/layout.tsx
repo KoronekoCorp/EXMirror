@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import Loading from './loading';
 import Snackbar from './Snackbar';
 import { Root } from './Drawer';
+import BackDropProvider from '@/components/BackDrop';
 
 export const metadata: Metadata = {
   title: 'Koroneko Corp',
@@ -24,12 +25,14 @@ export default function RootLayout({
       </head>
       <body style={{ margin: "auto" }}>
         <Root>
-          <Snackbar>
-            <Suspense fallback={<Loading />}>
-              {children}
-            </Suspense>
-            {gfav}
-          </Snackbar>
+          <BackDropProvider>
+            <Snackbar>
+              <Suspense fallback={<Loading />}>
+                {children}
+              </Suspense>
+              {gfav}
+            </Snackbar>
+          </BackDropProvider>
         </Root>
       </body>
     </html>

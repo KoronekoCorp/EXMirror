@@ -30,13 +30,13 @@ export default async function P({ searchParams }:
         <Grid container sx={{ textAlign: 'center', "& > div": { m: 1 } }} textAlign="center" justifyContent="center">
             {fav.map((i, j) => {
                 if (j > 9) {
-                    return <Grid key={i} sm={1} item>
+                    return <Grid key={i} xs={"auto"} item>
                         <Button LinkComponent={Link} href="favorites" sx={{ backgroundColor: favcolor[j], color: favtext[j] ? "black" : "white" }} >
                             显示所有收藏夹
                         </Button>
                     </Grid>
                 }
-                return <Grid key={i} sm={1} item>
+                return <Grid key={i} xs={"auto"} item>
                     <Button LinkComponent={Link} href={`/favorites?favcat=${j}`} sx={{ backgroundColor: favcolor[j], color: favtext[j] ? "black" : "white" }} >
                         {i}
                     </Button>

@@ -8,14 +8,14 @@ export function GdataTr(gdata: G_JSDOM_DATA[], db: DBindex): G_JSDOM_DATA[] {
             ...i,
             tag: i.tag.map(j => {
                 return {
-                    style: j.style,
-                    title: translate(j.title, db)
+                    ...j,
+                    tr: translate(j.title, db)
                 }
             }),
             lowtag: i.lowtag.map(j => {
                 return {
-                    style: j.style,
-                    title: translate(j.title, db)
+                    ...j,
+                    tr: translate(j.title, db)
                 }
             }),
         }

@@ -1,13 +1,10 @@
-"use client"
-
-import { G_JSDOM_DATA } from "@/Data/EXJSDOM";
+import { type G_JSDOM_DATA } from "@/Data/EXJSDOM";
 import Link from "next/link";
 import { Image } from "./Image";
 import { Button, Typography, Grid, Card, CardActionArea, CardContent, CardActions, Container } from "@mui/material";
 import { Top } from "./push";
-import StarIcon from '@mui/icons-material/Star';
 import DataSaverOffIcon from '@mui/icons-material/DataSaverOff';
-import { useRouter } from "next/navigation";
+import { Gbutton } from "./Gclient";
 
 //由于format_style导出的style中background会莫名其妙失效，采用innerhtml解决
 const format_style = (style: string) => {
@@ -32,7 +29,6 @@ const format_style = (style: string) => {
 }
 
 export function GDatas({ G }: { G: G_JSDOM_DATA[] }) {
-    const router = useRouter()
 
     return <Container sx={{ "& > div": { m: 1 } }}>
         {G.length === 0 && <p style={{ textAlign: 'center' }}>什么都没有呢</p>}
@@ -55,14 +51,14 @@ export function GDatas({ G }: { G: G_JSDOM_DATA[] }) {
                                     {e.tag.map((tag) => (
                                         <Grid key={e.href + tag.title}>
                                             <Button LinkComponent={Link} href={`/tag/${tag.title}`} sx={tag.style ? format_style(tag.style) : {}} >
-                                                <div dangerouslySetInnerHTML={{ __html: tag.title }}></div>
+                                                <div dangerouslySetInnerHTML={{ __html: tag.tr ?? tag.title }}></div>
                                             </Button>
                                         </Grid>
                                     ))}
                                     {e.lowtag.map((tag) => (
                                         <Grid key={e.href + tag.title}>
                                             <Button LinkComponent={Link} href={`/tag/${tag.title}`} sx={{ border: "1px dashed #8c8c8c", ...(tag.style ? format_style(tag.style) : {}) }} >
-                                                <div dangerouslySetInnerHTML={{ __html: tag.title }}></div>
+                                                <div dangerouslySetInnerHTML={{ __html: tag.tr ?? tag.title }}></div>
                                             </Button>
                                         </Grid>
                                     ))}
@@ -75,17 +71,7 @@ export function GDatas({ G }: { G: G_JSDOM_DATA[] }) {
                     <Button size="small" LinkComponent={Link} href={`/${e.catalog.toLocaleLowerCase().replaceAll(" ", "")}`} color="primary" startIcon={<DataSaverOffIcon />}>
                         {e.catalog}
                     </Button>
-                    <Button size="small" startIcon={<StarIcon />} sx={format_style(e.favstyle)}
-                        onClick={() => {
-                            const d = e.href.split("/")
-                            // const u = new URL(document.location.origin + "/fav")
-                            const u = new URL(document.location.href)
-                            u.searchParams.set("gallery_id", d[4])
-                            u.searchParams.set("gallery_token", d[5])
-                            router.push(u.href)
-                        }}>
-                        {e.favname == "" ? "收藏" : e.favname}
-                    </Button>
+                    <Gbutton e={e} />
                 </CardActions>
             </Card>
         })}

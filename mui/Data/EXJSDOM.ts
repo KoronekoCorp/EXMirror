@@ -4,6 +4,7 @@ import { Script } from 'vm'
 interface tag {
     title: string
     style: string | null
+    tr?: string
 }
 
 export interface G_JSDOM_DATA {

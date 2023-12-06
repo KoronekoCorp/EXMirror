@@ -148,3 +148,4 @@ export function Favlist({ fav, favs, favmsg, params: { gallery_id, gallery_token
         </Grid>
     </Dig>
 }
+

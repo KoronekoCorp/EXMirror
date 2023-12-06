@@ -173,7 +173,6 @@ class API {
         for (let i in searchParams) {
             if (!["gallery_id", "gallery_token"].includes(i)) u.searchParams.set(i, searchParams[i])
         }
-        console.log(u.href)
         const r = await this.get(u.href, [u.href], cache)
         const html = await r.text()
         return EXJSDOM.GetDom(html)
