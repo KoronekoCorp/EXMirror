@@ -1,14 +1,11 @@
 import { API } from "@/Data/EXAPI"
-import { ginfo } from "@/Data/EXJSDOM"
-import { CacheEveryThing } from "@/Data/cache"
 import { R } from "@/components/push"
 import { notFound } from "next/navigation"
-import { Box, Button, Container } from "@mui/material"
-import MenuBookIcon from '@mui/icons-material/MenuBook';
 import Link from "next/link"
-import { H2 } from "@/H2"
-import { Cookie } from "@/components/Cookies"
+import { Cookie } from "@/app/Cookies"
 import { SPVImages } from "./Images"
+import { CacheEveryThing } from "@/Data/cache"
+import { type ginfo } from "@/Data/EXJSDOM"
 
 export default async function G({ params: { gallery_id, gallery_token }, searchParams }:
     { params: { gallery_id: string, gallery_token: string }, searchParams: { [key: string]: string | undefined } }) {
@@ -36,23 +33,29 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
     if (!gdata) {
         return notFound()
     }
-
-    return <Container>
+    return <>
         <title>{gdata.gn}</title>
-        <Box sx={{ padding: 1, textAlign: 'center' }}>
-            <Button LinkComponent={Link} href={`/g/${id}/${gallery_token}`}>
-                <MenuBookIcon />
-            </Button>
-        </Box>
-        <H2>
+        <ul className="breadcrumb center">
+            <li>
+                <Link id="book_id" href={`/g/${id}/${gallery_token}`}>
+                    <i className="fa fa-book" aria-hidden="true" />
+                </Link>
+            </li>
+        </ul>
+        <h1 className="post-title detail_title book_title_search" id="book_name" itemProp="name headline">
             {gdata.gn}
-        </H2>
-        <SPVImages spage={thumbnail_url} />
-        <Box sx={{ padding: 1, textAlign: 'center' }}>
-            <Button LinkComponent={Link} href={`/g/${id}/${gallery_token}`}>
-                <MenuBookIcon />
-            </Button>
-        </Box>
+        </h1>
+        <div className="container center" style={{ padding: 20 }}>
+            {/* {r.map((e, i) => <MPVImage key={e.n} gid={id} page={i + 1} mpvdata={e} mpvkey={mpvkey} />)} */}
+            <SPVImages spage={thumbnail_url} />
+        </div>
+        <ul className="breadcrumb center">
+            <li>
+                <Link id="book_id" href={`/g/${id}/${gallery_token}`}>
+                    <i className="fa fa-book" aria-hidden="true" />
+                </Link>
+            </li>
+        </ul>
         <Cookie c={a.cookies} />
-    </Container>
+    </>
 }

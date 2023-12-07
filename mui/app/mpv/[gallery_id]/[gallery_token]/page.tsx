@@ -30,9 +30,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
         <H2>
             {title}
         </H2>
-        <div style={{ padding: 20 }}>
-            <MPVImages mpvdata={r} gid={id} mpvkey={mpvkey} />
-        </div>
+        <MPVImages mpvdata={r} gid={id} mpvkey={mpvkey} />
         <Box sx={{ padding: 1, textAlign: 'center' }}>
             <Button LinkComponent={Link} href={`/g/${id}/${gallery_token}`}>
                 <MenuBookIcon />

@@ -61,6 +61,12 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                             </Link>
                         </button>
                         <br />
+                        <button className="shadowed small tertiary">
+                            <Link href={`/spv/${id}/${gallery_token}`} className="color_white">
+                                <i className="fa fa-object-ungroup" aria-hidden="true" /> 特殊spv阅读
+                            </Link>
+                        </button>
+                        <br />
                         <button className="shadowed small" style={{ backgroundColor: favcolor[(gdata.fav ?? 11) - 1], color: "black" }}>
                             <Link href={`/g/${id}/${gallery_token}?fav=true`} style={{ color: favtext[(gdata.fav ?? 11) - 1] ? "black" : "white" }}>
                                 <i className="fa fa-bookmark" aria-hidden="true" /> {gdata.fav ? gdata.favname : "收藏"}
