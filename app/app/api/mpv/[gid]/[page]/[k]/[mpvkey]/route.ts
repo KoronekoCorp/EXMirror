@@ -16,7 +16,7 @@ export async function GET(request: Request, { params: { gid, page, k, mpvkey } }
         }, [`api/mpv/${gid}/${page}/${k}?fullimg=${fullimg}`], 3600)(),
         {
             headers: {
-                'Cache-Control': 'max-age=86400'
+                'Cache-Control': 'max-age=3600'
             }
         }
     )

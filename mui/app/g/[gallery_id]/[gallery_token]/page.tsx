@@ -5,7 +5,7 @@ import { db } from "@/Data/EXDB"
 import { R, Top } from "@/components/push"
 import { Cookie } from "@/components/Cookies"
 import { NextPage } from "./client"
-import { ginfo } from "@/Data/EXJSDOM"
+import { type ginfo } from "@/Data/EXJSDOM"
 import { CacheEveryThing } from "@/Data/cache"
 import { cookies } from "next/headers"
 import { Image } from "@/components/Image"
@@ -66,6 +66,11 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                     <Button LinkComponent={Link} href={`/mpv/${id}/${gallery_token}`} variant="contained" sx={{ m: 1 }}
                         startIcon={<BurstModeIcon />}>
                         正统mpv阅读
+                    </Button>
+                    <br />
+                    <Button LinkComponent={Link} href={`/spv/${id}/${gallery_token}`} variant="contained" sx={{ m: 1 }}
+                        startIcon={<BurstModeIcon />}>
+                        特殊spv阅读
                     </Button>
                     <br />
                     <Button sx={{ m: 1, backgroundColor: favcolor[(gdata.fav ?? 11) - 1], color: favtext[(gdata.fav ?? 11) - 1] ? "black" : "white" }}

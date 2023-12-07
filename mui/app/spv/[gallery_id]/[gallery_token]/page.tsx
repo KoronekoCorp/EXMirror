@@ -1,13 +1,14 @@
 import { API } from "@/Data/EXAPI"
+import { ginfo } from "@/Data/EXJSDOM"
+import { CacheEveryThing } from "@/Data/cache"
 import { R } from "@/components/push"
 import { notFound } from "next/navigation"
-import Link from "next/link"
-import { Cookie } from "@/components/Cookies"
-import { MPVImages } from "./Images"
-import { CacheEveryThing } from "@/Data/cache"
 import { Box, Button, Container } from "@mui/material"
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import Link from "next/link"
 import { H2 } from "@/H2"
+import { Cookie } from "@/components/Cookies"
+import { SPVImages } from "./Images"
 
 export default async function G({ params: { gallery_id, gallery_token }, searchParams }:
     { params: { gallery_id: string, gallery_token: string }, searchParams: { [key: string]: string | undefined } }) {
@@ -17,22 +18,37 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
     if (!a.header.cookie.includes("igneous")) {
         return <R url="/login" />
     }
-    const [r, mpvkey, title] = await CacheEveryThing(async () => a.mpv_info(id, gallery_token),
-        [`mpv/${id}/${gallery_token}`], 86400)()
+    let page = 0
+    let gdata: ginfo | undefined = undefined
+
+    const thumbnail: string[] = []
+    const thumbnail_url: string[] = []
+    do {
+        const [r1, r2, r3] = await CacheEveryThing(async () => a.gallery_info(id, gallery_token, page),
+            [`g/${id}/${gallery_token}?p=${page}`], 86400
+        )()
+        if (r3) gdata = r3
+        r1.map((e) => thumbnail.push(e))
+        r2.map((e) => thumbnail_url.push(e))
+        page++
+    } while (gdata && gdata.Length > thumbnail.length)
+
+    if (!gdata) {
+        return notFound()
+    }
+    console.log(thumbnail_url)
 
     return <Container>
-        <title>{title}</title>
+        <title>{gdata.gn}</title>
         <Box sx={{ padding: 1, textAlign: 'center' }}>
             <Button LinkComponent={Link} href={`/g/${id}/${gallery_token}`}>
                 <MenuBookIcon />
             </Button>
         </Box>
         <H2>
-            {title}
+            {gdata.gn}
         </H2>
-        <div style={{ padding: 20 }}>
-            <MPVImages mpvdata={r} gid={id} mpvkey={mpvkey} />
-        </div>
+        <SPVImages spage={thumbnail_url} />
         <Box sx={{ padding: 1, textAlign: 'center' }}>
             <Button LinkComponent={Link} href={`/g/${id}/${gallery_token}`}>
                 <MenuBookIcon />
