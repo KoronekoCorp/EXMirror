@@ -59,6 +59,10 @@ export function S({ index, id }: { index: string, id: string }) {
 }
 
 export function Top({ index }: { index: string }) {
-    useEffect(() => window.scrollTo({ top: 0, behavior: 'smooth' }), [index])
+    useEffect(() => {
+        if (!window.TOP) window.TOP = {}
+        if (!window.TOP[index]) window.scrollTo({ top: 0, behavior: 'smooth' })
+        window.TOP[index] = true
+    }, [index])
     return <></>
 }
