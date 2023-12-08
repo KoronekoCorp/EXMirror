@@ -4,7 +4,6 @@ import Link from 'next/link';
 import HomeIcon from '@mui/icons-material/Home';
 import StarIcon from '@mui/icons-material/Star';
 import SettingsIcon from '@mui/icons-material/Settings';
-// import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
 import LoginIcon from '@mui/icons-material/Login';
 import StorageIcon from '@mui/icons-material/Storage';
@@ -12,10 +11,11 @@ import LoyaltyIcon from '@mui/icons-material/Loyalty';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import SearchIcon from '@mui/icons-material/Search';
 import { ListItemIcon, SwipeableDrawer, Box, IconButton, AppBar, Drawer, Toolbar, Typography, Divider, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useRouter } from 'next/navigation';
+import { getTheme } from './Theme';
 
 const DRAWER_WIDTH = 240;
 
@@ -40,38 +40,12 @@ export function Root({ children }: { children: ReactNode }) {
     let mode: "dark" | "light"
     if (dark) { mode = 'dark' } else { mode = 'light' }
     const router = useRouter()
+    const theme = getTheme(mode)
 
     useEffect(() => {
         const m = localStorage.getItem('mode')
         if (m != null) { setdark(m == "true") }
     }, [])
-
-    const theme = createTheme({
-        palette: {
-            mode: mode,
-            ...(
-                mode == "light"
-                    ? {
-                        primary: {
-                            main: '#3f51b5',
-                        },
-                        secondary: {
-                            main: '#f50057',
-                        },
-                        text: {
-                            primary: "#000000",
-                            // secondary: "#e5dfdf"
-                        },
-                    }
-                    : {
-                        text: {
-                            primary: "#ffffff",
-                            // secondary: "#1A2027"
-                        },
-                    }
-            ),
-        }
-    })
 
     return <ThemeProvider theme={theme}>
         <AppBar position="fixed" sx={{ zIndex: 2000, minHeight: '64px' }} color='inherit'>

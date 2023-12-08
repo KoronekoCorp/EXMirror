@@ -34,10 +34,11 @@ export function AutoSearch({ baseurl, callback }: { baseurl?: string, callback?:
         })
         let f_search = ""
         d.forEach(i => f_search += i + " ")
+        f_search = f_search.slice(0, -1)
         const u = new URL(baseurl ? location.origin + baseurl : location.href)
         u.searchParams.delete("next")
         u.searchParams.delete("prev")
-        u.searchParams.set("f_search", f_search.slice(0, -1))
+        if (f_search != "") u.searchParams.set("f_search", f_search)
         if (callback) {
             callback(u)
         } else {
