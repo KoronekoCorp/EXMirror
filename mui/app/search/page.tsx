@@ -1,7 +1,9 @@
 "use client"
 
 import { AutoSearch } from "@/components/AutoSearch"
+import { Top } from "@/components/push";
 import { Checkbox, Container, FormControl, FormControlLabel, Grid, MenuItem, Select, Stack, TextField, ToggleButton, } from "@mui/material"
+import { useRouter } from "next/navigation";
 import { useState } from "react"
 
 declare module '@mui/material/ToggleButton' {
@@ -22,7 +24,11 @@ declare module '@mui/material/ToggleButton' {
 export default function S() {
     const [values, setvalue] = useState<number[]>([1, 2, 4, 8, 16, 32, 64, 128, 256, 512])
     const [option, setoption] = useState<boolean[]>(new Array(5).fill(false))
+    const [startpage, setsp] = useState("")
+    const [endpage, setep] = useState("")
+    const [low, setl] = useState("0")
 
+    const router = useRouter()
     const change = (v: number) => {
         const t = values.slice()
         if (t[v] == 0) {
@@ -55,7 +61,10 @@ export default function S() {
         if (option[2]) u.searchParams.set("f_sfl", "on")
         if (option[3]) u.searchParams.set("f_sfu", "on")
         if (option[4]) u.searchParams.set("f_sft", "on")
-        console.log(u.href)
+        if (startpage != "" && startpage != "NaN") u.searchParams.set("f_spf", startpage)
+        if (endpage != "" && endpage != "NaN") u.searchParams.set("f_spt", endpage)
+        if (low != "0") u.searchParams.set("f_srdd", low)
+        router.push(u.href)
     }
 
     return <Container sx={{ "& > div": { pt: 2 } }}>
@@ -117,13 +126,13 @@ export default function S() {
             <FormControlLabel control={<Checkbox checked={option[1]} onChange={() => changeoption(1)} />} label="只显示有种子的图库" />
         </Stack>
         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" color="text.primary">
-            介于<TextField size="small" variant="standard" />
-            和<TextField size="small" variant="standard" />页
+            介于<TextField size="small" sx={{ pl: 1, pr: 1, width: 64 }} variant="standard" value={startpage} onChange={(e) => setsp(parseInt(e.target.value).toString())} />
+            和<TextField size="small" sx={{ pl: 1, pr: 1, width: 64 }} variant="standard" value={endpage} onChange={(e) => setep(parseInt(e.target.value).toString())} />页
         </Stack>
         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" color="text.primary">
             最低评分：
             <FormControl>
-                <Select autoFocus defaultValue="0">
+                <Select autoFocus value={low} onChange={(e) => setl(e.target.value)}>
                     <MenuItem value="0">无限制</MenuItem>
                     <MenuItem value="2">2星</MenuItem>
                     <MenuItem value="3">3星</MenuItem>
@@ -138,5 +147,9 @@ export default function S() {
             <FormControlLabel control={<Checkbox checked={option[3]} onChange={() => changeoption(3)} />} label="上传者" />
             <FormControlLabel control={<Checkbox checked={option[4]} onChange={() => changeoption(4)} />} label="标签" />
         </Stack>
+        <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" color="text.primary">
+            温馨提示，点击放大镜执行搜索
+        </Stack>
+        <Top index="search" />
     </Container>
 }
