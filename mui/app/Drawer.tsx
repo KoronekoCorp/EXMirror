@@ -10,6 +10,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import StorageIcon from '@mui/icons-material/Storage';
 import LoyaltyIcon from '@mui/icons-material/Loyalty';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
+import SearchIcon from '@mui/icons-material/Search';
 import { ListItemIcon, SwipeableDrawer, Box, IconButton, AppBar, Drawer, Toolbar, Typography, Divider, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
@@ -20,6 +21,7 @@ const DRAWER_WIDTH = 240;
 
 const LINKS = [
     { text: 'Home', href: '/i', icon: HomeIcon },
+    { text: 'Search', href: '/search', icon: SearchIcon },
     { text: 'Popular', href: '/popular', icon: WhatshotIcon },
     { text: 'Subscription', href: '/watched', icon: LoyaltyIcon },
     { text: 'Favourite', href: '/favorites', icon: StarIcon },

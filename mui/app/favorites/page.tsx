@@ -3,12 +3,12 @@ import { db } from "@/Data/EXDB"
 import { R } from "@/components/push"
 import { GDatas } from "@/components/GDatas"
 import Link from "next/link"
-import Search from "./client"
 import { Cookie } from "@/components/Cookies"
 import { Button, Container, Grid } from "@mui/material"
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { GdataTr } from "@/Data/ETools"
+import { AutoSearch } from "@/components/AutoSearch"
 
 const favcolor = ["#818181", "#f83333", "#fd903b", "#fdf23f", "#2ad853", "#a5f331", "#2ce4e5", "#3b2ef4", "#9732f6", "#ce309e", "#0e0e0e"]
 const favtext = [0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0]
@@ -26,7 +26,7 @@ export default async function P({ searchParams }:
     const tr = await __tr
 
     return <Container>
-        <Search />
+        <AutoSearch />
         <Grid container sx={{ textAlign: 'center', "& > div": { m: 1 } }} textAlign="center" justifyContent="center">
             {fav.map((i, j) => {
                 if (j > 9) {
