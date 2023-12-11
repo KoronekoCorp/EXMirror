@@ -4,7 +4,7 @@ import Link from "next/link"
 import { db } from "@/Data/EXDB"
 import { R, Top } from "@/components/push"
 import { Cookie } from "@/components/Cookies"
-import { NextPage } from "./client"
+import { NextPage, Reply } from "./client"
 import { type ginfo } from "@/Data/EXJSDOM"
 import { CacheEveryThing } from "@/Data/cache"
 import { cookies } from "next/headers"
@@ -156,27 +156,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                     </Stack>}
                 </Grid>
             </Grid>
-            {gdata.comments?.data?.length > 0 && <Accordion sx={{ m: 1 }}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    评论
-                </AccordionSummary>
-                <AccordionDetails>
-                    <List>
-                        <Divider />
-                        {gdata.comments.data.map(i => <div key={i.id}>
-                            <ListItem alignItems="flex-start" >
-                                <ListItemButton>
-                                    <ListItemText
-                                        primary={i.name}
-                                        secondary={<p style={{ wordBreak: 'break-word' }} dangerouslySetInnerHTML={{ __html: i.text }}></p>}
-                                    />
-                                </ListItemButton>
-                            </ListItem>
-                            <Divider />
-                        </div>)}
-                    </List>
-                </AccordionDetails>
-            </Accordion>}
+            {gdata.comments?.data?.length > 0 && <Reply gdata={gdata} />}
             <Grid container alignItems="center" textAlign="center" spacing={2}>
                 {thumbnail.map((t, index) => <Grid xs={6} md={3} key={t[0]} item>
                     <Link href={thumbnail_url[index]}>

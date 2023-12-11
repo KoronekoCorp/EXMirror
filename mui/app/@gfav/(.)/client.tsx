@@ -1,97 +1,10 @@
 "use client"
-import { type CSSProperties, useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { Modal, Backdrop, Fade, Box, Button, FormControl, Dialog, DialogActions, DialogContent, DialogTitle, Select, MenuItem, Grid, TextField } from '@mui/material'
+import { useState } from 'react'
+import { FormControl, Select, MenuItem, Grid, TextField } from '@mui/material'
 import { enqueueSnackbar } from 'notistack'
 import { add } from './server'
+import { Dig } from '@/components/Modals'
 
-/**
- * 模态
- * @param index 序列号，唯一
- * @returns 
- */
-export default function ModalS({ children, index }: { children: JSX.Element[] | JSX.Element, index: string }) {
-    const [open, setOpen] = useState(true)
-    const router = useRouter()
-    useEffect(() => {
-        setOpen(true)
-    }, [index])
-
-
-    if (index == null) { return <></> }
-
-    return (
-        <Modal open={open}
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            onClose={() => { setOpen(false); setTimeout(router.push, 500, document.location.origin + document.location.pathname) }}
-            closeAfterTransition
-            slots={{ backdrop: Backdrop }}
-            slotProps={{
-                backdrop: {
-                    timeout: 500,
-                },
-            }}
-        >
-            <Fade in={open}>
-                <Box sx={{
-                    position: 'absolute' as 'absolute',
-                    top: '55%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: 'auto',
-                    height: 'auto',
-                    bgcolor: 'background.paper',
-                    // border: '2px solid #000',
-                    boxShadow: 24,
-                    borderRadius: '20px',
-                    p: 4,
-                    zIndex: 10000
-                }}>
-                    {children}
-                </Box>
-            </Fade>
-        </Modal>)
-}
-
-/**
- * 对话框
- * @param index 序列号，唯一
- * @returns 
- */
-export function Dig({ title, children, index, actions }:
-    {
-        title: string | JSX.Element, children: JSX.Element[] | JSX.Element, index: string,
-        actions: Array<{ name: string, func: (close: () => void) => any | Promise<any>, style: CSSProperties }>
-    }) {
-    const [open, setOpen] = useState(true)
-    const router = useRouter()
-    useEffect(() => {
-        setOpen(true)
-    }, [index])
-
-    if (index == null) { return <></> }
-    const handleClose = () => {
-        setOpen(false); setTimeout(router.back)
-    }
-
-    return <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>
-            {title}
-        </DialogTitle>
-        <DialogContent style={{ margin: "auto" }}>
-            {children}
-        </DialogContent>
-        <DialogActions>
-            {actions.map(i => <Button onClick={() => i.func(handleClose)} color="primary" key={i.name} style={i.style}>
-                {i.name}
-            </Button>)}
-            <Button onClick={handleClose} color="primary">
-                Close
-            </Button>
-        </DialogActions>
-    </Dialog>
-}
 
 export function Favlist({ fav, favs, favmsg, params: { gallery_id, gallery_token } }: { fav: string, favs: string[], favmsg: string, params: { gallery_id: string, gallery_token: string } }) {
     const [v, setv] = useState(`${parseInt(fav) - 1}`)
