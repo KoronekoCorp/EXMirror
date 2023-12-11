@@ -73,6 +73,17 @@ export interface ginfo {
     fav: number | undefined
     favname: string | undefined
     uploadercomment: string | undefined
+    comments: {
+        apikey: any;
+        apiuid: any;
+        data: {
+            name: string;
+            text: string;
+            score: string;
+            scorelog: string;
+            id: string;
+        }[];
+    }
 }
 
 
@@ -182,7 +193,8 @@ class EXJSDOM {
             '0px -173px': 10,
             undefined: undefined
         }
-        const document = EXJSDOM.GetDom(html).window.document
+        const dom = EXJSDOM.GetDom(html)
+        const document = dom.window.document
         const data = {
             "Posted": "2021-06-22 15:39",
             "Parent": "None",
@@ -217,7 +229,8 @@ class EXJSDOM {
              */
             fav: tr[(document.querySelectorAll("div.i")[0] as HTMLDivElement)?.style.getPropertyValue('background-position')],
             favname: document.querySelector("#favoritelink")?.innerHTML,
-            uploadercomment: document.querySelector("#comment_0")?.innerHTML
+            uploadercomment: document.querySelector("#comment_0")?.innerHTML,
+            comments: EXJSDOM.comments(dom)
         }
 
 
@@ -301,7 +314,7 @@ class EXJSDOM {
 
 
     static comments(html: string | JSDOM) {
-        const dom = EXJSDOM.GetDom(html)
+        const dom = EXJSDOM.GetDom(html, { runScripts: 'dangerously' })
         const document = dom.window.document
         let all: Element[]
         if (document.querySelectorAll("div.c1").length == document.querySelectorAll("div.c5").length) {

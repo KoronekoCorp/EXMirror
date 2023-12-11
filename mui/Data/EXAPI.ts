@@ -1,7 +1,6 @@
 import { cookies } from "next/headers"
 import { gdata, mpvdata, mpvimg } from "./EType"
 import { revalidateTag } from "next/cache"
-import { writeFile } from "fs"
 import { EXJSDOM, ginfo } from "./EXJSDOM"
 
 class API {
@@ -92,10 +91,17 @@ class API {
             `https://exhentai.org/g/${gallery_id}/${gallery_token}/?p=${p}`
         const r = await this.get(url, [url], 3600 * 24)
         const html = await r.text()
-        const dom = EXJSDOM.GetDom(html)
+        const dom = EXJSDOM.GetDom(html, { runScripts: 'dangerously' })
         return p === 0 ? [...EXJSDOM.gallery_imgs(dom), EXJSDOM.gallery_info(dom)] : EXJSDOM.gallery_imgs(dom)
     }
 
+    /**
+     * 获取画廊评论
+     * @deprecated 已整合至gallery_info
+     * @param gallery_id 
+     * @param gallery_token 
+     * @returns 
+     */
     async gallery_comments(gallery_id: number, gallery_token: string) {
         const url = `https://exhentai.org/g/${gallery_id}/${gallery_token}/`
         const r = await this.get(url, [url], 3600 * 24)

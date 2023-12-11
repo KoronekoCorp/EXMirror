@@ -9,7 +9,7 @@ import { type ginfo } from "@/Data/EXJSDOM"
 import { CacheEveryThing } from "@/Data/cache"
 import { cookies } from "next/headers"
 import { Image } from "@/components/Image"
-import { Button, Container, Grid, Rating, Stack } from "@mui/material"
+import { Accordion, AccordionDetails, AccordionSummary, Button, Container, Divider, Grid, IconButton, List, ListItem, ListItemButton, ListItemSecondaryAction, ListItemText, Rating, Stack } from "@mui/material"
 import { H2 } from "@/H2"
 import BurstModeIcon from '@mui/icons-material/BurstMode';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
@@ -19,6 +19,8 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import TagIcon from '@mui/icons-material/Tag';
 import DehazeIcon from '@mui/icons-material/Dehaze';
+import CommentIcon from '@mui/icons-material/Comment';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const favcolor = ["#818181", "#f83333", "#fd903b", "#fdf23f", "#2ad853", "#a5f331", "#2ce4e5", "#3b2ef4", "#9732f6", "#ce309e", "#0e0e0e"]
 const favtext = [0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0]
@@ -57,10 +59,11 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
     if (!gdata) {
         return notFound()
     }
+
     return <>
         <title>{gdata.gn}</title>
         <Container sx={{ paddingTop: 10, color: "text.primary" }}>
-            <Grid container>
+            <Grid container spacing={2}>
                 <Grid item xs={12} md={4} sx={{ width: "100%", textAlign: 'center' }}>
                     <Image src={"https://ehgt.org" + thumbnail[0].slice(22)} style={{ width: "100%" }} />
                     <Button LinkComponent={Link} href={`/mpv/${id}/${gallery_token}`} variant="contained" sx={{ m: 1 }}
@@ -144,9 +147,37 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                             ))}
                         </Grid>
                     </Stack>
+                    {gdata.uploadercomment && <Stack direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                        spacing={2} sx={{ pt: 1, m: 1 }}>
+                        <CommentIcon />
+                        <p style={{ wordBreak: 'break-word' }} dangerouslySetInnerHTML={{ __html: gdata.uploadercomment.replaceAll("s.exhentai.org", `aeiljuispo.cloudimg.io/v7/https://ehgt.org`).replaceAll("exhentai.org", "ex.koroneko.co") }}></p>
+                    </Stack>}
                 </Grid>
             </Grid>
-            <Grid container alignItems="center" textAlign="center" sx={{ "& > div": { p: 1 } }}>
+            {gdata.comments?.data?.length > 0 && <Accordion sx={{ m: 1 }}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    评论
+                </AccordionSummary>
+                <AccordionDetails>
+                    <List>
+                        <Divider />
+                        {gdata.comments.data.map(i => <div key={i.id}>
+                            <ListItem alignItems="flex-start" >
+                                <ListItemButton>
+                                    <ListItemText
+                                        primary={i.name}
+                                        secondary={<p style={{ wordBreak: 'break-word' }} dangerouslySetInnerHTML={{ __html: i.text }}></p>}
+                                    />
+                                </ListItemButton>
+                            </ListItem>
+                            <Divider />
+                        </div>)}
+                    </List>
+                </AccordionDetails>
+            </Accordion>}
+            <Grid container alignItems="center" textAlign="center" spacing={2}>
                 {thumbnail.map((t, index) => <Grid xs={6} md={3} key={t[0]} item>
                     <Link href={thumbnail_url[index]}>
                         <Image src={"https://ehgt.org" + t.slice(22)} style={{ width: "100%" }} />
