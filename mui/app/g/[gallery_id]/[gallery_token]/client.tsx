@@ -82,8 +82,8 @@ export function Reply({ gdata }: { gdata: ginfo }) {
                         </Button>
                     </Box>
                 </ListItem>
-                <Divider />
                 {gdata.comments.data.map((i, j) => <div key={i.id}>
+                    <Divider />
                     <ListItem alignItems="flex-start" >
                         <ListItemButton onClick={() => { setid(j) }}>
                             <ListItemText
@@ -95,7 +95,6 @@ export function Reply({ gdata }: { gdata: ginfo }) {
                             />
                         </ListItemButton>
                     </ListItem>
-                    <Divider />
                 </div>)}
             </List>
         </AccordionDetails>
@@ -110,7 +109,9 @@ export function Reply({ gdata }: { gdata: ginfo }) {
                     name: "垃圾评论",
                     func: (c) => { c(); notfinish() }
                 }
-            ]} closeAction={(r) => { setid(undefined) }}>
+            ]}
+            closeAction={(r) => { setid(undefined) }}
+            sx={{ zIndex: 2002 }}>
             <Box sx={{ "p": { wordBreak: 'break-word' } }}>
                 <p dangerouslySetInnerHTML={{
                     __html: gdata.comments.data[id].text

@@ -65,11 +65,12 @@ export function ModalS({ children, index, closeAction }:
  * @param index 序列号，唯一
  * @returns 
  */
-export function Dig({ title, children, index, actions, closeAction }:
+export function Dig({ title, children, index, actions, closeAction, sx }:
     {
         title: string | JSX.Element, children: JSX.Element[] | JSX.Element, index: string,
         actions: Array<{ name: string, func: (close: () => void) => any | Promise<any>, style?: CSSProperties }>
-        closeAction?: (router: AppRouterInstance) => void
+        closeAction?: (router: AppRouterInstance) => void,
+        sx?: CSSProperties
     }) {
     const [open, setOpen] = useState(true)
     const router = useRouter()
@@ -83,11 +84,11 @@ export function Dig({ title, children, index, actions, closeAction }:
         closeAction ? setTimeout(closeAction, 0, router) : setTimeout(router.back)
     }
 
-    return <Dialog open={open} onClose={handleClose} sx={{ zIndex: 2001 }}>
+    return <Dialog open={open} onClose={handleClose} sx={sx}>
         <DialogTitle>
             {title}
         </DialogTitle>
-        <DialogContent style={{ margin: "auto" }}>
+        <DialogContent sx={{ margin: "auto" }}>
             {children}
         </DialogContent>
         <DialogActions>

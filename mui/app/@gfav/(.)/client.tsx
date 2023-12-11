@@ -40,7 +40,7 @@ export function Favlist({ fav, favs, favmsg, params: { gallery_id, gallery_token
         { name: "保存", func: Save, style: { backgroundColor: "#0277bd", color: "white" } },
         { name: "删除收藏", func: del, style: { backgroundColor: "red", color: "white" } }
     ]}>
-        <Grid container alignItems="center" className="center">
+        <Grid container alignItems="center">
             <Grid item xs={12}>
                 <FormControl>
                     <Select
