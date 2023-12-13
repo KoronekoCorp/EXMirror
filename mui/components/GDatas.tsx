@@ -5,6 +5,8 @@ import { Button, Typography, Grid, Card, CardActionArea, CardContent, CardAction
 import { Top } from "./push";
 import DataSaverOffIcon from '@mui/icons-material/DataSaverOff';
 import { Gbutton } from "./Gclient";
+import { Accordions } from "./Modals";
+import { FullSearch } from "./AutoSearchPlus";
 
 //由于format_style导出的style中background会莫名其妙失效，采用innerhtml解决
 const format_style = (style: string) => {
@@ -28,9 +30,12 @@ const format_style = (style: string) => {
     return s
 }
 
-export function GDatas({ G }: { G: G_JSDOM_DATA[] }) {
+export function GDatas({ G, allowSearch }: { G: G_JSDOM_DATA[], allowSearch?: boolean }) {
 
-    return <Container sx={{ "& > div": { m: 1 } }}>
+    return <Container sx={{ "& > div": { m: 1 }, "& > p": { color: "text.primary" } }}>
+        {allowSearch && <Accordions title={"Search"}>
+            <FullSearch />
+        </Accordions>}
         {G.length === 0 && <p style={{ textAlign: 'center' }}>什么都没有呢</p>}
         {G.map((e) => {
             return <Card key={e.href}>
@@ -75,6 +80,6 @@ export function GDatas({ G }: { G: G_JSDOM_DATA[] }) {
                 </CardActions>
             </Card>
         })}
-        <Top index={G[0].title} />
+        {G.length !== 0 && <Top index={G[0].title} />}
     </Container>
 }

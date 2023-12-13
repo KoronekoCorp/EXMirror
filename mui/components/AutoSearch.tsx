@@ -18,7 +18,13 @@ interface item {
     score: number
 }
 
-export function AutoSearch({ baseurl, callback }: { baseurl?: string, callback?: (u: URL) => any }) {
+export function AutoSearch({ baseurl, onClick, onChange, allowEnter }:
+    {
+        baseurl?: string,
+        onClick?: () => any,
+        onChange?: (v: string) => any
+        allowEnter?: boolean
+    }) {
     const [open, setOpen] = useState(false);
     const [options, setOptions] = useState<item[]>([]);
     const [inputValue, setvalue] = useState('');
@@ -26,22 +32,26 @@ export function AutoSearch({ baseurl, callback }: { baseurl?: string, callback?:
     const router = useRouter()
     const loading = open && inputValue != "" && options.length === 0
 
-    const Search = () => {
-        const d = data.map(i => {
+    const Getdata = (da: item[] = data) => {
+        const d = da.map(i => {
             const t = i.key.split(":")
             if (t.length === 1) return i.key
             return `${t[0].slice(0, 1)}:${t[1].includes(" ") ? `"${t[1]}$"` : t[1] + "$"}`
         })
         let f_search = ""
         d.forEach(i => f_search += i + " ")
-        f_search = f_search.slice(0, -1)
-        const u = new URL(baseurl ? location.origin + baseurl : location.href)
-        u.searchParams.delete("next")
-        u.searchParams.delete("prev")
-        if (f_search != "") u.searchParams.set("f_search", f_search)
-        if (callback) {
-            callback(u)
+        return f_search.slice(0, -1)
+    }
+
+    const Search = () => {
+        if (onClick) {
+            onClick()
         } else {
+            const f_search = Getdata()
+            const u = new URL(baseurl ? location.origin + baseurl : location.href)
+            u.searchParams.delete("next")
+            u.searchParams.delete("prev")
+            if (f_search != "") u.searchParams.set("f_search", f_search)
             router.push(u.href)
         }
     }
@@ -60,23 +70,15 @@ export function AutoSearch({ baseurl, callback }: { baseurl?: string, callback?:
                 setOpen(false);
                 setOptions([])
             }}
-            onChange={(e, v) => setdata(v)}
+
+            onChange={(e, v) => { setdata(v); if (onChange) onChange(Getdata(v)) }}
             onInputChange={async (e, v) => {
                 setvalue(v)
                 if (v == "") return
-                const r = await (await fetch(`/api/db/${v}`)).json() as item[]
-                setOptions(r)
+                setOptions(await (await fetch(`/api/db/${v}`)).json() as item[])
             }}
-            onKeyDown={(e) => { if (e.code === "Enter") Search() }}
-            filterOptions={(option, state) => {
-                const fin: item[] = []
-                for (const i of option) {
-                    if (i.key.includes(state.inputValue) || i.name.includes(state.inputValue)) {
-                        fin.push(i)
-                    }
-                }
-                return fin
-            }}
+            onKeyDown={(allowEnter ?? true) ? (e) => { if (e.code === "Enter") Search() } : undefined}
+            filterOptions={(option, state) => option}
             isOptionEqualToValue={(option, value) => option.key === value.key}
             getOptionLabel={(option) => option.key}
             options={options}
@@ -89,7 +91,7 @@ export function AutoSearch({ baseurl, callback }: { baseurl?: string, callback?:
                     InputProps={{
                         ...params.InputProps,
                         startAdornment: <>
-                            <IconButton onClick={() => Search()}>
+                            <IconButton onClick={Search}>
                                 <SearchIcon sx={{ color: 'action.active' }} />
                             </IconButton>
                             {params.InputProps.startAdornment}

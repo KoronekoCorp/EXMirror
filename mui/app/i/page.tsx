@@ -21,7 +21,7 @@ export default async function G({ searchParams }:
 
     const tr = await __tr
     return <>
-        <GDatas G={GdataTr(d, tr)} />
+        <GDatas G={GdataTr(d, tr)} allowSearch />
         <div style={{ padding: 10, textAlign: 'center' }}>
             {prev && <Button LinkComponent={Link} href={prev.replace("https://exhentai.org/", "/i")}
                 startIcon={<KeyboardArrowLeftIcon />}>上一页</Button>}

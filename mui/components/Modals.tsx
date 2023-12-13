@@ -1,8 +1,9 @@
 "use client"
 import { type CSSProperties, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Modal, Backdrop, Fade, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+import { Modal, Backdrop, Fade, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Accordion, AccordionSummary, AccordionDetails } from '@mui/material'
 import { type AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 /**
  * 模态
@@ -100,4 +101,16 @@ export function Dig({ title, children, index, actions, closeAction, sx }:
             </Button>
         </DialogActions>
     </Dialog>
+}
+
+
+export function Accordions({ title, children, sx }: { title: string | JSX.Element, children: JSX.Element, sx?: CSSProperties }) {
+    return <Accordion sx={sx}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            {title}
+        </AccordionSummary>
+        <AccordionDetails>
+            {children}
+        </AccordionDetails>
+    </Accordion>
 }

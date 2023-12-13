@@ -31,18 +31,16 @@ export function Gbutton({ e }: { e: G_JSDOM_DATA }) {
     const router = useRouter()
     const setopen = useContext(SetBackDrop)
 
-    return <>
-        <Button size="small" startIcon={<StarIcon />} sx={format_style(e.favstyle)}
-            onClick={() => {
-                setopen(true)
-                const d = e.href.split("/")
-                // const u = new URL(document.location.origin + "/fav")
-                const u = new URL(document.location.href)
-                u.searchParams.set("gallery_id", d[4])
-                u.searchParams.set("gallery_token", d[5])
-                router.push(u.href)
-            }}>
-            {e.favname == "" ? "收藏" : e.favname}
-        </Button>
-    </>
+    return <Button size="small" startIcon={<StarIcon />} sx={format_style(e.favstyle)}
+        onClick={() => {
+            setopen(true)
+            const d = e.href.split("/")
+            // const u = new URL(document.location.origin + "/fav")
+            const u = new URL(document.location.href)
+            u.searchParams.set("gallery_id", d[4])
+            u.searchParams.set("gallery_token", d[5])
+            router.push(u.href)
+        }}>
+        {e.favname == "" ? "收藏" : e.favname}
+    </Button>
 }
