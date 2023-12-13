@@ -81,11 +81,15 @@ export interface ginfo {
             text: string;
             score: string;
             scorelog: string;
+            editlog?: string;
             id: string;
         }[];
     }
 }
 
+function Replace(str: string) {
+    return str.replaceAll("s.exhentai.org", `aeiljuispo.cloudimg.io/v7/https://ehgt.org`).replaceAll("exhentai.org", process.env.SITE)
+}
 
 class EXJSDOM {
     static GetDom(html: string | JSDOM, option?: ConstructorOptions) {
@@ -325,9 +329,10 @@ class EXJSDOM {
         const fin = all.map((i) => {
             return {
                 name: i.children[0].children[0].children[0].innerHTML,
-                text: i.children[1].innerHTML,
+                text: Replace(i.children[1].innerHTML),
                 score: i.children[0].children[2].children[0].innerHTML,
-                scorelog: i.children[2].innerHTML,
+                scorelog: i.querySelector(".c7")?.innerHTML as string,
+                editlog: i.querySelector(".c8")?.innerHTML,
                 id: i.children[1].id.replace("comment_", "")
             }
         })

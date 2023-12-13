@@ -152,7 +152,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                         alignItems="center"
                         spacing={2} sx={{ pt: 1, m: 1 }}>
                         <CommentIcon />
-                        <p style={{ wordBreak: 'break-word' }} dangerouslySetInnerHTML={{ __html: gdata.uploadercomment.replaceAll("s.exhentai.org", `aeiljuispo.cloudimg.io/v7/https://ehgt.org`).replaceAll("exhentai.org", "ex.koroneko.co") }}></p>
+                        <p style={{ wordBreak: 'break-word' }} dangerouslySetInnerHTML={{ __html: gdata.uploadercomment.replaceAll("s.exhentai.org", `aeiljuispo.cloudimg.io/v7/https://ehgt.org`).replaceAll("exhentai.org", process.env.SITE) }}></p>
                     </Stack>}
                 </Grid>
             </Grid>

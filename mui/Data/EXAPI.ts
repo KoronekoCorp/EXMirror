@@ -1,7 +1,7 @@
 import { cookies } from "next/headers"
 import { gdata, mpvdata, mpvimg } from "./EType"
 import { revalidateTag } from "next/cache"
-import { EXJSDOM, ginfo } from "./EXJSDOM"
+import { EXJSDOM, type ginfo } from "./EXJSDOM"
 
 class API {
     BASE = "https://s.exhentai.org/api.php"
