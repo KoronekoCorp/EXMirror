@@ -12,6 +12,7 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
+import BurstModeIcon from '@mui/icons-material/BurstMode';
 
 export default async function G({ params: { page_token, gallery_id } }: { params: { page_token: string, gallery_id: string } }) {
     const a = new API()
@@ -31,6 +32,8 @@ export default async function G({ params: { page_token, gallery_id } }: { params
         return { data, url }
     }, [`s/${page_token}/${gallery_id}?fullimg=${fullimg}`], 3600)()
 
+    const gallery = data.gallery.split("?")[0]
+    const id = parseInt(gallery_id.split("-")[1])
     return <Container>
         <title>{data.title}</title>
         <div style={{ padding: 10, textAlign: 'center' }}>
@@ -74,6 +77,15 @@ export default async function G({ params: { page_token, gallery_id } }: { params
             </Button>
             <Button LinkComponent={Link} href={data.end}
                 endIcon={<LastPageIcon />}>末页</Button>
+            <br />
+            <Button LinkComponent={Link} href={`${gallery.replace("/g/", "/mpv/")}?to=${id}`}
+                startIcon={<BurstModeIcon />}>
+                在mpv中阅读
+            </Button>
+            <Button LinkComponent={Link} href={`${gallery.replace("/g/", "/spv/")}?to=${id}`}
+                endIcon={<BurstModeIcon />}>
+                在spv中阅读
+            </Button>
         </Box>
         <Cookie c={a.cookies} />
         <Top index={page_token} />

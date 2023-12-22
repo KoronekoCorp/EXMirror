@@ -1,5 +1,5 @@
 import { API } from "@/Data/EXAPI"
-import { R } from "@/components/push"
+import { R, S } from "@/components/push"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { Cookie } from "@/components/Cookies"
@@ -37,5 +37,6 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
             </Button>
         </Box>
         <Cookie c={a.cookies} />
+        {searchParams.to && <S index={`${gallery_id}${gallery_token}`} id={searchParams.to} />}
     </Container>
 }

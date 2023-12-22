@@ -26,7 +26,7 @@ export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, pa
     }
 
     const init = () => {
-        var observer = new IntersectionObserver((entries) => {
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(item => {
                 /*
                  * item.time发生相交到相应的时间，毫秒
@@ -43,10 +43,15 @@ export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, pa
                 }
             })
         });
-        if (ref.current) {
-            observer.observe(ref.current)
+        const timer = setTimeout(() => {
+            if (ref.current) {
+                observer.observe(ref.current)
+            }
+        }, 5000);
+        return () => {
+            clearTimeout(timer)
+            observer.disconnect()
         }
-        return () => observer.disconnect()
     }
 
     const loaddata = async () => {
@@ -66,7 +71,7 @@ export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, pa
     }, [gid, page, load])
 
     return <>
-        <div ref={ref} >
+        <div ref={ref} id={page.toString()}>
             {data ? <img
                 loading="eager"
                 className="lazyload blur-up"

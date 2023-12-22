@@ -17,9 +17,7 @@ export function SPVImages({ spage }: { spage: string[] }) {
         }
         setstate(s)
     }
-    return <>
-        <Control.Provider value={changeload} >
-            {spage.map((e, i) => <SPVImage spage={e} page={i} load={state[i]} key={e} />)}
-        </Control.Provider>
-    </>
+    return <Control.Provider value={changeload} >
+        {spage.map((e, i) => <SPVImage spage={e} page={i + 1} load={state[i]} key={e} />)}
+    </Control.Provider>
 }

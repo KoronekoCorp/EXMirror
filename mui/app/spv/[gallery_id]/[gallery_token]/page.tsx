@@ -1,7 +1,7 @@
 import { API } from "@/Data/EXAPI"
 import { ginfo } from "@/Data/EXJSDOM"
 import { CacheEveryThing } from "@/Data/cache"
-import { R } from "@/components/push"
+import { R, S } from "@/components/push"
 import { notFound } from "next/navigation"
 import { Box, Button, Container } from "@mui/material"
 import MenuBookIcon from '@mui/icons-material/MenuBook';
@@ -54,5 +54,6 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
             </Button>
         </Box>
         <Cookie c={a.cookies} />
+        {searchParams.to && <S index={`${gallery_id}${gallery_token}`} id={searchParams.to} />}
     </Container>
 }

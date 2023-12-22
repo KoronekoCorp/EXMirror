@@ -9,7 +9,7 @@ import { type ginfo } from "@/Data/EXJSDOM"
 import { CacheEveryThing } from "@/Data/cache"
 import { cookies } from "next/headers"
 import { Image } from "@/components/Image"
-import { Accordion, AccordionDetails, AccordionSummary, Button, Container, Divider, Grid, IconButton, List, ListItem, ListItemButton, ListItemSecondaryAction, ListItemText, Rating, Stack } from "@mui/material"
+import { Button, Container, Grid, Rating, Stack } from "@mui/material"
 import { H2 } from "@/H2"
 import BurstModeIcon from '@mui/icons-material/BurstMode';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
@@ -20,7 +20,6 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import TagIcon from '@mui/icons-material/Tag';
 import DehazeIcon from '@mui/icons-material/Dehaze';
 import CommentIcon from '@mui/icons-material/Comment';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const favcolor = ["#818181", "#f83333", "#fd903b", "#fdf23f", "#2ad853", "#a5f331", "#2ce4e5", "#3b2ef4", "#9732f6", "#ce309e", "#0e0e0e"]
 const favtext = [0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0]

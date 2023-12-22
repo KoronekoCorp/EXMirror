@@ -20,9 +20,7 @@ export function MPVImages({ gid, mpvdata, mpvkey }: { gid: number, mpvdata: mpvd
         setstate(s)
     }
 
-    return <>
-        <Control.Provider value={changeload} >
-            {mpvdata.map((e, i) => <MPVImage key={e.n} gid={gid} page={i + 1} mpvdata={e} mpvkey={mpvkey} load={state[i]} />)}
-        </Control.Provider>
-    </>
+    return <Control.Provider value={changeload} >
+        {mpvdata.map((e, i) => <MPVImage key={e.n} gid={gid} page={i + 1} mpvdata={e} mpvkey={mpvkey} load={state[i]} />)}
+    </Control.Provider>
 }
