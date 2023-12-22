@@ -1,7 +1,7 @@
 import { type G_JSDOM_DATA } from "@/Data/EXJSDOM";
 import Link from "next/link";
 import { Image } from "./Image";
-import { Button, Typography, Grid, Card, CardActionArea, CardContent, CardActions, Container } from "@mui/material";
+import { Button, Typography, Grid, Card, CardActionArea, CardContent, CardActions, Container, Stack } from "@mui/material";
 import { Top } from "./push";
 import DataSaverOffIcon from '@mui/icons-material/DataSaverOff';
 import { Gbutton } from "./Gclient";
@@ -52,22 +52,18 @@ export function GDatas({ G, allowSearch }: { G: G_JSDOM_DATA[], allowSearch?: bo
                                 <Typography variant="subtitle1" color="text.secondary" component={Link} href={`/search/${e.uploader}`} sx={{ textDecoration: 'none' }}>
                                     {e.uploader}
                                 </Typography>
-                                <Grid container sx={{ "& > div": { m: 1 } }}>
+                                <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
                                     {e.tag.map((tag) => (
-                                        <Grid key={e.href + tag.title}>
-                                            <Button LinkComponent={Link} href={`/tag/${tag.title}`} sx={tag.style ? format_style(tag.style) : {}} >
-                                                <div dangerouslySetInnerHTML={{ __html: tag.tr ?? tag.title }}></div>
-                                            </Button>
-                                        </Grid>
+                                        <Button LinkComponent={Link} href={`/tag/${tag.title}`} sx={tag.style ? format_style(tag.style) : {}} key={e.href + tag.title}>
+                                            <div dangerouslySetInnerHTML={{ __html: tag.tr ?? tag.title }}></div>
+                                        </Button>
                                     ))}
                                     {e.lowtag.map((tag) => (
-                                        <Grid key={e.href + tag.title}>
-                                            <Button LinkComponent={Link} href={`/tag/${tag.title}`} sx={{ border: "1px dashed #8c8c8c", ...(tag.style ? format_style(tag.style) : {}) }} >
-                                                <div dangerouslySetInnerHTML={{ __html: tag.tr ?? tag.title }}></div>
-                                            </Button>
-                                        </Grid>
+                                        <Button LinkComponent={Link} href={`/tag/${tag.title}`} sx={{ border: "1px dashed #8c8c8c", ...(tag.style ? format_style(tag.style) : {}) }} key={e.href + tag.title}>
+                                            <div dangerouslySetInnerHTML={{ __html: tag.tr ?? tag.title }}></div>
+                                        </Button>
                                     ))}
-                                </Grid>
+                                </Stack>
                             </CardContent>
                         </Grid>
                     </Grid>

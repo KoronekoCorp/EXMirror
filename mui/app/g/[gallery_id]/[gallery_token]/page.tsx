@@ -128,24 +128,18 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                     <Stack direction="row"
                         justifyContent="center"
                         alignItems="center"
-                        spacing={2} sx={{ pt: 1 }}>
+                        spacing={{ xs: 1, sm: 2 }} useFlexGap flexWrap="wrap" sx={{ pt: 1, textAlign: "center" }}>
                         <TagIcon />Tags:
-                        <Grid container sx={{ textAlign: "center", "& > div": { m: 1 } }}>
-                            {gdata.tags.map((tag) => (
-                                <Grid key={tag}>
-                                    <Button LinkComponent={Link} href={`/tag/${tag}`} >
-                                        <div dangerouslySetInnerHTML={{ __html: db.translate(tag, tr) }}></div>
-                                    </Button>
-                                </Grid>
-                            ))}
-                            {gdata.lowtag.map((tag) => (
-                                <Grid key={tag}>
-                                    <Button LinkComponent={Link} href={`/tag/${tag}`} sx={{ border: "1px dashed #8c8c8c" }} >
-                                        <div dangerouslySetInnerHTML={{ __html: db.translate(tag, tr) }}></div>
-                                    </Button>
-                                </Grid>
-                            ))}
-                        </Grid>
+                        {gdata.tags.map((tag) => (
+                            <Button LinkComponent={Link} href={`/tag/${tag}`} key={tag}>
+                                <div dangerouslySetInnerHTML={{ __html: db.translate(tag, tr) }}></div>
+                            </Button>
+                        ))}
+                        {gdata.lowtag.map((tag) => (
+                            <Button LinkComponent={Link} href={`/tag/${tag}`} sx={{ border: "1px dashed #8c8c8c" }} key={tag}>
+                                <div dangerouslySetInnerHTML={{ __html: db.translate(tag, tr) }}></div>
+                            </Button>
+                        ))}
                     </Stack>
                     {gdata.uploadercomment && <Stack direction="row"
                         justifyContent="center"
