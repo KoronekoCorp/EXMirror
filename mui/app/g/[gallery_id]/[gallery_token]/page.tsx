@@ -62,7 +62,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
     return <>
         <title>{gdata.gn}</title>
         <Container sx={{ paddingTop: 10, color: "text.primary" }}>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} alignItems="flex-start" justifyContent="center">
                 <Grid item xs={12} md={4} sx={{ width: "100%", textAlign: 'center' }}>
                     <Image src={"https://ehgt.org" + thumbnail[0].slice(22)} style={{ width: "100%" }} />
                     <Button LinkComponent={Link} href={`/mpv/${id}/${gallery_token}`} variant="contained" sx={{ m: 1 }}
@@ -86,48 +86,33 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                         {gdata.gn}
                     </H2>
                     {gdata.gj != "" && <H2>{gdata.gj}</H2>}
-                    <Stack direction="row"
-                        justifyContent="center"
-                        alignItems="center"
-                        spacing={2} sx={{ pt: 1 }}>
+                    <Stack direction="row" sx={{ p: 1 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
                         <PersonIcon />上传者:
                         <Button LinkComponent={Link} href={`/search/${gdata.uploader}`}>
                             {gdata.uploader}
                         </Button>
                     </Stack>
-                    <Stack direction="row"
-                        justifyContent="center"
-                        alignItems="center"
-                        spacing={2} sx={{ pt: 1 }}>
+                    <Stack direction="row" sx={{ p: 1 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
                         <DataUsageIcon />页数:<span style={{ marginRight: 16 }}>{gdata.Length}</span>文件大小:<span>{gdata["File Size"]}</span>
                     </Stack>
-                    <Stack direction="row"
-                        justifyContent="center"
-                        alignItems="center"
-                        spacing={2} sx={{ pt: 1 }}>
+                    <Stack direction="row" sx={{ p: 1 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
                         <EmojiEventsIcon />评分:
                         <Rating name="read-only" value={parseInt(gdata.Average?.replace("Average: ", "") as string)} readOnly />
                         <span style={{ marginRight: 16 }}>{gdata.Average?.replace("Average: ", "")}</span>评分次数:<span>{gdata.count}</span>
                     </Stack>
-                    <Stack direction="row"
-                        justifyContent="center"
-                        alignItems="center"
-                        spacing={2} sx={{ pt: 1 }}>
+                    <Stack direction="row" sx={{ p: 1 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
                         <AccessTimeIcon />发布于 {gdata.Posted}
                     </Stack>
-                    <Stack direction="row"
-                        justifyContent="center"
-                        alignItems="center"
-                        spacing={2} sx={{ pt: 1 }}>
+                    <Stack direction="row" sx={{ p: 1 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
                         <DehazeIcon />分类:
                         <Button LinkComponent={Link} href={`/${gdata.catalog?.toLocaleLowerCase().replaceAll(" ", "")}`}>
                             {gdata.catalog}
                         </Button>
                     </Stack>
                     <Stack direction="row"
-                        justifyContent="center"
+                        justifyContent="flex-start"
                         alignItems="center"
-                        spacing={{ xs: 1, sm: 2 }} useFlexGap flexWrap="wrap" sx={{ pt: 1, textAlign: "center" }}>
+                        spacing={{ xs: 1, sm: 2 }} useFlexGap flexWrap="wrap" sx={{ p: 1, textAlign: "center" }}>
                         <TagIcon />Tags:
                         {gdata.tags.map((tag) => (
                             <Button LinkComponent={Link} href={`/tag/${tag}`} key={tag}>
@@ -141,9 +126,9 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                         ))}
                     </Stack>
                     {gdata.uploadercomment && <Stack direction="row"
-                        justifyContent="center"
+                        justifyContent="flex-start"
                         alignItems="center"
-                        spacing={2} sx={{ pt: 1, m: 1 }}>
+                        spacing={2} sx={{ p: 1, m: 1 }}>
                         <CommentIcon />
                         <p style={{ wordBreak: 'break-word' }} dangerouslySetInnerHTML={{ __html: gdata.uploadercomment.replaceAll("s.exhentai.org", `aeiljuispo.cloudimg.io/v7/https://ehgt.org`).replaceAll("exhentai.org", process.env.SITE) }}></p>
                     </Stack>}

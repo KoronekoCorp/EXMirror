@@ -165,6 +165,6 @@ export function FullSearch() {
                 }}
             />
         </Stack>
-        <Top index="search" />
+        <Top />
     </Container>
 }
