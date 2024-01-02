@@ -17,11 +17,11 @@ export default async function P({ searchParams }:
     }
     const __tr = db.getDB()
     const __d = a.index(searchParams, "https://exhentai.org/cosplay")
-    const [d, prev, next] = await __d
+    const [d, prev, next, searchtext] = await __d
 
     const tr = await __tr
     return <>
-        <GDatas G={GdataTr(d, tr)} />
+        <GDatas G={GdataTr(d, tr)} searchtext={searchtext} allowSearch />
         <div style={{ padding: 10, textAlign: 'center' }}>
             {prev && <Button LinkComponent={Link} href={prev.replace("https://exhentai.org/", "/")}
                 startIcon={<KeyboardArrowLeftIcon />}>上一页</Button>}

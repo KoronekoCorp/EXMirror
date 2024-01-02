@@ -6,7 +6,8 @@ import { Control } from "./Control";
 import { Skeleton } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
 
-export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, page: number, mpvdata: mpvdata, mpvkey: string, load: boolean }) {
+export function MPVImage({ gid, page, mpvdata, mpvkey, load, time }:
+    { gid: number, page: number, mpvdata: mpvdata, mpvkey: string, load: boolean, time?: number }) {
     const control = useContext(Control)
 
     const ref = useRef<HTMLDivElement | null>(null)
@@ -47,7 +48,7 @@ export function MPVImage({ gid, page, mpvdata, mpvkey, load }: { gid: number, pa
             if (ref.current) {
                 observer.observe(ref.current)
             }
-        }, 5000);
+        }, time ?? 5000);
         return () => {
             clearTimeout(timer)
             observer.disconnect()

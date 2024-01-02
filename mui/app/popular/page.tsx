@@ -14,11 +14,11 @@ export default async function P({ searchParams }:
     }
     const __tr = db.getDB()
     const __d = a.index(searchParams, "https://exhentai.org/popular")
-    const [d, prev, next] = await __d
+    const [d, prev, next, searchtext] = await __d
 
     const tr = await __tr
     return <>
-        <GDatas G={GdataTr(d, tr)} />
+        <GDatas G={GdataTr(d, tr)} searchtext={searchtext} allowSearch />
         <div style={{ padding: 10, textAlign: 'center' }}>
         </div>
     </>

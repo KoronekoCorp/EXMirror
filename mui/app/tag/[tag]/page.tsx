@@ -18,12 +18,12 @@ export default async function G({ params: { tag }, searchParams }:
     }
     const __tr = db.getDB()
     const __d = a.index(searchParams, `https://exhentai.org/tag/${tag}`)
-    const [d, prev, next] = await __d
+    const [d, prev, next, searchtext] = await __d
 
     const tr = await __tr
     return <>
         <title>{decodeURIComponent(tag)}</title>
-        <GDatas G={GdataTr(d, tr)} />
+        <GDatas G={GdataTr(d, tr)} searchtext={searchtext} allowSearch />
         <div style={{ padding: 10, textAlign: 'center' }}>
             {prev && <Button LinkComponent={Link} href={prev.replace("https://exhentai.org/", "/")}
                 startIcon={<KeyboardArrowLeftIcon />}>上一页</Button>}

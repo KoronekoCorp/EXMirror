@@ -22,7 +22,7 @@ interface api {
     url: string;
 }
 
-export function SPVImage({ spage, page, load }: { spage: string, page: number, load: boolean }) {
+export function SPVImage({ spage, page, load, time }: { spage: string, page: number, load: boolean, time?: number }) {
     const control = useContext(Control)
 
     const ref = useRef<HTMLDivElement | null>(null)
@@ -64,7 +64,7 @@ export function SPVImage({ spage, page, load }: { spage: string, page: number, l
             if (ref.current) {
                 observer.observe(ref.current)
             }
-        }, 5000);
+        }, time ?? 5000);
         return () => {
             clearTimeout(timer)
             observer.disconnect()

@@ -107,13 +107,12 @@ class EXJSDOM {
      * @param html 
      * @returns 
      */
-    static Index(html: string | JSDOM): [G_JSDOM_DATA[], string | undefined, string | undefined] {
+    static Index(html: string | JSDOM): [G_JSDOM_DATA[], string | undefined, string | undefined, { Filtered?: string, Found?: string } | undefined] {
         const dom = EXJSDOM.GetDom(html)
         const container = dom.window.document.querySelector("table.itg.glte")
         if (!container) {
-            return [[], undefined, undefined]
+            return [[], undefined, undefined, undefined]
         }
-
         const gl1e = container.querySelectorAll("td.gl1e")
         const gl2e = container.querySelectorAll("td.gl2e")
         const fin: G_JSDOM_DATA[] = []
@@ -138,12 +137,19 @@ class EXJSDOM {
             }
             fin.push(d)
         }
+        const searchtext = dom.window.document.querySelector("div.searchtext p")?.innerHTML.split(" ")
+        const _search_Found = searchtext?.findIndex(i => i == "Found")
+        const _search_Filtered = searchtext?.findIndex(i => i == "Filtered")
         return [
             fin,
             //@ts-ignore
             dom.window.document.getElementById("dprev").href,
             //@ts-ignore
-            dom.window.document.getElementById("dnext").href
+            dom.window.document.getElementById("dnext").href,
+            (searchtext && (_search_Filtered || _search_Found)) ? {
+                ...((_search_Filtered !== undefined && _search_Filtered > -1) && { 'Filtered': searchtext[_search_Filtered + 1] }),
+                ...((_search_Found !== undefined && _search_Found > -1) && { 'Found': searchtext[_search_Found + 1] })
+            } : undefined
         ]
     }
 

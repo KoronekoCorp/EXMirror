@@ -2,6 +2,7 @@
 import { type G_JSDOM_DATA } from "@/Data/EXJSDOM";
 import Button from '@mui/material/Button'
 import StarIcon from '@mui/icons-material/Star';
+import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { SetBackDrop } from "./BackDrop";
@@ -28,9 +29,8 @@ const format_style = (style: string) => {
 }
 
 export function Gbutton({ e }: { e: G_JSDOM_DATA }) {
-    const router = useRouter()
     const setopen = useContext(SetBackDrop)
-
+    const router = useRouter()
     return <Button size="small" startIcon={<StarIcon />} sx={format_style(e.favstyle)}
         onClick={() => {
             setopen(true)
@@ -44,3 +44,20 @@ export function Gbutton({ e }: { e: G_JSDOM_DATA }) {
         {e.favname == "" ? "收藏" : e.favname}
     </Button>
 }
+
+export function Filtered() {
+    const router = useRouter()
+
+    return <Button size="small" startIcon={<FilterAltOffIcon />}
+        onClick={() => {
+            const u = new URL(document.location.href)
+            u.searchParams.set("f_sft", "on")
+            u.searchParams.set("f_sfu", "on")
+            u.searchParams.set("f_sfl", "on")
+            router.push(u.href)
+        }}>
+        禁用过滤器
+    </Button>
+}
+
+export default { Filtered, Gbutton }

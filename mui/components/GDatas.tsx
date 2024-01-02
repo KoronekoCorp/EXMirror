@@ -4,7 +4,7 @@ import { Image } from "./Image";
 import { Button, Typography, Grid, Card, CardActionArea, CardContent, CardActions, Container, Stack } from "@mui/material";
 import { Top } from "./push";
 import DataSaverOffIcon from '@mui/icons-material/DataSaverOff';
-import { Gbutton } from "./Gclient";
+import { Gbutton, Filtered } from "./Gclient";
 import { Accordions } from "./Modals";
 import { FullSearch } from "./AutoSearchPlus";
 
@@ -30,12 +30,13 @@ const format_style = (style: string) => {
     return s
 }
 
-export function GDatas({ G, allowSearch }: { G: G_JSDOM_DATA[], allowSearch?: boolean }) {
-
+export function GDatas({ G, allowSearch, searchtext }: { G: G_JSDOM_DATA[], allowSearch?: boolean, searchtext?: { Filtered?: string, Found?: string } }) {
     return <Container sx={{ "& > div": { m: 1 }, "& > p": { color: "text.primary" } }}>
         {allowSearch && <Accordions title={"Search"}>
             <FullSearch />
         </Accordions>}
+        {searchtext?.Found && <p style={{ textAlign: 'center' }}>找到 {searchtext?.Found} 个结果。</p>}
+        {searchtext?.Filtered && <p style={{ textAlign: 'center' }}>已从此页面过滤 {searchtext?.Filtered} 个结果。<Filtered /></p>}
         {G.length === 0 && <p style={{ textAlign: 'center' }}>什么都没有呢</p>}
         {G.map((e) => {
             return <Card key={e.href}>

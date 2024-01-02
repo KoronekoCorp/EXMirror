@@ -47,7 +47,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
         <H2>
             {gdata.gn}
         </H2>
-        <SPVImages spage={thumbnail_url} />
+        <SPVImages spage={thumbnail_url} time={searchParams.to ? 5000 : 0} />
         <Box sx={{ padding: 1, textAlign: 'center' }}>
             <Button LinkComponent={Link} href={`/g/${id}/${gallery_token}`}>
                 <MenuBookIcon />

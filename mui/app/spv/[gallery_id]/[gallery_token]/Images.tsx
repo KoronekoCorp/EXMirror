@@ -5,9 +5,8 @@ import { SPVImage } from "./Image";
 
 const preload = 3
 
-export function SPVImages({ spage }: { spage: string[] }) {
+export function SPVImages({ spage, time }: { spage: string[], time?: number }) {
     const [state, setstate] = useState<boolean[]>(new Array(spage.length).fill(false))
-
     const changeload = (i: number) => {
         const s = state.slice()
         for (let j = i - preload; j < i + preload; j++) {
@@ -18,6 +17,6 @@ export function SPVImages({ spage }: { spage: string[] }) {
         setstate(s)
     }
     return <Control.Provider value={changeload} >
-        {spage.map((e, i) => <SPVImage spage={e} page={i + 1} load={state[i]} key={e} />)}
+        {spage.map((e, i) => <SPVImage spage={e} page={i + 1} load={state[i]} key={e} time={time} />)}
     </Control.Provider>
 }
