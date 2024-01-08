@@ -8,6 +8,7 @@ import { Dig } from "@/components/Modals"
 import { enqueueSnackbar } from "notistack"
 import SendIcon from '@mui/icons-material/Send';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { H2 } from "@/H2"
 
 
 export function NextPage({ gallery_id, gallery_token, p }: { gallery_id: string, gallery_token: string, p: number }) {
@@ -15,7 +16,7 @@ export function NextPage({ gallery_id, gallery_token, p }: { gallery_id: string,
     const router = useRouter()
 
     const init = () => {
-        var observer = new IntersectionObserver((entries) => {
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(item => {
                 /*
                  * item.time发生相交到相应的时间，毫秒
@@ -122,4 +123,12 @@ export function Reply({ gdata }: { gdata: ginfo }) {
             </Box>
         </Dig>}
     </Accordion>
+}
+
+export function GalleryTitle({ title }: { title: string | undefined }) {
+    const router = useRouter()
+    return <H2 onClick={() => {
+        const search = title?.replaceAll(/\[.*?\]|\(.*?\)/g, "").trim()
+        if (search) router.push(`/i?f_search=${search}`)
+    }}>{title}</H2>
 }

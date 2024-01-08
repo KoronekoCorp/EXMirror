@@ -17,10 +17,10 @@ export async function GET(request: Request, { params: { page_token, gallery_id }
                 url = data.img
             }
             return { data, url }
-        }, [`s/${page_token}/${gallery_id}?fullimg=${fullimg}`], 3600)(),
+        }, [`s/${page_token}/${gallery_id}?fullimg=${fullimg}`], 600)(),
         {
             headers: {
-                'Cache-Control': 'max-age=3600'
+                'Cache-Control': 'max-age=600'
             }
         }
     )

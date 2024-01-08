@@ -60,15 +60,17 @@ export function MPVImage({ gid, page, mpvdata, mpvkey, load, time }:
             setdata(await (await fetch(`/api/mpv/${gid}/${page}/${mpvdata.k}/${mpvkey}`)).json())
         } catch (e) {
             enqueueSnackbar(`Error:${e}`, { variant: "error", transitionDuration: 1000 })
-            loaddata()
+            if (ref.current) await loaddata()
         }
     }
 
+    useEffect(() => init(), [gid, page])
+
     useEffect(() => {
         if (load) {
-            loaddata()
+            const id = setTimeout(loaddata)
+            return () => clearTimeout(id)   //这里的设计并没有用，有用的部分在于判断ref.current是否存在
         }
-        return init()
     }, [gid, page, load])
 
     return <>

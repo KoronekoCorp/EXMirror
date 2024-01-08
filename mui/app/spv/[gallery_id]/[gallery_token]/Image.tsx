@@ -76,15 +76,17 @@ export function SPVImage({ spage, page, load, time }: { spage: string, page: num
             setdata(await (await fetch(`/api${spage}`)).json())
         } catch (e) {
             enqueueSnackbar(`Error:${e}`, { variant: "error", transitionDuration: 1000 })
-            loaddata()
+            if (ref.current) loaddata()
         }
     }
 
+    useEffect(() => init(), [spage, page])
+
     useEffect(() => {
         if (load) {
-            loaddata()
+            const id = setTimeout(loaddata)
+            return () => clearTimeout(id)   //这里的设计并没有用，有用的部分在于判断ref.current是否存在
         }
-        return init()
     }, [spage, page, load])
 
     return <>

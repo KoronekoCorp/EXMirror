@@ -60,7 +60,7 @@ export interface ginfo {
      */
     count: string | undefined
     /**
-     * @example "[House Saibai Mochi (Shiratama Moti)] Yuri Ranbou Shidoushitsu [Chinese] [Digital"]
+     * @example "[House Saibai Mochi (Shiratama Moti)] Yuri Ranbou Shidoushitsu [Chinese] [Digital]"
      */
     gn: string | undefined
     /**

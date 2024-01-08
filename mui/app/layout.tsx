@@ -5,6 +5,7 @@ import Loading from './loading';
 import Snackbar from './Snackbar';
 import { Root } from './Drawer';
 import BackDropProvider from '@/components/BackDrop';
+import { cookies } from 'next/headers';
 
 export const metadata: Metadata = {
   title: 'Koroneko Corp',
@@ -24,7 +25,7 @@ export default function RootLayout({
         <Heads />
       </head>
       <body style={{ margin: "auto" }}>
-        <Root>
+        <Root darkmode={cookies().get("dark")?.value == "true"}>
           <BackDropProvider>
             <Snackbar>
               <Suspense fallback={<Loading />}>

@@ -4,13 +4,12 @@ import Link from "next/link"
 import { db } from "@/Data/EXDB"
 import { R, Top } from "@/components/push"
 import { Cookie } from "@/components/Cookies"
-import { NextPage, Reply } from "./client"
+import { NextPage, Reply, GalleryTitle } from "./client"
 import { type ginfo } from "@/Data/EXJSDOM"
 import { CacheEveryThing } from "@/Data/cache"
 import { cookies } from "next/headers"
 import { Image } from "@/components/Image"
-import { Button, Container, Grid, Rating, Stack } from "@mui/material"
-import { H2 } from "@/H2"
+import { Button, Container, Grid, Rating, Stack, Link as LinkC } from "@mui/material"
 import BurstModeIcon from '@mui/icons-material/BurstMode';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import PersonIcon from '@mui/icons-material/Person';
@@ -82,15 +81,13 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                     </Button>
                 </Grid>
                 <Grid item xs={12} md={8} sx={{ width: "100%" }}>
-                    <H2>
-                        {gdata.gn}
-                    </H2>
-                    {gdata.gj != "" && <H2>{gdata.gj}</H2>}
+                    <GalleryTitle title={gdata.gn} />
+                    {gdata.gj != "" && <GalleryTitle title={gdata.gj} />}
                     <Stack direction="row" sx={{ p: 1 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
                         <PersonIcon />上传者:
-                        <Button LinkComponent={Link} href={`/search/${gdata.uploader}`}>
+                        <LinkC component={Link} href={`/search/${gdata.uploader}`}>
                             {gdata.uploader}
-                        </Button>
+                        </LinkC>
                     </Stack>
                     <Stack direction="row" sx={{ p: 1 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
                         <DataUsageIcon />页数:<span style={{ marginRight: 16 }}>{gdata.Length}</span>文件大小:<span>{gdata["File Size"]}</span>
@@ -105,9 +102,9 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                     </Stack>
                     <Stack direction="row" sx={{ p: 1 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
                         <DehazeIcon />分类:
-                        <Button LinkComponent={Link} href={`/${gdata.catalog?.toLocaleLowerCase().replaceAll(" ", "")}`}>
+                        <LinkC component={Link} href={`/${gdata.catalog?.toLocaleLowerCase().replaceAll(" ", "")}`}>
                             {gdata.catalog}
-                        </Button>
+                        </LinkC>
                     </Stack>
                     <Stack direction="row"
                         justifyContent="flex-start"
