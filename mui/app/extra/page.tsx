@@ -47,7 +47,7 @@ export default function Setting() {
                 <Typography variant="h5" sx={{ backgroundColor: "background.paper" }}>
                     <StorageIcon />IP地址
                 </Typography>
-                <Table aria-label="simple table">
+                <Table sx={{ "th": { textAlign: 'center' }, "td": { textAlign: 'center' } }}>
                     <TableHead>
                         <TableRow>
                             <TableCell>Key</TableCell>

@@ -1,12 +1,13 @@
 "use client"
 
-import { RadioGroup, FormControl, FormLabel, FormControlLabel, Radio, Select, MenuItem, styled, Grid } from "@mui/material"
+import { RadioGroup, FormControl, FormLabel, FormControlLabel, Radio, Select, MenuItem, styled, Grid, Button, Table, TableHead, TableCell, TableBody, TableRow } from "@mui/material"
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie"
 import { enqueueSnackbar } from "notistack";
 import mirror from './img.json'
 import SettingsIcon from '@mui/icons-material/Settings';
 import ImageIcon from '@mui/icons-material/Image';
+import CachedIcon from '@mui/icons-material/Cached';
 
 const H2 = styled("h2")(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#e5dfdf',
@@ -20,9 +21,46 @@ const H2 = styled("h2")(({ theme }) => ({
 export default function Setting() {
     const [fullimg, setfullimg] = useState('false');
     const [img, setimg] = useState("aeiljuispo.cloudimg.io")
+    const [data, setdata] = useState<{ key: string; length: number; }[]>([])
+
+    async function cache() {
+        const keys = await caches.keys()
+        setdata(await Promise.all(keys.map(async i => {
+            const t = await caches.open(i)
+            return {
+                key: i,
+                length: (await t.keys()).length
+            }
+        })))
+    }
+
+    function key(k: string) {
+        switch (k) {
+            case "cross-origin":
+                return k + "(引用文件)"
+            case "pages-rsc":
+                return k + "(动态数据)"
+            case "pages-rsc-prefetch":
+                return k + "(预加载)"
+            case "next-static-css-assets":
+                return k + "(静态文件)"
+            case "next-static-js-assets":
+                return k + "(静态文件)"
+            case "static-data-assets":
+                return k + "(静态数据)"
+            case "static-image-assets":
+                return k + "(图片缓存)"
+            case "pages":
+                return k + "(页面缓存)"
+            default:
+                return k
+        }
+    }
+
     useEffect(() => {
         setfullimg(Cookies.get("fullimg") ?? "false")
         setimg(localStorage.getItem("mirror") ?? "aeiljuispo.cloudimg.io")
+        cache()
     }, [])
 
 
@@ -36,7 +74,7 @@ export default function Setting() {
                 <H2>
                     <SettingsIcon /> 是否加载原图
                 </H2>
-                <div style={{ paddingTop: 10 }}>
+                <div style={{ padding: 10 }}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend" sx={{ color: 'inherit' }}>是否加载原图片</FormLabel>
                         <RadioGroup aria-label="fullimg" name="fullimg" onChange={(e) => {
@@ -49,6 +87,52 @@ export default function Setting() {
                         </RadioGroup>
                     </FormControl>
                 </div>
+                <H2>
+                    <CachedIcon /> 缓存控制
+                </H2>
+                <div style={{ padding: 10 }}>
+                    <Table sx={{ "th": { textAlign: 'center' }, "td": { textAlign: 'center' } }}>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>储存桶</TableCell>
+                                <TableCell>总数</TableCell>
+                                <TableCell>管理</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {data.map((row) => (
+                                <TableRow
+                                    key={row.key}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                    <TableCell component="th" scope="row">
+                                        {key(row.key)}
+                                    </TableCell>
+                                    <TableCell>{row.length}</TableCell>
+                                    <TableCell>
+                                        <Button variant="contained" color="warning" onClick={async () => {
+                                            const status = await caches.delete(row.key)
+                                            cache()
+                                            if (status) {
+                                                enqueueSnackbar(`${row.key}清除成功`, { variant: 'success' })
+                                            } else {
+                                                enqueueSnackbar(`${row.key}清除失败`, { variant: 'error' })
+                                            }
+                                        }}>
+                                            清空
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    <Button variant="contained" sx={{ m: 3 }} color="error" onClick={async () => {
+                        await Promise.all(data.map(async i => caches.delete(i.key)))
+                        cache()
+                        enqueueSnackbar(`已清空`, { variant: 'info' })
+                    }}>
+                        全部清空
+                    </Button>
+                </div>
             </Grid>
 
             <Grid item xs={12} md={6}>
@@ -57,7 +141,7 @@ export default function Setting() {
                 </H2>
                 <div style={{ paddingTop: 10 }}>
                     <p>请注意，图片代理质量越高会导致加载速度的变慢，请均衡选择</p>
-                    <p>代理列表数据生成于2023.11.29,<a href="https://github.com/KoronekoCorp/Tools">使用此工具生成</a></p>
+                    <p>代理列表数据生成于2024.1.9,<a href="https://github.com/KoronekoCorp/Tools">使用此工具生成</a></p>
                     <FormControl>
                         <Select
                             autoFocus
