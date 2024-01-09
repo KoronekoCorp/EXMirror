@@ -107,7 +107,7 @@ class EXJSDOM {
      * @param html 
      * @returns 
      */
-    static Index(html: string | JSDOM): [G_JSDOM_DATA[], string | undefined, string | undefined, { Filtered?: string, Found?: string } | undefined] {
+    static Index(html: string | JSDOM): [G_JSDOM_DATA[], string | undefined, string | undefined, { Filtered?: string, Found?: string, about?: boolean } | undefined] {
         const dom = EXJSDOM.GetDom(html)
         const container = dom.window.document.querySelector("table.itg.glte")
         if (!container) {
@@ -139,6 +139,7 @@ class EXJSDOM {
         }
         const searchtext = dom.window.document.querySelector("div.searchtext p")?.innerHTML.split(" ")
         const _search_Found = searchtext?.findIndex(i => i == "Found")
+        const _search_about = searchtext?.find(i => i == "about")
         const _search_Filtered = searchtext?.findIndex(i => i == "Filtered")
         return [
             fin,
@@ -147,8 +148,9 @@ class EXJSDOM {
             //@ts-ignore
             dom.window.document.getElementById("dnext").href,
             (searchtext && (_search_Filtered || _search_Found)) ? {
+                about: (_search_about ? true : false),
                 ...((_search_Filtered !== undefined && _search_Filtered > -1) && { 'Filtered': searchtext[_search_Filtered + 1] }),
-                ...((_search_Found !== undefined && _search_Found > -1) && { 'Found': searchtext[_search_Found + 1] })
+                ...((_search_Found !== undefined && _search_Found > -1) && { 'Found': searchtext[_search_Found + 1 + (_search_about ? 1 : 0)] })
             } : undefined
         ]
     }
@@ -322,7 +324,11 @@ class EXJSDOM {
         }
     }
 
-
+    /**
+     * 获取画廊评论
+     * @param html 
+     * @returns 
+     */
     static comments(html: string | JSDOM) {
         const dom = EXJSDOM.GetDom(html, { runScripts: 'dangerously' })
         const document = dom.window.document

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -34,6 +34,7 @@ export function AutoSearch({ baseurl, onClick, onChange, allowEnter }:
 
     const Getdata = (da: item[] = data) => {
         const d = da.map(i => {
+            if (i.key.includes("$")) return i.key
             const t = i.key.split(":")
             if (t.length === 1) return i.key
             return `${t[0].slice(0, 1)}:${t[1].includes(" ") ? `"${t[1]}$"` : t[1] + "$"}`
@@ -56,6 +57,17 @@ export function AutoSearch({ baseurl, onClick, onChange, allowEnter }:
         }
     }
 
+    useEffect(() => {
+        const u = new URL(document.location.href)
+        const defaultValue = u.searchParams.get("f_search")
+        setdata(
+            (defaultValue && defaultValue !== "")
+                ? defaultValue?.split(" ").map(i => { return { key: i, name: i, score: 10 } }) ?? []
+                : []
+        )
+        if (onChange) onChange(defaultValue ?? "")
+    }, [!process ? window.document.location.href : ""])
+
     return (
         <Autocomplete
             multiple
@@ -70,7 +82,7 @@ export function AutoSearch({ baseurl, onClick, onChange, allowEnter }:
                 setOpen(false);
                 setOptions([])
             }}
-
+            value={data}
             onChange={(e, v) => { setdata(v); if (onChange) onChange(Getdata(v)) }}
             onInputChange={async (e, v) => {
                 setvalue(v)

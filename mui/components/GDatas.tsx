@@ -30,12 +30,12 @@ const format_style = (style: string) => {
     return s
 }
 
-export function GDatas({ G, allowSearch, searchtext }: { G: G_JSDOM_DATA[], allowSearch?: boolean, searchtext?: { Filtered?: string, Found?: string } }) {
+export function GDatas({ G, allowSearch, searchtext }: { G: G_JSDOM_DATA[], allowSearch?: boolean, searchtext?: { Filtered?: string, Found?: string, about?: boolean } }) {
     return <Container sx={{ "& > div": { m: 1 }, "& > p": { color: "text.primary" } }}>
         {allowSearch && <Accordions title={"Search"}>
             <FullSearch />
         </Accordions>}
-        {searchtext?.Found && <p style={{ textAlign: 'center' }}>找到 {searchtext?.Found} 个结果。</p>}
+        {searchtext?.Found && <p style={{ textAlign: 'center' }}>找到{searchtext.about ? "约" : ""} {searchtext?.Found} 个结果。</p>}
         {searchtext?.Filtered && <p style={{ textAlign: 'center' }}>已从此页面过滤 {searchtext?.Filtered} 个结果。<Filtered /></p>}
         {G.length === 0 && <p style={{ textAlign: 'center' }}>什么都没有呢</p>}
         {G.map((e) => {
@@ -55,12 +55,14 @@ export function GDatas({ G, allowSearch, searchtext }: { G: G_JSDOM_DATA[], allo
                                 </Typography>
                                 <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
                                     {e.tag.map((tag) => (
-                                        <Button LinkComponent={Link} href={`/tag/${tag.title}`} sx={tag.style ? format_style(tag.style) : {}} key={e.href + tag.title}>
+                                        //@ts-ignore
+                                        <Button LinkComponent={Link} prefetch={false} href={`/tag/${tag.title}`} sx={tag.style ? format_style(tag.style) : {}} key={e.href + tag.title}>
                                             <div dangerouslySetInnerHTML={{ __html: tag.tr ?? tag.title }}></div>
                                         </Button>
                                     ))}
                                     {e.lowtag.map((tag) => (
-                                        <Button LinkComponent={Link} href={`/tag/${tag.title}`} sx={{ border: "1px dashed #8c8c8c", ...(tag.style ? format_style(tag.style) : {}) }} key={e.href + tag.title}>
+                                        //@ts-ignore
+                                        <Button LinkComponent={Link} prefetch={false} href={`/tag/${tag.title}`} sx={{ border: "1px dashed #8c8c8c", ...(tag.style ? format_style(tag.style) : {}) }} key={e.href + tag.title}>
                                             <div dangerouslySetInnerHTML={{ __html: tag.tr ?? tag.title }}></div>
                                         </Button>
                                     ))}

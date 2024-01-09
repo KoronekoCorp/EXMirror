@@ -4,7 +4,7 @@ import { AutoSearch } from "./AutoSearch"
 import { Top } from "./push";
 import { Checkbox, Container, FormControl, FormControlLabel, Grid, MenuItem, Select, Stack, TextField, ToggleButton, IconButton } from "@mui/material"
 import { useRouter } from "next/navigation";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import SearchIcon from '@mui/icons-material/Search';
 
 declare module '@mui/material/ToggleButton' {
@@ -70,6 +70,44 @@ export function FullSearch() {
         if (low != "0") u.searchParams.set("f_srdd", low)
         router.push(u.href)
     }
+
+    function findCat(t: number) {
+        let target = t
+        const numbers = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512];
+
+        for (let i = numbers.length - 1; i >= 0; i--) {
+            if (target >= numbers[i]) {
+                target -= numbers[i];
+            } else {
+                numbers[i] = 0
+            }
+        }
+
+        if (target === 0) {
+            return numbers;
+        } else {
+            return null;
+        }
+    }
+
+    useEffect(() => {
+        const u = new URL(document.location.href)
+        setoption([
+            u.searchParams.get("f_sh") === "on",
+            u.searchParams.get("f_sto") === "on",
+            u.searchParams.get("f_sfl") === "on",
+            u.searchParams.get("f_sfu") === "on",
+            u.searchParams.get("f_sft") === "on",
+        ])
+        const sp = u.searchParams.get("f_spf")
+        if (sp) setsp(sp)
+        const ep = u.searchParams.get("f_spt")
+        if (ep) setep(ep)
+        const low = u.searchParams.get("f_srdd")
+        if (low && low !== "0") setl(low)
+        const cat = parseInt(u.searchParams.get("f_cats") ?? "")
+        if (!isNaN(cat)) setvalue(findCat(1023 - cat) ?? values)
+    }, [!process ? window.document.location.href : ""])
 
     return <Container sx={{ "& > div": { pt: 2 } }}>
         <AutoSearch onClick={Search} onChange={(v) => setword(v)} />

@@ -112,12 +112,14 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                         spacing={{ xs: 1, sm: 2 }} useFlexGap flexWrap="wrap" sx={{ p: 1, textAlign: "center" }}>
                         <TagIcon />Tags:
                         {gdata.tags.map((tag) => (
-                            <Button LinkComponent={Link} href={`/tag/${tag}`} key={tag}>
+                            //@ts-ignore
+                            <Button LinkComponent={Link} prefetch={false} href={`/tag/${tag}`} key={tag}>
                                 <div dangerouslySetInnerHTML={{ __html: db.translate(tag, tr) }}></div>
                             </Button>
                         ))}
                         {gdata.lowtag.map((tag) => (
-                            <Button LinkComponent={Link} href={`/tag/${tag}`} sx={{ border: "1px dashed #8c8c8c" }} key={tag}>
+                            //@ts-ignore
+                            <Button LinkComponent={Link} prefetch={false} href={`/tag/${tag}`} sx={{ border: "1px dashed #8c8c8c" }} key={tag}>
                                 <div dangerouslySetInnerHTML={{ __html: db.translate(tag, tr) }}></div>
                             </Button>
                         ))}
@@ -134,7 +136,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
             {gdata.comments?.data?.length > 0 && <Reply gdata={gdata} />}
             <Grid container alignItems="center" textAlign="center" spacing={2}>
                 {thumbnail.map((t, index) => <Grid xs={6} md={3} key={t[0]} item>
-                    <Link href={thumbnail_url[index]}>
+                    <Link href={thumbnail_url[index]} prefetch={false}>
                         <Image src={"https://ehgt.org" + t.slice(22)} style={{ width: "100%" }} />
                     </Link>
                     <br />

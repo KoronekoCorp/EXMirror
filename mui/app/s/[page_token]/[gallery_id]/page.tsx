@@ -62,6 +62,7 @@ export default async function G({ params: { page_token, gallery_id } }: { params
             </Button>
         </Box> */}
         <Box sx={{ padding: 1, textAlign: 'center' }}>
+
             <Button LinkComponent={Link} href={data.prev}
                 startIcon={<KeyboardArrowLeftIcon />}>上一页</Button>
             <Button LinkComponent={Link} href={data.gallery}>
@@ -72,7 +73,8 @@ export default async function G({ params: { page_token, gallery_id } }: { params
             <br />
             <Button LinkComponent={Link} href={data.first}
                 startIcon={<FirstPageIcon />}>首页</Button>
-            <Button LinkComponent={Link} href={data.imgsearch}>
+            {/* @ts-ignore */}
+            <Button LinkComponent={Link} href={data.imgsearch} prefetch={false}>
                 <FindInPageIcon />
             </Button>
             <Button LinkComponent={Link} href={data.end}
