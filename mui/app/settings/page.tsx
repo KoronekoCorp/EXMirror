@@ -1,6 +1,6 @@
 "use client"
 
-import { RadioGroup, FormControl, FormLabel, FormControlLabel, Radio, Select, MenuItem, styled, Grid, Button, Table, TableHead, TableCell, TableBody, TableRow } from "@mui/material"
+import { RadioGroup, FormControl, FormLabel, FormControlLabel, Radio, Select, MenuItem, styled, Grid, Button, Table, TableHead, TableCell, TableBody, TableRow, Stack } from "@mui/material"
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie"
 import { enqueueSnackbar } from "notistack";
@@ -22,8 +22,15 @@ export default function Setting() {
     const [fullimg, setfullimg] = useState('false');
     const [img, setimg] = useState("aeiljuispo.cloudimg.io")
     const [data, setdata] = useState<{ key: string; length: number; }[]>([])
+    const [CacheStatus, setCS] = useState(false)
 
     async function cache() {
+        const r = await navigator.serviceWorker.getRegistrations()
+        if (r.length > 0) {
+            setCS(true)
+        } else {
+            setCS(false)
+        }
         const keys = await caches.keys()
         setdata(await Promise.all(keys.map(async i => {
             const t = await caches.open(i)
@@ -77,7 +84,7 @@ export default function Setting() {
                 <div style={{ padding: 10 }}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend" sx={{ color: 'inherit' }}>是否加载原图片</FormLabel>
-                        <RadioGroup aria-label="fullimg" name="fullimg" onChange={(e) => {
+                        <RadioGroup onChange={(e) => {
                             setfullimg(e.target.value);
                             document.cookie = `fullimg=${e.target.value}; max-age=604800; path=/`;
                             enqueueSnackbar("图片设置已保存", { variant: 'info' })
@@ -90,6 +97,25 @@ export default function Setting() {
                 <H2>
                     <CachedIcon /> 缓存控制
                 </H2>
+                <Stack direction="row" spacing={2} justifyContent="center" useFlexGap flexWrap="wrap">
+                    <p>当前缓存服务</p>
+                    <Button variant="outlined" color={CacheStatus ? "success" : "error"} onClick={async () => {
+                        if (CacheStatus) {
+                            localStorage.setItem("noSw", "true")
+                            const r = await navigator.serviceWorker.getRegistrations()
+                            await Promise.all(r.map(i => i.unregister()))
+                            enqueueSnackbar(`已尝试注销服务进程`, { variant: 'info' })
+                        } else {
+                            localStorage.setItem("noSw", "false")
+                            await navigator.serviceWorker.register("/sw.js")
+                            enqueueSnackbar(`已尝试注册服务进程`, { variant: 'info' })
+                        }
+                        cache()
+                    }}>
+                        {CacheStatus ? "已启用" : "未启用"}
+                    </Button>
+                </Stack>
+
                 <div style={{ padding: 10 }}>
                     <Table sx={{ "th": { textAlign: 'center' }, "td": { textAlign: 'center' } }}>
                         <TableHead>

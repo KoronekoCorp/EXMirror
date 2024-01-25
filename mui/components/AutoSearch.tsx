@@ -58,14 +58,27 @@ export function AutoSearch({ baseurl, onClick, onChange, allowEnter }:
     }
 
     useEffect(() => {
-        const u = new URL(document.location.href)
-        const defaultValue = u.searchParams.get("f_search")
-        setdata(
-            (defaultValue && defaultValue !== "")
-                ? defaultValue?.split(" ").map(i => { return { key: i, name: i, score: 10 } }) ?? []
-                : []
-        )
-        if (onChange) onChange(defaultValue ?? "")
+        if (document.location.pathname.startsWith("/tag")) {
+            const i = decodeURI(document.location.pathname.replace("/tag/", ""))
+            setdata([{ key: i, name: i, score: 10 }])
+            if (onChange) onChange(Getdata([{ key: i, name: i, score: 10 }]))
+        } else {
+            const u = new URL(document.location.href)
+            const defaultValue = u.searchParams.get("f_search")
+            if (defaultValue && defaultValue !== "") {
+                const re = /(\w:"(.*?)\$")|(\w:(.*?)\$)/g
+                const newdata: item[] = Array.from(defaultValue.matchAll(re)).map(i => {
+                    return { key: i[0], name: i[0], score: 10 }
+                })
+                const nextValue = defaultValue.replaceAll(re, "").trim()
+                nextValue.split(" ").forEach(i => {
+                    if (i !== "") newdata.push({ key: i, name: i, score: 10 })
+                })
+                setdata(newdata)
+            }
+            if (onChange) onChange(defaultValue ?? "")
+        }
+
     }, [!process ? window.document.location.href : ""])
 
     return (

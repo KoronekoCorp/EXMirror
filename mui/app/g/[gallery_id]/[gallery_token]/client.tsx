@@ -128,7 +128,7 @@ export function Reply({ gdata }: { gdata: ginfo }) {
 export function GalleryTitle({ title }: { title: string | undefined }) {
     const router = useRouter()
     return <H2 onClick={() => {
-        const search = title?.replaceAll(/\[.*?\]|\(.*?\)/g, "").trim()
-        if (search) router.push(`/i?f_search=${search}`)
+        const search = title?.replaceAll(/(\[(.*?)\]|\((.*?)\))/g, "").trim()
+        if (search) router.push(`/i?f_search=${encodeURIComponent(search)}`)
     }}>{title}</H2>
 }
