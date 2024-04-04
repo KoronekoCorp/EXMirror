@@ -37,15 +37,13 @@ const PLACEHOLDER_LINKS = [
 export function Root({ darkmode, children }: { darkmode?: boolean, children: ReactNode }) {
     const [open, setOpen] = useState(false);
     const [dark, setdark] = useState(darkmode ?? false);
-    let mode: "dark" | "light"
-    if (dark) { mode = 'dark' } else { mode = 'light' }
     const router = useRouter()
-    const theme = getTheme(mode)
+    const theme = getTheme(dark ? "dark" : "light")
 
     useEffect(() => {
-        const m = localStorage.getItem('mode')
-        if (m != null) { setdark(m == "true") }
-    }, [])
+        const d = document.cookie.match(/dark=(true|false)/)
+        if (d) setdark(d[1] === "true")
+    }, [typeof document !== "undefined" ? document.cookie : ""])
 
     return <ThemeProvider theme={theme}>
         <AppBar position="fixed" sx={{ zIndex: 2000, minHeight: '64px' }} color='inherit'>
@@ -69,8 +67,7 @@ export function Root({ darkmode, children }: { darkmode?: boolean, children: Rea
                 {/* <MenuItem> */}
                 <Box sx={{ flexGrow: 1 }} />
                 <IconButton sx={{ ml: 1 }} onClick={() => {
-                    document.cookie = `dark=${!dark}; max-age=604800; path=/`;
-                    localStorage.setItem('mode', (!dark).toString());
+                    document.cookie = `dark=${!dark}; max-age=604800; path=/; domain=${document.location.hostname.replace(/.*?\./, ".")}`;
                     setdark(!dark)
                 }} color="inherit">
                     {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
