@@ -1,13 +1,15 @@
 "use client"
 
-import { RadioGroup, FormControl, FormLabel, FormControlLabel, Radio, Select, MenuItem, styled, Grid, Button, Table, TableHead, TableCell, TableBody, TableRow, Stack } from "@mui/material"
-import { useEffect, useState } from "react";
-import Cookies from "js-cookie"
-import { enqueueSnackbar } from "notistack";
-import mirror from './img.json'
-import SettingsIcon from '@mui/icons-material/Settings';
-import ImageIcon from '@mui/icons-material/Image';
 import CachedIcon from '@mui/icons-material/Cached';
+import ColorLensIcon from '@mui/icons-material/ColorLens';
+import ImageIcon from '@mui/icons-material/Image';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { Button, FormControl, FormControlLabel, FormLabel, Grid, MenuItem, Radio, RadioGroup, Select, Stack, Table, TableBody, TableCell, TableHead, TableRow, styled } from "@mui/material";
+import Cookies from "js-cookie";
+import { enqueueSnackbar } from "notistack";
+import { useEffect, useState } from "react";
+import ColorSetting from "./Color";
+import mirror from './img.json';
 
 const H2 = styled("h2")(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#e5dfdf',
@@ -167,7 +169,7 @@ export default function Setting() {
                 </H2>
                 <div style={{ paddingTop: 10 }}>
                     <p>请注意，图片代理质量越高会导致加载速度的变慢，请均衡选择</p>
-                    <p>代理列表数据生成于2024.1.9,<a href="https://github.com/KoronekoCorp/Tools">使用此工具生成</a></p>
+                    <p>代理列表数据生成于2024.4.29,<a href="https://github.com/KoronekoCorp/Tools">使用此工具生成</a></p>
                     <FormControl>
                         <Select
                             autoFocus
@@ -190,6 +192,14 @@ export default function Setting() {
                         onError={() => { enqueueSnackbar("图片加载失败", { variant: "error" }) }}
                     />
                 </div>
+            </Grid>
+            <Grid item xs={12} md={12}>
+                <H2>
+                    <ColorLensIcon />主题配色
+                </H2>
+                <div style={{ paddingTop: 10 }}>
+                    <ColorSetting />
+                </div >
             </Grid>
         </Grid>
     </>
