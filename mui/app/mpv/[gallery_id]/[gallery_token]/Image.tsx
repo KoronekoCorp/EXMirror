@@ -19,10 +19,8 @@ export function MPVImage({ gid, page, mpvdata, mpvkey, load, time }:
         switch (error) {
             case 0:
                 return `https://${mirror}/v7/` + data?.i
-            case 1:
-                return data?.i ?? ""
             default:
-                return "https://static.sirin.top/" + data?.i
+                return data?.i ?? ""
         }
     }
 

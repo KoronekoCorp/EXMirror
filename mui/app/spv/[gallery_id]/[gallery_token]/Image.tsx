@@ -34,10 +34,8 @@ export function SPVImage({ spage, page, load, time }: { spage: string, page: num
         switch (error) {
             case 0:
                 return `https://${mirror}/v7/` + data?.url
-            case 1:
-                return data?.url ?? ""
             default:
-                return "https://static.sirin.top/" + data?.url
+                return data?.url ?? ""
         }
     }
 
