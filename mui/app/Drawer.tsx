@@ -126,9 +126,10 @@ export function Root({ darkmode, children }: { darkmode?: boolean, children: Rea
                 flexGrow: 1,
                 bgcolor: 'background.default',
                 // ml: `${DRAWER_WIDTH}px`,
-                pt: ['48px', '56px', '64px'],
+                pt: ['72px', '80px', '88px'],
+                pb: ['48px', '56px', '64px'],
                 // p: 3,
-                mt: 3,
+                // mt: 3,
                 minHeight: "100vh"
             }}
         >
