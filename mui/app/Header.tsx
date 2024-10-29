@@ -18,7 +18,7 @@ const Header = () => {
             <div className="center dark header1">
                 <div style={{ padding: '10px' }}>
                     <Link href="/">
-                        <img width="75px" src="/assets/images/logo.png" alt="Logo" />
+                        <img width="75px" src="/favicon.ico" alt="Logo" />
                         <p className="logo_color" style={{ fontFamily: 'Fredoka One, cursive', fontSize: '25px' }}>
                             Koroneko Corp
                         </p>

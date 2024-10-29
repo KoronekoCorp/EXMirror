@@ -53,6 +53,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
         r1.map((e) => thumbnail.push(e))
         r2.map((e) => thumbnail_url.push(e))
         if (r3) { gdata = r3 }
+        console.log([r1, r2, r3])
     }
     if (!gdata) {
         return notFound()

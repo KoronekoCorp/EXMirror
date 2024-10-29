@@ -12,7 +12,7 @@ export default function Home() {
           <img
             loading="lazy"
             className={style.anime}
-            src="https://koroneko.co/img/1.png"
+            src="https://cos.elysia.rip/1.png"
             style={{ maxWidth: "100%" }}
           />
         </Grid>

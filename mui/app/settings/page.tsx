@@ -185,7 +185,7 @@ export default function Setting() {
                         </Select>
                     </FormControl>
                     <p>请注意下述图片能否正常加载</p>
-                    <img src={`https://${img}/v7/https://koroneko.co/img/1.png`}
+                    <img src={`https://${img}/v7/https://cos.elysia.rip/1.png`}
                         loading="lazy"
                         className="lazyload blur-up"
                         style={{ width: "50%", }}

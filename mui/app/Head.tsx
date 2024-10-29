@@ -6,7 +6,7 @@ export function Heads() {
   return (
     <>
       <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
-      <link rel="icon" href="/assets/images/logo.png" />
+      <link rel="icon" href="/favicon.ico" />
       <Script
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"
         type="text/javascript"
