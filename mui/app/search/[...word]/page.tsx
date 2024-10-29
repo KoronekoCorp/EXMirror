@@ -2,7 +2,8 @@ import { R } from "@/components/push"
 import { join } from "path"
 
 
-export default async function Page({ params }: { params: { word: string[] } }) {
+export default async function Page(props: { params: Promise<{ word: string[] }> }) {
+    const params = await props.params;
     let word = ""
     for (let i in params.word) {
         word = join(word, params.word[i])

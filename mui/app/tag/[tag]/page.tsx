@@ -9,8 +9,16 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { GdataTr } from "@/Data/ETools"
 
 
-export default async function G({ params: { tag }, searchParams }:
-    { params: { tag: string }, searchParams: { [key: string]: string } }) {
+export default async function G(
+    props:
+        { params: Promise<{ tag: string }>, searchParams: Promise<{ [key: string]: string }> }
+) {
+    const searchParams = await props.searchParams;
+    const params = await props.params;
+
+    const {
+        tag
+    } = params;
 
     const a = new API()
     if (!a.header.cookie.includes("igneous")) {

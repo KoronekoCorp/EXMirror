@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 
-export default async function Page({ params }: { params: { word: string[] } }) {
+export default async function Page() {
     return <Container sx={{ textAlign: "center", color: "text.primary" }}>
         <h1>正在建设中</h1>
         <div className="center">

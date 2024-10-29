@@ -23,8 +23,18 @@ import CommentIcon from '@mui/icons-material/Comment';
 const favcolor = ["#818181", "#f83333", "#fd903b", "#fdf23f", "#2ad853", "#a5f331", "#2ce4e5", "#3b2ef4", "#9732f6", "#ce309e", "#0e0e0e"]
 const favtext = [0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0]
 
-export default async function G({ params: { gallery_id, gallery_token }, searchParams }:
-    { params: { gallery_id: string, gallery_token: string }, searchParams: { [key: string]: string | undefined } }) {
+export default async function G(
+    props:
+        { params: Promise<{ gallery_id: string, gallery_token: string }>, searchParams: Promise<{ [key: string]: string | undefined }> }
+) {
+    const searchParams = await props.searchParams;
+    const params = await props.params;
+
+    const {
+        gallery_id,
+        gallery_token
+    } = params;
+
     const id = parseInt(gallery_id)
     if (id < 0) { notFound() }
     const a = new API()
@@ -38,7 +48,7 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
     for (let page = 0; page <= p; page++) {
         __thumbnail.push(
             CacheEveryThing(async () => a.gallery_info(id, gallery_token, page),
-                [`g/${id}/${gallery_token}?p=${page}`, `${cookies().get("ipb_member_id")}`], 86400
+                [`g/${id}/${gallery_token}?p=${page}`, `${(await cookies()).get("ipb_member_id")}`], 86400
             )()
         )
     }
@@ -114,15 +124,15 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
                         <TagIcon />Tags:
                         {gdata.tags.map((tag) => (
                             //@ts-ignore
-                            <Button LinkComponent={Link} prefetch={false} href={`/tag/${tag}`} key={tag}>
+                            (<Button LinkComponent={Link} prefetch={false} href={`/tag/${tag}`} key={tag}>
                                 <div dangerouslySetInnerHTML={{ __html: db.translate(tag, tr) }}></div>
-                            </Button>
+                            </Button>)
                         ))}
                         {gdata.lowtag.map((tag) => (
                             //@ts-ignore
-                            <Button LinkComponent={Link} prefetch={false} href={`/tag/${tag}`} sx={{ border: "1px dashed #8c8c8c" }} key={tag}>
+                            (<Button LinkComponent={Link} prefetch={false} href={`/tag/${tag}`} sx={{ border: "1px dashed #8c8c8c" }} key={tag}>
                                 <div dangerouslySetInnerHTML={{ __html: db.translate(tag, tr) }}></div>
-                            </Button>
+                            </Button>)
                         ))}
                     </Stack>
                     {gdata.uploadercomment && <Stack direction="row"
@@ -148,5 +158,5 @@ export default async function G({ params: { gallery_id, gallery_token }, searchP
             <Cookie c={a.cookies} />
             <Top index={gallery_token} />
         </Container >
-    </>
+    </>;
 }

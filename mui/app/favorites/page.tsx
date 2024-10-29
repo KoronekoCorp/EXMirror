@@ -13,8 +13,11 @@ import { AutoSearch } from "@/components/AutoSearch"
 const favcolor = ["#818181", "#f83333", "#fd903b", "#fdf23f", "#2ad853", "#a5f331", "#2ce4e5", "#3b2ef4", "#9732f6", "#ce309e", "#0e0e0e"]
 const favtext = [0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0]
 
-export default async function P({ searchParams }:
-    { searchParams: { [key: string]: string } }) {
+export default async function P(
+    props:
+        { searchParams: Promise<{ [key: string]: string }> }
+) {
+    const searchParams = await props.searchParams;
 
     const a = new API()
     if (!a.header.cookie.includes("igneous")) {

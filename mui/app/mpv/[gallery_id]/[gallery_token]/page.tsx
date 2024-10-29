@@ -9,8 +9,18 @@ import { Box, Button, Container } from "@mui/material"
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { H2 } from "@/H2"
 
-export default async function G({ params: { gallery_id, gallery_token }, searchParams }:
-    { params: { gallery_id: string, gallery_token: string }, searchParams: { [key: string]: string | undefined } }) {
+export default async function G(
+    props:
+        { params: Promise<{ gallery_id: string, gallery_token: string }>, searchParams: Promise<{ [key: string]: string | undefined }> }
+) {
+    const searchParams = await props.searchParams;
+    const params = await props.params;
+
+    const {
+        gallery_id,
+        gallery_token
+    } = params;
+
     const id = parseInt(gallery_id)
     if (id < 0) { notFound() }
     const a = new API()

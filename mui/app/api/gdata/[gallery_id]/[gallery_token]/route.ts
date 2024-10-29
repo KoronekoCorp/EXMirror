@@ -2,7 +2,17 @@ import { API } from "@/Data/EXAPI"
 import { CacheEveryThing } from "@/Data/cache"
 
 
-export async function GET(request: Request, { params: { gallery_id, gallery_token } }: { params: { gallery_id: string, gallery_token: string } }) {
+export async function GET(
+    request: Request,
+    props: { params: Promise<{ gallery_id: string, gallery_token: string }> }
+) {
+    const params = await props.params;
+
+    const {
+        gallery_id,
+        gallery_token
+    } = params;
+
     const a = new API()
 
     return Response.json(

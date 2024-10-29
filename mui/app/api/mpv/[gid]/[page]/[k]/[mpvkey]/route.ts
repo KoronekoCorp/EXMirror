@@ -3,9 +3,21 @@ import { CacheEveryThing } from "@/Data/cache"
 import { cookies } from "next/headers"
 
 
-export async function GET(request: Request, { params: { gid, page, k, mpvkey } }: { params: { gid: string, page: string, k: string, mpvkey: string } }) {
+export async function GET(
+    request: Request,
+    props: { params: Promise<{ gid: string, page: string, k: string, mpvkey: string }> }
+) {
+    const params = await props.params;
+
+    const {
+        gid,
+        page,
+        k,
+        mpvkey
+    } = params;
+
     const a = new API()
-    const fullimg = cookies().get("fullimg")?.value == "true"
+    const fullimg = (await cookies()).get("fullimg")?.value == "true"
 
     return Response.json(
         await CacheEveryThing(async () => {

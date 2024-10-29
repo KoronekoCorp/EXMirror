@@ -1,4 +1,4 @@
-import { cookies } from "next/headers"
+import { cookies, type UnsafeUnwrappedCookies } from "next/headers";
 import { gdata, mpvdata, mpvimg } from "./EType"
 import { revalidateTag } from "next/cache"
 import { EXJSDOM, type ginfo } from "./EXJSDOM"
@@ -21,7 +21,7 @@ class API {
         "cookie": ""
     }
     cookies: string[] = []
-    constructor(cookie: string = cookies().toString()) {
+    constructor(cookie: string = (cookies() as unknown as UnsafeUnwrappedCookies).toString()) {
         this.header.cookie = cookie
     }
 

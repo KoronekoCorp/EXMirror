@@ -14,13 +14,20 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 import BurstModeIcon from '@mui/icons-material/BurstMode';
 
-export default async function G({ params: { page_token, gallery_id } }: { params: { page_token: string, gallery_id: string } }) {
+export default async function G(props: { params: Promise<{ page_token: string, gallery_id: string }> }) {
+    const params = await props.params;
+
+    const {
+        page_token,
+        gallery_id
+    } = params;
+
     const a = new API()
     if (!a.header.cookie.includes("igneous")) {
         return <R url="/login" />
     }
 
-    const fullimg = cookies().get("fullimg")?.value == "true"
+    const fullimg = (await cookies()).get("fullimg")?.value == "true"
     const { data, url } = await CacheEveryThing(async () => {
         const data = await a.s_info(page_token, gallery_id)
         let url: string

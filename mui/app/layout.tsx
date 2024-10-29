@@ -12,20 +12,22 @@ export const metadata: Metadata = {
   description: '黑猫科技,毛线球Corp',
 }
 
-export default function RootLayout({
-  children,
-  gfav
-}: {
-  children: React.ReactNode
-  gfav: React.ReactNode
-}) {
+export default async function RootLayout(
+  {
+    children,
+    gfav
+  }: {
+    children: React.ReactNode
+    gfav: React.ReactNode
+  }
+) {
   return (
-    <html lang="zh">
+    (<html lang="zh">
       <head>
         <Heads />
       </head>
       <body style={{ margin: "auto" }}>
-        <Root darkmode={cookies().get("dark")?.value == "true"}>
+        <Root darkmode={(await cookies()).get("dark")?.value == "true"}>
           <BackDropProvider>
             <Snackbar>
               <Suspense fallback={<Loading />}>
@@ -36,6 +38,6 @@ export default function RootLayout({
           </BackDropProvider>
         </Root>
       </body>
-    </html>
-  )
+    </html>)
+  );
 }

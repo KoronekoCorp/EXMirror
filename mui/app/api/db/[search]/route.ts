@@ -18,7 +18,12 @@ const Score: {
     temp: 0.1,
 }
 
-export async function GET(request: Request, { params: { search } }: { params: { search: string } }) {
+export async function GET(request: Request, props: { params: Promise<{ search: string }> }) {
+    const params = await props.params;
+
+    const {
+        search
+    } = params;
 
     const d = await db.getDB()
     const fin: {
