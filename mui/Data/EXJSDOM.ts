@@ -168,7 +168,7 @@ class EXJSDOM {
         all.forEach((e) => {
             urls.push(e.href.replace("https://exhentai.org", ""))
             //@ts-ignore
-            imgs.push(e.children[0].innerHTML.match(/url\((.*)\)/)[1])
+            imgs.push(e.innerHTML.match(/url\((.*)\)/)[1])
         })
         return [imgs, urls]
     }

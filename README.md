@@ -4,8 +4,8 @@
 
 ### 演示站点
 
-- [融合样式](https://ex.koroneko.co/)
-- [MUI样式](https://mex.koroneko.co/)
+- 融合样式
+- [MUI样式](https://ex.elysia.rip/)
 
 融合样式，指`mini.css` + `MUI`，互相影响，问题有那么亿点点大
 

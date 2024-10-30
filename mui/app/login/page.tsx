@@ -43,6 +43,12 @@ export default function Login() {
                         error = true
                     }
                     break
+                case "pn":
+                    if (setting[i][1].toString() !== "0") {
+                        u.searchParams.set("pn", "0")
+                        error = true
+                    }
+                    break
             }
             u.searchParams.set("apply", "应用")
         }
