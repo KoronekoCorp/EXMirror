@@ -7,7 +7,7 @@ import { Cookie } from "@/components/Cookies"
 import { NextPage, Reply, GalleryTitle } from "./client"
 import { type ginfo } from "@/Data/EXJSDOM"
 import { CacheEveryThing } from "@/Data/cache"
-import { cookies } from "next/headers"
+import { cookies, headers } from "next/headers"
 import { Image } from "@/components/Image"
 import { Button, Container, Grid, Rating, Stack, Link as LinkC } from "@mui/material"
 import BurstModeIcon from '@mui/icons-material/BurstMode';
@@ -29,7 +29,7 @@ export default async function G(
 ) {
     const searchParams = await props.searchParams;
     const params = await props.params;
-
+    const header = await headers()
     const {
         gallery_id,
         gallery_token
@@ -54,7 +54,7 @@ export default async function G(
     }
 
     const tr = await __tr
-    const thumbnail: string[] = []
+    const thumbnail: { width: number; height: number; url: string; position: number; }[] = []
     const thumbnail_url: string[] = []
     let gdata: ginfo | undefined = undefined
 
@@ -73,7 +73,15 @@ export default async function G(
         <Container sx={{ paddingTop: 10, color: "text.primary" }}>
             <Grid container spacing={2} alignItems="flex-start" justifyContent="center">
                 <Grid item xs={12} md={4} sx={{ width: "100%", textAlign: 'center' }}>
-                    <Image src={"https://ehgt.org" + thumbnail[0].slice(22)} style={{ width: "100%" }} />
+                    {thumbnail[0].url.includes("s.exhentai.org")
+                        ? <Image src={"https://ehgt.org" + thumbnail[0].url.slice(22)} style={{ width: "100%" }} />
+                        : <div style={{ height: "100%", aspectRatio: `${thumbnail[0].width}/${(thumbnail[0].height / 100 | 0 + 1) * 100}`, overflow: "hidden", position: "relative" }}>
+                            <Image
+                                src={thumbnail[0].url}
+                                style={{ left: thumbnail[0].position + "px", position: "relative", height: "100%" }}
+                            />
+                        </div>
+                    }
                     <Button LinkComponent={Link} href={`/mpv/${id}/${gallery_token}`} variant="contained" sx={{ m: 1 }}
                         startIcon={<BurstModeIcon />}>
                         正统mpv阅读
@@ -139,15 +147,23 @@ export default async function G(
                         alignItems="center"
                         spacing={2} sx={{ p: 1, m: 1 }}>
                         <CommentIcon />
-                        <p style={{ wordBreak: 'break-word' }} dangerouslySetInnerHTML={{ __html: gdata.uploadercomment.replaceAll("s.exhentai.org", `aeiljuispo.cloudimg.io/v7/https://ehgt.org`).replaceAll("exhentai.org", process.env.SITE) }}></p>
+                        <p style={{ wordBreak: 'break-word' }} dangerouslySetInnerHTML={{ __html: gdata.uploadercomment.replaceAll("s.exhentai.org", `aeiljuispo.cloudimg.io/v7/https://ehgt.org`).replaceAll("exhentai.org", header.get("host") ?? "ex.elysia.rip") }}></p>
                     </Stack>}
                 </Grid>
             </Grid>
             {gdata.comments?.data?.length > 0 && <Reply gdata={gdata} />}
             <Grid container alignItems="center" textAlign="center" spacing={2}>
-                {thumbnail.map((t, index) => <Grid xs={6} md={3} key={t[0]} item>
+                {thumbnail.map((t, index) => <Grid xs={6} md={3} key={`${t.url}-${t.position}`} item>
                     <Link href={thumbnail_url[index]} prefetch={false}>
-                        <Image src={"https://ehgt.org" + t.slice(22)} style={{ width: "100%" }} />
+                        {thumbnail[index].url.includes("s.exhentai.org")
+                            ? <Image src={"https://ehgt.org" + thumbnail[index].url.slice(22)} style={{ width: "100%" }} />
+                            : <div style={{ height: "100%", aspectRatio: `${thumbnail[index].width}/${(thumbnail[index].height / 100 | 0 + 1) * 100}`, overflow: "hidden", position: "relative" }}>
+                                <Image
+                                    src={thumbnail[index].url}
+                                    style={{ left: thumbnail[index].position / 2 + "%", position: "relative", height: "100%" }}
+                                />
+                            </div>
+                        }
                     </Link>
                     <br />
                     {index + 1}

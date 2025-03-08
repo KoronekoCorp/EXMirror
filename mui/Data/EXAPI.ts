@@ -2,6 +2,7 @@ import { cookies, type UnsafeUnwrappedCookies } from "next/headers";
 import { gdata, mpvdata, mpvimg } from "./EType"
 import { revalidateTag } from "next/cache"
 import { EXJSDOM, type ginfo } from "./EXJSDOM"
+import { writeFileSync } from "node:fs";
 
 class API {
     BASE = "https://s.exhentai.org/api.php"
@@ -85,12 +86,13 @@ class API {
      * @param p 
      * @returns 
      */
-    async gallery_info(gallery_id: number, gallery_token: string, p: number = 0): Promise<[string[], string[], ginfo?]> {
+    async gallery_info(gallery_id: number, gallery_token: string, p: number = 0): Promise<[{ width: number; height: number; url: string; position: number; }[], string[], ginfo?]> {
         const url = p === 0 ?
             `https://exhentai.org/g/${gallery_id}/${gallery_token}/` :
             `https://exhentai.org/g/${gallery_id}/${gallery_token}/?p=${p}`
         const r = await this.get(url, [url], 3600 * 24)
         const html = await r.text()
+        writeFileSync("public/0.html", html)
         const dom = EXJSDOM.GetDom(html, { runScripts: 'dangerously' })
         return p === 0 ? [...EXJSDOM.gallery_imgs(dom), EXJSDOM.gallery_info(dom)] : EXJSDOM.gallery_imgs(dom)
     }

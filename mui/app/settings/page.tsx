@@ -68,7 +68,7 @@ export default function Setting() {
 
     useEffect(() => {
         setfullimg(Cookies.get("fullimg") ?? "false")
-        setimg(localStorage.getItem("mirror") ?? "aeiljuispo.cloudimg.io")
+        setimg(localStorage.getItem("mirror") ?? "acodsaidap.cloudimg.io")
         cache()
     }, [])
 
@@ -169,7 +169,7 @@ export default function Setting() {
                 </H2>
                 <div style={{ paddingTop: 10 }}>
                     <p>请注意，图片代理质量越高会导致加载速度的变慢，请均衡选择</p>
-                    <p>代理列表数据生成于2024.10.29,<a href="https://github.com/KoronekoCorp/Tools">使用此工具生成</a></p>
+                    <p>代理列表数据生成于2025.3.8,<a href="https://github.com/KoronekoCorp/Tools">使用此工具生成</a></p>
                     <FormControl>
                         <Select
                             autoFocus
@@ -180,7 +180,7 @@ export default function Setting() {
                                 setimg(e.target.value)
                                 enqueueSnackbar("图片代理已保存", { variant: 'info' })
                             }}>
-                            <MenuItem value="aeiljuispo.cloudimg.io">默认 aeiljuispo.cloudimg.io</MenuItem>
+                            <MenuItem value="acodsaidap.cloudimg.io">默认 acodsaidap.cloudimg.io</MenuItem>
                             {mirror.map(i => <MenuItem value={i.name} key={i.name}>{i.name} 质量{i.length}</MenuItem>)}
                         </Select>
                     </FormControl>

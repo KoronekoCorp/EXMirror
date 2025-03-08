@@ -160,15 +160,17 @@ class EXJSDOM {
      * @param html 
      * @returns 
      */
-    static gallery_imgs(html: string | JSDOM): [string[], string[]] {
+    static gallery_imgs(html: string | JSDOM): [{ width: number; height: number; url: string; position: number; }[], string[]] {
         const dom = EXJSDOM.GetDom(html)
         const all = Array.from((dom.window.document.getElementById("gdt") as HTMLElement).children) as HTMLAnchorElement[]
         const urls: string[] = []
-        const imgs: string[] = []
+        const imgs: { width: number; height: number; url: string; position: number; }[] = []
         all.forEach((e) => {
             urls.push(e.href.replace("https://exhentai.org", ""))
+
+            const imgdata = e.innerHTML.match(/width:(\d*)px;height:(\d*)px;background:transparent url\((.*?)\) (.*?) 0 no-repeat/)
             //@ts-ignore
-            imgs.push(e.innerHTML.match(/url\((.*)\)/)[1])
+            imgs.push({ width: parseInt(imgdata[1]), height: parseInt(imgdata[2]), url: imgdata[3], position: parseInt(imgdata[4]) })
         })
         return [imgs, urls]
     }

@@ -31,7 +31,7 @@ export default async function G(
     let page = 0
     let gdata: ginfo | undefined = undefined
 
-    const thumbnail: string[] = []
+    const thumbnail: { width: number; height: number; url: string; position: number; }[] = []
     const thumbnail_url: string[] = []
     do {
         const [r1, r2, r3] = await CacheEveryThing(async () => a.gallery_info(id, gallery_token, page),
