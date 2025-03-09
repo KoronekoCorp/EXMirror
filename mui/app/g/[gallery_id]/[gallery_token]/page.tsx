@@ -75,7 +75,7 @@ export default async function G(
                 <Grid item xs={12} md={4} sx={{ width: "100%", textAlign: 'center' }}>
                     {thumbnail[0].url.includes("s.exhentai.org")
                         ? <Image src={"https://ehgt.org" + thumbnail[0].url.slice(22)} style={{ width: "100%" }} />
-                        : <div style={{ height: "100%", aspectRatio: `${thumbnail[0].width}/${(thumbnail[0].height / 100 | 0 + 1) * 100}`, overflow: "hidden", position: "relative" }}>
+                        : <div style={{ height: "100%", aspectRatio: `2/3`, overflow: "hidden", position: "relative" }}>
                             <Image
                                 src={thumbnail[0].url}
                                 style={{ left: thumbnail[0].position + "px", position: "relative", height: "100%" }}
@@ -127,7 +127,7 @@ export default async function G(
                     <Stack direction="row"
                         justifyContent="flex-start"
                         alignItems="center"
-                        spacing={{ xs: 1, sm: 2 }} useFlexGap flexWrap="wrap" sx={{ p: 1, textAlign: "center" }}>
+                        spacing={{ xs: 1, sm: 2 }} useFlexGap flexWrap="wrap" sx={{ p: 1, textAlign: "center", "img": { height: "1em" } }}>
                         <TagIcon />Tags:
                         {gdata.tags.map((tag) => (
                             //@ts-ignore
@@ -157,7 +157,7 @@ export default async function G(
                     <Link href={thumbnail_url[index]} prefetch={false}>
                         {thumbnail[index].url.includes("s.exhentai.org")
                             ? <Image src={"https://ehgt.org" + thumbnail[index].url.slice(22)} style={{ width: "100%" }} />
-                            : <div style={{ height: "100%", aspectRatio: `${thumbnail[index].width}/${(thumbnail[index].height / 100 | 0 + 1) * 100}`, overflow: "hidden", position: "relative" }}>
+                            : <div style={{ height: "100%", aspectRatio: `2/3`, overflow: "hidden", position: "relative" }}>
                                 <Image
                                     src={thumbnail[index].url}
                                     style={{ left: thumbnail[index].position / 2 + "%", position: "relative", height: "100%" }}
