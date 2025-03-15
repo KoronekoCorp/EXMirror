@@ -22,6 +22,7 @@ const H2 = styled("h2")(({ theme }) => ({
 
 export default function Setting() {
     const [fullimg, setfullimg] = useState('false');
+    const [thumb, setthumb] = useState('false');
     const [img, setimg] = useState("aeiljuispo.cloudimg.io")
     const [data, setdata] = useState<{ key: string; length: number; }[]>([])
     const [CacheStatus, setCS] = useState(false)
@@ -69,6 +70,7 @@ export default function Setting() {
     useEffect(() => {
         setfullimg(Cookies.get("fullimg") ?? "false")
         setimg(localStorage.getItem("mirror") ?? "acodsaidap.cloudimg.io")
+        setthumb(localStorage.getItem("thumb") ?? "false")
         cache()
     }, [])
 
@@ -164,6 +166,22 @@ export default function Setting() {
             </Grid>
 
             <Grid item xs={12} md={6}>
+                <H2>
+                    <SettingsIcon /> 缩略图优化
+                </H2>
+                <div style={{ padding: 10 }}>
+                    <FormControl component="fieldset">
+                        <FormLabel component="legend" sx={{ color: 'inherit' }}>是否启用基于图片代理的缩略图裁剪</FormLabel>
+                        <RadioGroup onChange={(e) => {
+                            setthumb(e.target.value)
+                            localStorage.setItem("thumb", e.target.value)
+                            enqueueSnackbar("缩略图设置已保存", { variant: 'info' })
+                        }} value={thumb}>
+                            <FormControlLabel value="true" control={<Radio />} label="是" />
+                            <FormControlLabel value="false" control={<Radio />} label="否(默认)" />
+                        </RadioGroup>
+                    </FormControl>
+                </div>
                 <H2>
                     <ImageIcon />图片代理
                 </H2>

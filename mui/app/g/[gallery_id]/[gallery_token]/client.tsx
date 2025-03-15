@@ -1,14 +1,15 @@
 "use client"
 
 import { type ginfo } from "@/Data/EXJSDOM"
-import { Accordion, AccordionDetails, AccordionSummary, LinearProgress, List, Divider, ListItem, ListItemButton, ListItemText, Box, Tab, Tabs, TextField, Button } from "@mui/material"
-import { useRouter } from "next/navigation"
-import { useEffect, useRef, useState } from "react"
-import { Dig } from "@/components/Modals"
-import { enqueueSnackbar } from "notistack"
-import SendIcon from '@mui/icons-material/Send';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { H2 } from "@/H2"
+import { Image } from "@/components/Image"
+import { Dig } from "@/components/Modals"
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import SendIcon from '@mui/icons-material/Send'
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Divider, LinearProgress, List, ListItem, ListItemButton, ListItemText, Tab, Tabs, TextField } from "@mui/material"
+import { useRouter } from "next/navigation"
+import { enqueueSnackbar } from "notistack"
+import { useEffect, useRef, useState } from "react"
 
 
 export function NextPage({ gallery_id, gallery_token, p }: { gallery_id: string, gallery_token: string, p: number }) {
@@ -131,4 +132,24 @@ export function GalleryTitle({ title }: { title: string | undefined }) {
         const search = title?.replaceAll(/(\[(.*?)\]|\((.*?)\))/g, "").trim()
         if (search) router.push(`/i?f_search=${encodeURIComponent(search)}`)
     }}>{title}</H2>
+}
+
+
+export function ImagePro({ thumbnail }: { thumbnail: { width: number; height: number; url: string; position: number; } }) {
+    const [thumb, setthumb] = useState<string>()
+    useEffect(() => {
+        setthumb(localStorage.getItem("thumb") ?? "false")
+    }, [thumbnail.url])
+
+    return thumbnail.url.includes("s.exhentai.org")
+        ? <Image src={"https://ehgt.org" + thumbnail.url.slice(22)} style={{ width: "100%" }} />
+        : (thumb === "true"
+            ? <Image src={thumbnail.url + `?tl_px=${-thumbnail.position},0&br_px=${200 - thumbnail.position},${thumbnail.height}`} style={{ width: "100%" }} />
+            : <div style={{ height: "100%", aspectRatio: `2/3`, overflow: "hidden", position: "relative" }}>
+                <Image
+                    src={thumbnail.url}
+                    style={{ left: thumbnail.position / 2 + "%", position: "relative", height: "100%" }}
+                />
+            </div>)
+
 }

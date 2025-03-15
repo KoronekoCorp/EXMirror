@@ -1,24 +1,23 @@
 import { API } from "@/Data/EXAPI"
-import { notFound } from "next/navigation"
-import Link from "next/link"
 import { db } from "@/Data/EXDB"
-import { R, Top } from "@/components/push"
-import { Cookie } from "@/components/Cookies"
-import { NextPage, Reply, GalleryTitle } from "./client"
 import { type ginfo } from "@/Data/EXJSDOM"
 import { CacheEveryThing } from "@/Data/cache"
+import { Cookie } from "@/components/Cookies"
+import { R, Top } from "@/components/push"
+import AccessTimeIcon from '@mui/icons-material/AccessTime'
+import BookmarksIcon from '@mui/icons-material/Bookmarks'
+import BurstModeIcon from '@mui/icons-material/BurstMode'
+import CommentIcon from '@mui/icons-material/Comment'
+import DataUsageIcon from '@mui/icons-material/DataUsage'
+import DehazeIcon from '@mui/icons-material/Dehaze'
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
+import PersonIcon from '@mui/icons-material/Person'
+import TagIcon from '@mui/icons-material/Tag'
+import { Button, Container, Grid, Link as LinkC, Rating, Stack } from "@mui/material"
 import { cookies, headers } from "next/headers"
-import { Image } from "@/components/Image"
-import { Button, Container, Grid, Rating, Stack, Link as LinkC } from "@mui/material"
-import BurstModeIcon from '@mui/icons-material/BurstMode';
-import BookmarksIcon from '@mui/icons-material/Bookmarks';
-import PersonIcon from '@mui/icons-material/Person';
-import DataUsageIcon from '@mui/icons-material/DataUsage';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import TagIcon from '@mui/icons-material/Tag';
-import DehazeIcon from '@mui/icons-material/Dehaze';
-import CommentIcon from '@mui/icons-material/Comment';
+import Link from "next/link"
+import { notFound } from "next/navigation"
+import { GalleryTitle, ImagePro, NextPage, Reply } from "./client"
 
 const favcolor = ["#818181", "#f83333", "#fd903b", "#fdf23f", "#2ad853", "#a5f331", "#2ce4e5", "#3b2ef4", "#9732f6", "#ce309e", "#0e0e0e"]
 const favtext = [0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0]
@@ -73,15 +72,7 @@ export default async function G(
         <Container sx={{ paddingTop: 10, color: "text.primary" }}>
             <Grid container spacing={2} alignItems="flex-start" justifyContent="center">
                 <Grid item xs={12} md={4} sx={{ width: "100%", textAlign: 'center' }}>
-                    {thumbnail[0].url.includes("s.exhentai.org")
-                        ? <Image src={"https://ehgt.org" + thumbnail[0].url.slice(22)} style={{ width: "100%" }} />
-                        : <div style={{ height: "100%", aspectRatio: `2/3`, overflow: "hidden", position: "relative" }}>
-                            <Image
-                                src={thumbnail[0].url}
-                                style={{ left: thumbnail[0].position + "px", position: "relative", height: "100%" }}
-                            />
-                        </div>
-                    }
+                    <ImagePro thumbnail={thumbnail[0]} />
                     <Button LinkComponent={Link} href={`/mpv/${id}/${gallery_token}`} variant="contained" sx={{ m: 1 }}
                         startIcon={<BurstModeIcon />}>
                         正统mpv阅读
@@ -155,15 +146,7 @@ export default async function G(
             <Grid container alignItems="center" textAlign="center" spacing={2}>
                 {thumbnail.map((t, index) => <Grid xs={6} md={3} key={`${t.url}-${t.position}`} item>
                     <Link href={thumbnail_url[index]} prefetch={false}>
-                        {thumbnail[index].url.includes("s.exhentai.org")
-                            ? <Image src={"https://ehgt.org" + thumbnail[index].url.slice(22)} style={{ width: "100%" }} />
-                            : <div style={{ height: "100%", aspectRatio: `2/3`, overflow: "hidden", position: "relative" }}>
-                                <Image
-                                    src={thumbnail[index].url}
-                                    style={{ left: thumbnail[index].position / 2 + "%", position: "relative", height: "100%" }}
-                                />
-                            </div>
-                        }
+                        <ImagePro thumbnail={thumbnail[index]} />
                     </Link>
                     <br />
                     {index + 1}

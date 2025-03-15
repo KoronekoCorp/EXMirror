@@ -11,8 +11,9 @@ export function Image({ src, style }: { src: string, style?: CSSProperties }) {
 
     return <>
         {mir && <img
-            loading="lazy"
-            src={src.includes("hath.network") ? src : "/favicon.ico"}
+            src={
+                src.includes("tl_px=") ? "/favicon.ico" : src.includes("hath.network") ? src : "/favicon.ico"
+            }
             className="lazyload blur-up"
             data-src={mir ? `https://${mir}/v7/${src}` : src}
             style={style}
