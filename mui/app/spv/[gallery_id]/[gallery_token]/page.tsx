@@ -35,7 +35,7 @@ export default async function G(
     const thumbnail_url: string[] = []
     do {
         const [r1, r2, r3] = await CacheEveryThing(async () => a.gallery_info(id, gallery_token, page),
-            [`g/${id}/${gallery_token}?p=${page}`], 86400
+            [`g/${id}/${gallery_token}`, `${page}`], 86400
         )()
         if (r3) gdata = r3
         r1.map((e) => thumbnail.push(e))

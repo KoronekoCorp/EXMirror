@@ -7,7 +7,12 @@ const nextConfig = {
             })
         );
         return config
-    }
+    },
+    logging: {
+        fetches: {
+            fullUrl: true,
+        },
+    },
 }
 
 module.exports = nextConfig

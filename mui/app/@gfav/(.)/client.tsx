@@ -1,6 +1,6 @@
 "use client"
 import { useState } from 'react'
-import { FormControl, Select, MenuItem, Grid, TextField } from '@mui/material'
+import { FormControl, Select, MenuItem, GridLegacy as Grid, TextField } from '@mui/material'
 import { enqueueSnackbar } from 'notistack'
 import { add } from './server'
 import { Dig } from '@/components/Modals'

@@ -2,7 +2,7 @@
 
 import { AutoSearch } from "./AutoSearch"
 import { Top } from "./push";
-import { Checkbox, Container, FormControl, FormControlLabel, Grid, MenuItem, Select, Stack, TextField, ToggleButton, IconButton } from "@mui/material"
+import { Checkbox, Container, FormControl, FormControlLabel, GridLegacy as Grid, MenuItem, Select, Stack, TextField, ToggleButton, IconButton } from "@mui/material"
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react"
 import SearchIcon from '@mui/icons-material/Search';

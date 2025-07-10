@@ -13,7 +13,7 @@ import DehazeIcon from '@mui/icons-material/Dehaze'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
 import PersonIcon from '@mui/icons-material/Person'
 import TagIcon from '@mui/icons-material/Tag'
-import { Button, Container, Grid, Link as LinkC, Rating, Stack } from "@mui/material"
+import { Button, Container, GridLegacy as Grid, Link as LinkC, Rating, Stack } from "@mui/material"
 import { cookies, headers } from "next/headers"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -47,7 +47,7 @@ export default async function G(
     for (let page = 0; page <= p; page++) {
         __thumbnail.push(
             CacheEveryThing(async () => a.gallery_info(id, gallery_token, page),
-                [`g/${id}/${gallery_token}?p=${page}`, `${(await cookies()).get("ipb_member_id")}`], 86400
+                [`g/${id}/${gallery_token}`, `${page}`, `${(await cookies()).get("ipb_member_id")}`], 86400
             )()
         )
     }

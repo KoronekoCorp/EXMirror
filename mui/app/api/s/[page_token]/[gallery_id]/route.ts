@@ -27,7 +27,7 @@ export async function GET(
                 url = data.img
             }
             return { data, url }
-        }, [`s/${page_token}/${gallery_id}?fullimg=${fullimg}`], 600)(),
+        }, [`s/${page_token}?fullimg=${fullimg}`, `s-${gallery_id}`], 600)(),
         {
             headers: {
                 'Cache-Control': 'max-age=600'

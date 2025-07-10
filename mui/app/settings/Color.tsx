@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Grid, Input, Stack } from "@mui/material"
+import { Button, GridLegacy as Grid, Input, Stack } from "@mui/material"
 import { ThemeProvider, createTheme, useTheme } from "@mui/material/styles"
 import { enqueueSnackbar } from "notistack"
 import { useEffect, useState } from "react"

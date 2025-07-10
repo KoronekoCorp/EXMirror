@@ -1,6 +1,6 @@
 "use client"
 
-import { Container, Grid, IconButton, TextField } from "@mui/material"
+import { Container, GridLegacy as Grid, IconButton, TextField } from "@mui/material"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import SearchIcon from '@mui/icons-material/Search';

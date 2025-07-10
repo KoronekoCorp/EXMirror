@@ -1,4 +1,6 @@
 "use client"
+import { CacheCleanIconButton } from '@/components/CacheClean';
+import { getRootDomain } from '@/components/getDomain';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import HomeIcon from '@mui/icons-material/Home';
@@ -63,8 +65,10 @@ export function Root({ darkmode, children }: { darkmode?: boolean, children: Rea
                     </Typography>
                     {/* <MenuItem> */}
                     <Box sx={{ flexGrow: 1 }} />
+                    <CacheCleanIconButton />
                     <IconButton sx={{ ml: 1 }} onClick={() => {
-                        document.cookie = `dark=${!dark}; max-age=604800; path=/; domain=${document.location.hostname.replace(/.*?\./, ".")}`;
+                        const domain = getRootDomain()
+                        document.cookie = `dark=${!dark}; max-age=604800; path=/; domain=${domain}`;
                         setdark(!dark)
                     }} color="inherit">
                         {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}

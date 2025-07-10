@@ -4,7 +4,7 @@ import { R } from "@/components/push"
 import { GDatas } from "@/components/GDatas"
 import Link from "next/link"
 import { Cookie } from "@/components/Cookies"
-import { Button, Container, Grid } from "@mui/material"
+import { Button, Container, GridLegacy as Grid } from "@mui/material"
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { GdataTr } from "@/Data/ETools"

@@ -1,7 +1,7 @@
 "use client"
 
 import { Skeleton } from "@mui/material"
-import { useEffect, useState } from "react"
+import { type JSX, useEffect, useState } from "react"
 
 export function Image({ src, aspectRatio }: { src: string, aspectRatio: number }) {
     const [error, seterror] = useState(0)

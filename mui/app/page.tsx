@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import style from './style.module.css'
-import { Grid, Container } from "@mui/material";
+import { GridLegacy as Grid, Container } from "@mui/material";
 
 export default function Home() {
   return (

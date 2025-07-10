@@ -2,7 +2,7 @@
 
 import { enqueueSnackbar } from "notistack";
 import { Get_ip, IP, Link } from "./server";
-import { Table, TableHead, TableCell, TableRow, TableBody, Typography, Button, Grid } from "@mui/material";
+import { Table, TableHead, TableCell, TableRow, TableBody, Typography, Button, GridLegacy as Grid } from "@mui/material";
 import { useState } from "react";
 import StorageIcon from '@mui/icons-material/Storage';
 

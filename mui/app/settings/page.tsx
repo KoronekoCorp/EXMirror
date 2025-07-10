@@ -4,7 +4,7 @@ import CachedIcon from '@mui/icons-material/Cached';
 import ColorLensIcon from '@mui/icons-material/ColorLens';
 import ImageIcon from '@mui/icons-material/Image';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Button, FormControl, FormControlLabel, FormLabel, Grid, MenuItem, Radio, RadioGroup, Select, Stack, Table, TableBody, TableCell, TableHead, TableRow, styled } from "@mui/material";
+import { Button, FormControl, FormControlLabel, FormLabel, GridLegacy as Grid, MenuItem, Radio, RadioGroup, Select, Stack, Table, TableBody, TableCell, TableHead, TableRow, styled } from "@mui/material";
 import Cookies from "js-cookie";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useState } from "react";
