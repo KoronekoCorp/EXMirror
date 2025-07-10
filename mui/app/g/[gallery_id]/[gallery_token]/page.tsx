@@ -94,7 +94,7 @@ export default async function G(
                     {gdata.gj != "" && <GalleryTitle title={gdata.gj} />}
                     <Stack direction="row" sx={{ p: 1 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
                         <PersonIcon />上传者:
-                        <LinkC component={Link} href={`/search/${gdata.uploader}`}>
+                        <LinkC component={Link} href={`/uploader/${gdata.uploader}`}>
                             {gdata.uploader}
                         </LinkC>
                     </Stack>

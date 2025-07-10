@@ -29,13 +29,18 @@ const format_style = (style: string) => {
     })
     return s
 }
+const helper_TR: { [key: string]: string } = {
+    "many": "许多",
+    "thousands": "数千",
+    "hundreds": "数百",
+}
 
 export function GDatas({ G, allowSearch, searchtext }: { G: G_JSDOM_DATA[], allowSearch?: boolean, searchtext?: { Filtered?: string, Found?: string, about?: boolean } }) {
     return <Container sx={{ "& > div": { m: 1 }, "& > p": { color: "text.primary" } }}>
         {allowSearch && <Accordions title={"Search"}>
             <FullSearch />
         </Accordions>}
-        {searchtext?.Found && <p style={{ textAlign: 'center' }}>找到{searchtext.about ? "约" : ""} {searchtext?.Found} 个结果。</p>}
+        {searchtext?.Found && <p style={{ textAlign: 'center' }}>找到{searchtext.about ? "约" : ""} {["hundreds", "thousands", "many"].includes(searchtext?.Found) ? helper_TR[searchtext?.Found] : searchtext?.Found} 个结果。</p>}
         {searchtext?.Filtered && <p style={{ textAlign: 'center' }}>已从此页面过滤 {searchtext?.Filtered} 个结果。<Filtered /></p>}
         {G.length === 0 && <p style={{ textAlign: 'center' }}>什么都没有呢</p>}
         {G.map((e) => {
@@ -50,7 +55,10 @@ export function GDatas({ G, allowSearch, searchtext }: { G: G_JSDOM_DATA[], allo
                                 <Typography component="div" variant="h5">
                                     {e.title}
                                 </Typography>
-                                <Typography variant="subtitle1" color="text.secondary" component={Link} href={`/search/${e.uploader}`} sx={{ textDecoration: 'none' }}>
+                                <Typography component="div" variant="h6" color="text.secondary">
+                                    {e.pages}  页
+                                </Typography>
+                                <Typography variant="subtitle1" color="text.secondary" component={Link} href={`/uploader/${e.uploader}`} sx={{ textDecoration: 'none' }}>
                                     {e.uploader}
                                 </Typography>
                                 <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap" sx={{ "img": { height: "1em" } }}>
