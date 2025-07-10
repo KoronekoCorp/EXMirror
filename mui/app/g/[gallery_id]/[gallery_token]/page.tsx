@@ -138,7 +138,7 @@ export default async function G(
                         alignItems="center"
                         spacing={2} sx={{ p: 1, m: 1 }}>
                         <CommentIcon />
-                        <p style={{ wordBreak: 'break-word' }} dangerouslySetInnerHTML={{ __html: gdata.uploadercomment.replaceAll("s.exhentai.org", `aeiljuispo.cloudimg.io/v7/https://ehgt.org`).replaceAll("exhentai.org", header.get("host") ?? "ex.elysia.rip") }}></p>
+                        <p style={{ wordBreak: 'break-word' }} dangerouslySetInnerHTML={{ __html: gdata.uploadercomment.replaceAll("s.exhentai.org", `acodsaidap.cloudimg.io/v7/https://ehgt.org`).replaceAll("exhentai.org", header.get("host") ?? "ex.elysia.rip") }}></p>
                     </Stack>}
                 </Grid>
             </Grid>

@@ -41,21 +41,21 @@ export async function GET(request: Request, props: { params: Promise<{ search: s
                     score: Score[d[i].frontMatters.key],
                     key: `${i}:${j}`,
                     ...o,
-                    name: d[i].frontMatters.name + " " + o.name.replace("https://", "https://aeiljuispo.cloudimg.io/v7/https://").replace("<p>", "").replace("</p>", ""),
+                    name: d[i].frontMatters.name + " " + o.name.replace("https://", "https://acodsaidap.cloudimg.io/v7/https://").replace("<p>", "").replace("</p>", ""),
                 })
             } else if (o.name.includes(search)) {
                 fin.push({
                     score: Score[d[i].frontMatters.key] * 0.9,
                     key: `${i}:${j}`,
                     ...o,
-                    name: d[i].frontMatters.name + " " + o.name.replace("https://", "https://aeiljuispo.cloudimg.io/v7/https://").replace("<p>", "").replace("</p>", ""),
+                    name: d[i].frontMatters.name + " " + o.name.replace("https://", "https://acodsaidap.cloudimg.io/v7/https://").replace("<p>", "").replace("</p>", ""),
                 })
             } else if (o.intro.includes(search)) {
                 fin.push({
                     score: Score[d[i].frontMatters.key] * 0.5,
                     key: `${i}:${j}`,
                     ...o,
-                    name: d[i].frontMatters.name + " " + o.name.replace("https://", "https://aeiljuispo.cloudimg.io/v7/https://").replace("<p>", "").replace("</p>", ""),
+                    name: d[i].frontMatters.name + " " + o.name.replace("https://", "https://acodsaidap.cloudimg.io/v7/https://").replace("<p>", "").replace("</p>", ""),
                 })
             }
         }

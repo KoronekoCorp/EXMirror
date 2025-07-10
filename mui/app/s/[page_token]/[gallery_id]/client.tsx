@@ -7,7 +7,7 @@ export function Image({ src, aspectRatio }: { src: string, aspectRatio: number }
     const [error, seterror] = useState(0)
     const [mir, setmir] = useState<string>()
     useEffect(() => {
-        setmir(localStorage.getItem("mirror") ?? "aeiljuispo.cloudimg.io")
+        setmir(localStorage.getItem("mirror") ?? "acodsaidap.cloudimg.io")
     }, [src])
 
     // onError有时不触发, BUG.md.2

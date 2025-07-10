@@ -28,7 +28,7 @@ export function SPVImage({ spage, page, load, time }: { spage: string, page: num
     const ref = useRef<HTMLDivElement | null>(null)
     const [data, setdata] = useState<api>()
     const [error, seterror] = useState(0)
-    const mirror = localStorage.getItem("mirror") ?? "aeiljuispo.cloudimg.io"
+    const mirror = localStorage.getItem("mirror") ?? "acodsaidap.cloudimg.io"
 
     const get_url = (): string => {
         switch (error) {

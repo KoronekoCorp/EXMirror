@@ -23,7 +23,7 @@ const H2 = styled("h2")(({ theme }) => ({
 export default function Setting() {
     const [fullimg, setfullimg] = useState('false');
     const [thumb, setthumb] = useState('false');
-    const [img, setimg] = useState("aeiljuispo.cloudimg.io")
+    const [img, setimg] = useState("acodsaidap.cloudimg.io")
     const [data, setdata] = useState<{ key: string; length: number; }[]>([])
     const [CacheStatus, setCS] = useState(false)
 
@@ -187,7 +187,7 @@ export default function Setting() {
                 </H2>
                 <div style={{ paddingTop: 10 }}>
                     <p>请注意，图片代理质量越高会导致加载速度的变慢，请均衡选择</p>
-                    <p>代理列表数据生成于2025.3.8,<a href="https://github.com/KoronekoCorp/Tools">使用此工具生成</a></p>
+                    <p>代理列表数据生成于2025.7.10,<a href="https://github.com/KoronekoCorp/Tools">使用此工具生成</a></p>
                     <FormControl>
                         <Select
                             autoFocus

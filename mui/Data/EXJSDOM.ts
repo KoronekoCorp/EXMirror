@@ -88,7 +88,7 @@ export interface ginfo {
 }
 
 function Replace(str: string) {
-    return str.replaceAll("s.exhentai.org", `aeiljuispo.cloudimg.io/v7/https://ehgt.org`).replaceAll("exhentai.org", process.env.SITE)
+    return str.replaceAll("s.exhentai.org", `acodsaidap.cloudimg.io/v7/https://ehgt.org`).replaceAll("exhentai.org", process.env.SITE)
 }
 
 class EXJSDOM {

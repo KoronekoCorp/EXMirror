@@ -13,7 +13,7 @@ export function MPVImage({ gid, page, mpvdata, mpvkey, load, time }:
     const ref = useRef<HTMLDivElement | null>(null)
     const [data, setdata] = useState<mpvimg>()
     const [error, seterror] = useState(0)
-    const mirror = localStorage.getItem("mirror") ?? "aeiljuispo.cloudimg.io"
+    const mirror = localStorage.getItem("mirror") ?? "acodsaidap.cloudimg.io"
 
     const get_url = (): string => {
         switch (error) {
