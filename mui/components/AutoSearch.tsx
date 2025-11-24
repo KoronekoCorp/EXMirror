@@ -132,7 +132,7 @@ export function AutoSearch({ baseurl, onClick, onChange, allowEnter }:
             )}
             renderOption={(props, option) => {
                 return <li {...props}>
-                    <Typography variant="body2" color="text.secondary" component={"div"} dangerouslySetInnerHTML={{ __html: option.name }}>
+                    <Typography variant="body2" color="text.secondary" component={"div"} dangerouslySetInnerHTML={{ __html: option.name }} sx={{ "img": { height: "1em" } }}>
 
                     </Typography>
                 </li>
