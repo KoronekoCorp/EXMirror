@@ -169,3 +169,17 @@ console.log(search);
 ```
 
 很遗憾，在开发环境中上述各种策略时有生效，但在生产环境下均完全不奏效
+
+# 5 mui/components/LinkFix.tsx(已修复,待优化)
+
+更新Nextjs版本到16.0.0+后出现的兼容性问题
+
+mui/components/LinkFix.tsx
+
+直接在MUI的Button使用Link会报错：
+
+Functions cannot be passed directly to Client Components unless you explicitly expose it by marking it with "use server". Or maybe you meant to call this function rather than return it.
+
+```<Button LinkComponent={Link}/>```
+
+https://github.com/mui/material-ui/issues/47109
