@@ -1,6 +1,6 @@
 "use client"
 
-import Link from "next/link";
+import Link from "@/components/LinkFix";
 import style from './style.module.css'
 import { GridLegacy as Grid, Container } from "@mui/material";
 

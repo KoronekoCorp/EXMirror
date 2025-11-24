@@ -1,12 +1,12 @@
-import { API } from "@/Data/EXAPI"
-import { db } from "@/Data/EXDB"
-import { R } from "@/components/push"
-import { GDatas } from "@/components/GDatas"
-import Link from "next/link"
-import { Button } from "@mui/material"
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { GdataTr } from "@/Data/ETools"
+import { useAPI } from "@/Data/EXAPI"
+import { db } from "@/Data/EXDB"
+import { GDatas } from "@/components/GDatas"
+import { R } from "@/components/push"
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
+import { Button } from "@mui/material"
+import Link from "@/components/LinkFix"
 
 
 export default async function W(
@@ -15,8 +15,8 @@ export default async function W(
 ) {
     const searchParams = await props.searchParams;
 
-    const a = new API()
-    if (!a.header.cookie.includes("igneous")) {
+    const a = await useAPI()
+    if (!a.check_local()) {
         return <R url="/login" />
     }
     const __tr = db.getDB()

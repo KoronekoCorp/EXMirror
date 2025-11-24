@@ -1,5 +1,6 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
     webpack: (config, { webpack, buildId, isServer }) => {
         config.plugins.push(
             new webpack.DefinePlugin({
@@ -8,11 +9,15 @@ const nextConfig = {
         );
         return config
     },
+    turbopack: {
+
+    },
+    cacheComponents: false,
     logging: {
         fetches: {
-            fullUrl: true,
-        },
-    },
-}
+            fullUrl: true
+        }
+    }
+};
 
-module.exports = nextConfig
+export default nextConfig;

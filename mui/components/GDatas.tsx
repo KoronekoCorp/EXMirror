@@ -1,5 +1,5 @@
 import { type G_JSDOM_DATA } from "@/Data/EXJSDOM";
-import Link from "next/link";
+import Link from "@/components/LinkFix";
 import { Image } from "./Image";
 import { Button, Typography, GridLegacy as Grid, Card, CardActionArea, CardContent, CardActions, Container, Stack } from "@mui/material";
 import { Top } from "./push";

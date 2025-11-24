@@ -1,8 +1,8 @@
-import { API } from "@/Data/EXAPI"
-import { db } from "@/Data/EXDB"
-import { R } from "@/components/push"
 import { GDatas } from "@/components/GDatas"
+import { R } from "@/components/push"
 import { GdataTr } from "@/Data/ETools"
+import { useAPI } from "@/Data/EXAPI"
+import { db } from "@/Data/EXDB"
 
 
 export default async function P(
@@ -11,8 +11,8 @@ export default async function P(
 ) {
     const searchParams = await props.searchParams;
 
-    const a = new API()
-    if (!a.header.cookie.includes("igneous")) {
+    const a = await useAPI()
+    if (!a.check_local()) {
         return <R url="/login" />
     }
     const __tr = db.getDB()

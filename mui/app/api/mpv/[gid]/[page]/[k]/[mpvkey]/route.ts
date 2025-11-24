@@ -1,6 +1,6 @@
-import { API } from "@/Data/EXAPI"
-import { CacheEveryThing } from "@/Data/cache"
-import { cookies } from "next/headers"
+import { useAPI } from "@/Data/EXAPI";
+import { CacheEveryThing } from "@/Data/cache";
+import { cookies } from "next/headers";
 
 
 export async function GET(
@@ -16,7 +16,7 @@ export async function GET(
         mpvkey
     } = params;
 
-    const a = new API()
+    const a = await useAPI()
     const fullimg = (await cookies()).get("fullimg")?.value == "true"
 
     return Response.json(

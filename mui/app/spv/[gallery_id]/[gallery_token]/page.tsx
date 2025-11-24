@@ -1,13 +1,13 @@
-import { API } from "@/Data/EXAPI"
+import { useAPI } from "@/Data/EXAPI"
 import { ginfo } from "@/Data/EXJSDOM"
 import { CacheEveryThing } from "@/Data/cache"
-import { R, S, Top } from "@/components/push"
-import { notFound } from "next/navigation"
-import { Box, Button, Container } from "@mui/material"
-import MenuBookIcon from '@mui/icons-material/MenuBook';
-import Link from "next/link"
 import { H2 } from "@/H2"
 import { Cookie } from "@/components/Cookies"
+import { R, S, Top } from "@/components/push"
+import MenuBookIcon from '@mui/icons-material/MenuBook'
+import { Box, Button, Container } from "@mui/material"
+import Link from "@/components/LinkFix"
+import { notFound } from "next/navigation"
 import { SPVImages } from "./Images"
 
 export default async function G(
@@ -24,8 +24,8 @@ export default async function G(
 
     const id = parseInt(gallery_id)
     if (id < 0) { notFound() }
-    const a = new API()
-    if (!a.header.cookie.includes("igneous")) {
+    const a = await useAPI()
+    if (!a.check_local()) {
         return <R url="/login" />
     }
     let page = 0

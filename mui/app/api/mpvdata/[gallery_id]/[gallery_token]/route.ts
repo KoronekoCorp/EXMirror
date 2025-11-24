@@ -1,5 +1,5 @@
-import { API } from "@/Data/EXAPI"
-import { CacheEveryThing } from "@/Data/cache"
+import { useAPI } from "@/Data/EXAPI";
+import { CacheEveryThing } from "@/Data/cache";
 
 
 export async function GET(
@@ -13,7 +13,7 @@ export async function GET(
         gallery_token
     } = params;
 
-    const a = new API()
+    const a = await useAPI()
 
     return Response.json(
         await CacheEveryThing(async () => {

@@ -1,6 +1,6 @@
-import { cookies, type UnsafeUnwrappedCookies } from "next/headers";
+import { cookies } from "next/headers";
 import { gdata, mpvdata, mpvimg } from "./EType"
-import { revalidateTag } from "next/cache"
+import { updateTag } from "next/cache"
 import { EXJSDOM, type ginfo } from "./EXJSDOM"
 
 class API {
@@ -21,8 +21,20 @@ class API {
         "cookie": ""
     }
     cookies: string[] = []
-    constructor(cookie: string = (cookies() as unknown as UnsafeUnwrappedCookies).toString()) {
+    uid: string
+    constructor(cookie: string, uid: string) {
         this.header.cookie = cookie
+        this.uid = uid
+    }
+
+    /**
+     * 本地校验
+     * @returns 
+     */
+    check_local() {
+        return this.header.cookie.includes("ipb_member_id") &&
+            this.header.cookie.includes("ipb_pass_hash") &&
+            this.header.cookie.includes("igneous")
     }
 
     async get(url: URL | string, tags: string[] | undefined, revalidate: number | false | undefined = 7200) {
@@ -275,12 +287,18 @@ class API {
                 }
             }
         )
-        revalidateTag(`https://exhentai.org/gallerypopups.php?gid=${gallery_id}&t=${gallery_token}&act=addfav`)
-        revalidateTag(`g/${gallery_id}/${gallery_token}`,)
+        /**逻辑错位 */
+        updateTag(`https://exhentai.org/gallerypopups.php?gid=${gallery_id}&t=${gallery_token}&act=addfav`)
+        updateTag(`g/${gallery_id}/${gallery_token}`,)
         return r.status === 200
     }
 }
 
+
+export async function useAPI() {
+    const c = await cookies()
+    return new API(c.toString(), c.get("ipb_member_id")?.value ?? "-1")
+}
 
 export { API }
 

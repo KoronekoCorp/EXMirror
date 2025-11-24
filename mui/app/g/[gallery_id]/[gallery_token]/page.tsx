@@ -1,4 +1,4 @@
-import { API } from "@/Data/EXAPI"
+import { useAPI } from "@/Data/EXAPI"
 import { db } from "@/Data/EXDB"
 import { type ginfo } from "@/Data/EXJSDOM"
 import { CacheEveryThing } from "@/Data/cache"
@@ -15,7 +15,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import TagIcon from '@mui/icons-material/Tag'
 import { Button, Container, GridLegacy as Grid, Link as LinkC, Rating, Stack } from "@mui/material"
 import { cookies, headers } from "next/headers"
-import Link from "next/link"
+import Link from "@/components/LinkFix"
 import { notFound } from "next/navigation"
 import { GalleryTitle, ImagePro, NextPage, Reply } from "./client"
 
@@ -36,8 +36,8 @@ export default async function G(
 
     const id = parseInt(gallery_id)
     if (id < 0) { notFound() }
-    const a = new API()
-    if (!a.header.cookie.includes("igneous")) {
+    const a = await useAPI()
+    if (!a.check_local()) {
         return <R url="/login" />
     }
 
