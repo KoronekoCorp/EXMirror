@@ -187,7 +187,7 @@ export default function Setting() {
                 </H2>
                 <div style={{ paddingTop: 10 }}>
                     <p>请注意，图片代理质量越高会导致加载速度的变慢，请均衡选择</p>
-                    <p>代理列表数据生成于2025.7.10,<a href="https://github.com/KoronekoCorp/Tools">使用此工具生成</a></p>
+                    <p>代理列表数据生成于2025.11.24,<a href="https://github.com/KoronekoCorp/Tools">使用此工具生成</a></p>
                     <FormControl>
                         <Select
                             autoFocus
