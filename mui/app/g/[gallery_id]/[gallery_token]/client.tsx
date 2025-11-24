@@ -138,7 +138,7 @@ export function GalleryTitle({ title }: { title: string | undefined }) {
 export function ImagePro({ thumbnail }: { thumbnail: { width: number; height: number; url: string; position: number; } }) {
     const [thumb, setthumb] = useState<string>()
     useEffect(() => {
-        setthumb(localStorage.getItem("thumb") ?? "false")
+        setthumb(localStorage.getItem("thumb") ?? "true")
     }, [thumbnail.url])
 
     return thumbnail.url.includes("s.exhentai.org")

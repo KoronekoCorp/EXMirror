@@ -22,7 +22,7 @@ const H2 = styled("h2")(({ theme }) => ({
 
 export default function Setting() {
     const [fullimg, setfullimg] = useState('false');
-    const [thumb, setthumb] = useState('false');
+    const [thumb, setthumb] = useState('true');
     const [img, setimg] = useState("acodsaidap.cloudimg.io")
     const [data, setdata] = useState<{ key: string; length: number; }[]>([])
     const [CacheStatus, setCS] = useState(false)
@@ -70,7 +70,7 @@ export default function Setting() {
     useEffect(() => {
         setfullimg(Cookies.get("fullimg") ?? "false")
         setimg(localStorage.getItem("mirror") ?? "acodsaidap.cloudimg.io")
-        setthumb(localStorage.getItem("thumb") ?? "false")
+        setthumb(localStorage.getItem("thumb") ?? "true")
         cache()
     }, [])
 
@@ -177,8 +177,8 @@ export default function Setting() {
                             localStorage.setItem("thumb", e.target.value)
                             enqueueSnackbar("缩略图设置已保存", { variant: 'info' })
                         }} value={thumb}>
-                            <FormControlLabel value="true" control={<Radio />} label="是" />
-                            <FormControlLabel value="false" control={<Radio />} label="否(默认)" />
+                            <FormControlLabel value="true" control={<Radio />} label="是(默认)" />
+                            <FormControlLabel value="false" control={<Radio />} label="否" />
                         </RadioGroup>
                     </FormControl>
                 </div>
