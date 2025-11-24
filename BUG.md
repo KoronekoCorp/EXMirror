@@ -183,3 +183,21 @@ Functions cannot be passed directly to Client Components unless you explicitly e
 ```<Button LinkComponent={Link}/>```
 
 https://github.com/mui/material-ui/issues/47109
+
+
+# 6 vercel nodejs最高版本低于jsdom最新版最低版本要求
+
+会报错显示
+
+```js
+Error [ERR_REQUIRE_ESM]: require() of ES Module /dev/test-jsdom/node_modules/parse5/dist/index.js from /dev/test-jsdom/node_modules/jsdom/lib/jsdom/browser/parser/html.js not supported.
+Instead change the require of index.js in /dev/test-jsdom/node_modules/jsdom/lib/jsdom/browser/parser/html.js to a dynamic import() which is available in all CommonJS modules.
+    at TracingChannel.traceSync (node:diagnostics_channel:315:14)
+    at Object.<anonymous> (/dev/test-jsdom/node_modules/jsdom/lib/jsdom/browser/parser/html.js:3:16) {
+  code: 'ERR_REQUIRE_ESM'
+}
+
+Node.js v22.11.0
+```
+
+https://github.com/jsdom/jsdom/issues/3959
