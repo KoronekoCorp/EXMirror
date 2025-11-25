@@ -1,7 +1,7 @@
 import { updateTag } from "next/cache";
 import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { cookies } from "next/headers";
-import { gdata, mpvdata, mpvimg } from "./EType";
+import type { gdata, mpvdata, mpvimg } from "./EType";
 import { EXJSDOM, type ginfo } from "./EXJSDOM";
 
 class API {
@@ -292,6 +292,18 @@ class API {
         updateTag(`https://exhentai.org/gallerypopups.php?gid=${gallery_id}&t=${gallery_token}&act=addfav`)
         updateTag(`g/${gallery_id}/${gallery_token}`,)
         return r.status === 200
+    }
+
+    /**
+     * 获取画廊种子列表
+     * @param gallery_id 
+     * @param gallery_token 
+     * @returns 
+     */
+    async torrent(gallery_id: number | string, gallery_token: string) {
+        const r = (await this.get(`https://exhentai.org/gallerytorrents.php?gid=${gallery_id}&t=${gallery_token}`,
+            [`torrent-${gallery_id}${gallery_token}`], 3600)).text()
+        return EXJSDOM.torrent(await r)
     }
 }
 

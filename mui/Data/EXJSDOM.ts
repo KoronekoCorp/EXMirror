@@ -357,6 +357,29 @@ class EXJSDOM {
             data: fin
         }
     }
+
+    /**
+     * 获取画廊种子
+     * @param html 
+     */
+    static torrent(html: string | JSDOM) {
+        const dom = EXJSDOM.GetDom(html)
+        const document = dom.window.document
+        const all = Array.from(document.querySelectorAll("table"))
+        return all.map(i => {
+            return {
+                Posted: i.children[0].children[0].children[0].children[1].innerHTML,
+                Size: i.children[0].children[0].children[1].innerHTML.split("</span> ")[1],
+                Seeds: i.children[0].children[0].children[3].innerHTML.split("</span> ")[1],
+                Peers: i.children[0].children[0].children[4].innerHTML.split("</span> ")[1],
+                Downloads: i.children[0].children[0].children[5].innerHTML.split("</span> ")[1],
+                Uploader: i.children[0].children[1].children[0].innerHTML.split("</span> ")[1],
+                publicUrl: (i.children[0].children[2].children[0].children[0] as HTMLAnchorElement).href.replace("https://exhentai.org/torrent/", "https://ehtracker.org/get/"),
+                privateUrl: i.children[0].children[2].children[0].innerHTML.split("'")[1].replace("https://exhentai.org/torrent/", "https://ehtracker.org/get/"),
+                Name: i.children[0].children[2].children[0].children[0].innerHTML
+            }
+        })
+    }
 }
 
 export { EXJSDOM }

@@ -36,7 +36,7 @@ const PLACEHOLDER_LINKS = [
     // { text: 'Logout', href: '/api/auth/signout', icon: LogoutIcon },
 ];
 
-export function Root({ darkmode, children }: { darkmode?: boolean, children: ReactNode }) {
+export function Root({ darkmode, children }: { darkmode?: boolean, children?: ReactNode }) {
     const [open, setOpen] = useState(false);
     const [dark, setdark] = useState(darkmode ?? false);
     const router = useRouter()

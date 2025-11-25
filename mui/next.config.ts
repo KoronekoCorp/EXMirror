@@ -20,6 +20,7 @@ const nextConfig: NextConfig = {
         return id
     },
     cacheComponents: false,
+    productionBrowserSourceMaps: true,
     logging: {
         fetches: {
             fullUrl: true

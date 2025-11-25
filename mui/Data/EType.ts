@@ -14,7 +14,7 @@ interface torrent {
 interface gmetadata {
     "gid": number,
     "token": string
-    "archiver_key": string
+    "archiver_key"?: string
     "title": string
     "title_jpn": string
     "category": "Artist CG",
@@ -28,6 +28,10 @@ interface gmetadata {
     "torrentcount": string
     "torrents": torrent[],
     "tags": `${string}:${string}`[]
+    "parent_gid"?: string
+    "parent_key"?: string
+    "first_gid"?: string
+    "first_key"?: string
 }
 
 export interface gdata {

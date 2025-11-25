@@ -1,11 +1,11 @@
 "use client"
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from '@mui/material/CircularProgress';
-import { type JSX, createContext, useState } from "react";
+import { type JSX, type ReactNode, createContext, useState } from "react";
 
 export const SetBackDrop = createContext((state: boolean) => { })
 
-export default function BackDropProvider({ children }: { children?: JSX.Element }) {
+export default function BackDropProvider({ children }: { children?: JSX.Element | JSX.Element[] | ReactNode }) {
     const [open, setopen] = useState(false)
 
     return <SetBackDrop.Provider value={setopen}>

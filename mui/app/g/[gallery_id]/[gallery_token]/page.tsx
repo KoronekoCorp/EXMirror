@@ -12,6 +12,7 @@ import CommentIcon from '@mui/icons-material/Comment'
 import DataUsageIcon from '@mui/icons-material/DataUsage'
 import DehazeIcon from '@mui/icons-material/Dehaze'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
+import InsertLinkIcon from '@mui/icons-material/InsertLink'
 import PersonIcon from '@mui/icons-material/Person'
 import TagIcon from '@mui/icons-material/Tag'
 import { Button, Container, GridLegacy as Grid, Link as LinkC, Rating, Stack } from "@mui/material"
@@ -69,21 +70,25 @@ export default async function G(
             <Grid container spacing={2} alignItems="flex-start" justifyContent="center">
                 <Grid item xs={12} md={4} sx={{ width: "100%", textAlign: 'center' }}>
                     <ImagePro thumbnail={thumbnail[0]} />
-                    <Button LinkComponent={Link} href={`/mpv/${id}/${gallery_token}`} variant="contained" sx={{ m: 1 }}
-                        startIcon={<BurstModeIcon />}>
-                        正统mpv阅读
-                    </Button>
-                    <br />
-                    <Button LinkComponent={Link} href={`/spv/${id}/${gallery_token}`} variant="contained" sx={{ m: 1 }}
-                        startIcon={<BurstModeIcon />}>
-                        特殊spv阅读
-                    </Button>
-                    <br />
-                    <Button sx={{ m: 1, backgroundColor: favcolor[(gdata.fav ?? 11) - 1], color: favtext[(gdata.fav ?? 11) - 1] ? "black" : "white" }}
-                        LinkComponent={Link} href={`/g/${id}/${gallery_token}?fav=true`} variant="contained"
-                        startIcon={<BookmarksIcon />}>
-                        {gdata.fav ? gdata.favname : "收藏"}
-                    </Button>
+                    <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap sx={{ flexWrap: 'wrap', justifyContent: "center", alignItems: "center", m: 1 }}                    >
+                        <Button LinkComponent={Link} href={`/mpv/${id}/${gallery_token}`} variant="contained" sx={{ m: 1 }}
+                            startIcon={<BurstModeIcon />}>
+                            正统mpv阅读
+                        </Button>
+                        <Button LinkComponent={Link} href={`/spv/${id}/${gallery_token}`} variant="contained" sx={{ m: 1 }}
+                            startIcon={<BurstModeIcon />}>
+                            特殊spv阅读
+                        </Button>
+                        <Button sx={{ m: 1, backgroundColor: favcolor[(gdata.fav ?? 11) - 1], color: favtext[(gdata.fav ?? 11) - 1] ? "black" : "white" }}
+                            LinkComponent={Link} href={`/g/${id}/${gallery_token}?fav=true`} variant="contained"
+                            startIcon={<BookmarksIcon />}>
+                            {gdata.fav ? gdata.favname : "收藏"}
+                        </Button>
+                        <Button LinkComponent={Link} href={`/g/${id}/${gallery_token}?torrent=true`} variant="contained" sx={{ m: 1 }}
+                            startIcon={<InsertLinkIcon />}>
+                            Torrent
+                        </Button>
+                    </Stack>
                 </Grid>
                 <Grid item xs={12} md={8} sx={{ width: "100%" }}>
                     <GalleryTitle title={gdata.gn} />
