@@ -1,4 +1,4 @@
-import { updateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 export async function GET(request: Request) {
     return Response.json({ code: 200 }, {
@@ -19,8 +19,8 @@ export async function POST(request: Request, props: { params: Promise<{ gallery_
 
     try {
         if (gallery_id && gallery_token) {
-            updateTag(`g/${gallery_id}/${gallery_token}`)
-            updateTag(`s-${gallery_id}`)
+            revalidateTag(`g/${gallery_id}/${gallery_token}`, { expire: 0 })
+            revalidateTag(`s-${gallery_id}`, { expire: 0 })
             return Response.json({ code: 200 })
         } else {
             return Response.json({ code: 401 })
