@@ -1,7 +1,8 @@
+import { updateTag } from "next/cache";
+import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { cookies } from "next/headers";
-import { gdata, mpvdata, mpvimg } from "./EType"
-import { updateTag } from "next/cache"
-import { EXJSDOM, type ginfo } from "./EXJSDOM"
+import { gdata, mpvdata, mpvimg } from "./EType";
+import { EXJSDOM, type ginfo } from "./EXJSDOM";
 
 class API {
     BASE = "https://s.exhentai.org/api.php"
@@ -295,11 +296,18 @@ class API {
 }
 
 
-export async function useAPI() {
-    const c = await cookies()
-    return new API(c.toString(), c.get("ipb_member_id")?.value ?? "-1")
+class EXAPI extends API {
+    rawcookie: ReadonlyRequestCookies
+    constructor(rawcookie: ReadonlyRequestCookies) {
+        super(rawcookie.toString(), rawcookie.get("ipb_member_id")?.value ?? "-1")
+        this.rawcookie = rawcookie
+    }
 }
 
-export { API }
+export async function useAPI() {
+    return new EXAPI(await cookies())
+}
+
+export { API };
 
 

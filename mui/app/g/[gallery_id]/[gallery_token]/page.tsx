@@ -3,6 +3,7 @@ import { db } from "@/Data/EXDB"
 import { type ginfo } from "@/Data/EXJSDOM"
 import { CacheEveryThing } from "@/Data/cache"
 import { Cookie } from "@/components/Cookies"
+import Link from "@/components/LinkFix"
 import { R, Top } from "@/components/push"
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import BookmarksIcon from '@mui/icons-material/Bookmarks'
@@ -14,8 +15,7 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
 import PersonIcon from '@mui/icons-material/Person'
 import TagIcon from '@mui/icons-material/Tag'
 import { Button, Container, GridLegacy as Grid, Link as LinkC, Rating, Stack } from "@mui/material"
-import { cookies, headers } from "next/headers"
-import Link from "@/components/LinkFix"
+import { headers } from "next/headers"
 import { notFound } from "next/navigation"
 import { GalleryTitle, ImagePro, NextPage, Reply } from "./client"
 
@@ -27,12 +27,8 @@ export default async function G(
         { params: Promise<{ gallery_id: string, gallery_token: string }>, searchParams: Promise<{ [key: string]: string | undefined }> }
 ) {
     const searchParams = await props.searchParams;
-    const params = await props.params;
     const header = await headers()
-    const {
-        gallery_id,
-        gallery_token
-    } = params;
+    const { gallery_id, gallery_token } = await props.params;
 
     const id = parseInt(gallery_id)
     if (id < 0) { notFound() }
@@ -47,7 +43,7 @@ export default async function G(
     for (let page = 0; page <= p; page++) {
         __thumbnail.push(
             CacheEveryThing(async () => a.gallery_info(id, gallery_token, page),
-                [`g/${id}/${gallery_token}`, `${page}`, `${(await cookies()).get("ipb_member_id")}`], 86400
+                [`g/${id}/${gallery_token}`, `${page}`, `${a.uid}`], 86400
             )()
         )
     }

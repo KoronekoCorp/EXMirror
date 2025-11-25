@@ -19,11 +19,7 @@ const Score: {
 }
 
 export async function GET(request: Request, props: { params: Promise<{ search: string }> }) {
-    const params = await props.params;
-
-    const {
-        search
-    } = params;
+    const { search } = await props.params;
 
     const d = await db.getDB()
     const fin: {
@@ -64,7 +60,7 @@ export async function GET(request: Request, props: { params: Promise<{ search: s
 
     return Response.json(fin.slice(0, 50), {
         headers: {
-            'Cache-Control': 'max-age=3600'
+            'Cache-Control': 'max-age=604800'
         }
     })
 }

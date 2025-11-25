@@ -14,11 +14,7 @@ export default async function G(
         { params: Promise<{ tag: string }>, searchParams: Promise<{ [key: string]: string }> }
 ) {
     const searchParams = await props.searchParams;
-    const params = await props.params;
-
-    const {
-        tag
-    } = params;
+    const { tag } = await props.params;
 
     const a = await useAPI()
     if (!a.check_local()) {

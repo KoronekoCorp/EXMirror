@@ -1,4 +1,5 @@
 import { Cookie } from "@/components/Cookies";
+import Link from "@/components/LinkFix";
 import { R, Top } from "@/components/push";
 import { CacheEveryThing } from "@/Data/cache";
 import { useAPI } from "@/Data/EXAPI";
@@ -10,24 +11,17 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { Box, Button, Container } from "@mui/material";
-import { cookies } from "next/headers";
-import Link from "@/components/LinkFix";
 import { Image } from "./client";
 
 export default async function G(props: { params: Promise<{ page_token: string, gallery_id: string }> }) {
-    const params = await props.params;
-
-    const {
-        page_token,
-        gallery_id
-    } = params;
+    const { page_token, gallery_id } = await props.params;
 
     const a = await useAPI()
     if (!a.check_local()) {
         return <R url="/login" />
     }
 
-    const fullimg = (await cookies()).get("fullimg")?.value == "true"
+    const fullimg = a.rawcookie.get("fullimg")?.value == "true"
     const { data, url } = await CacheEveryThing(async () => {
         const data = await a.s_info(page_token, gallery_id)
         let url: string

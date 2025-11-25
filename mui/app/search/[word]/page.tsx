@@ -1,11 +1,7 @@
 import { R } from "@/components/push"
 
 export default async function Page(props: { params: Promise<{ word: string }> }) {
-    const params = await props.params;
-
-    const {
-        word
-    } = params;
+    const { word } = await props.params;
 
     const url = decodeURIComponent(word).match(/\/g\/(\d*?)\/(.*)/g)
     if (url) {

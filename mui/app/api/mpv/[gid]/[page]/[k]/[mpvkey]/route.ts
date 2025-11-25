@@ -7,14 +7,7 @@ export async function GET(
     request: Request,
     props: { params: Promise<{ gid: string, page: string, k: string, mpvkey: string }> }
 ) {
-    const params = await props.params;
-
-    const {
-        gid,
-        page,
-        k,
-        mpvkey
-    } = params;
+    const { gid, page, k, mpvkey } = await props.params;
 
     const a = await useAPI()
     const fullimg = (await cookies()).get("fullimg")?.value == "true"

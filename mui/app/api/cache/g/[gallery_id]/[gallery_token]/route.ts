@@ -11,11 +11,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request, props: { params: Promise<{ gallery_id: string, gallery_token: string }> }) {
-    const params = await props.params;
-
-    const {
-        gallery_id, gallery_token
-    } = params;
+    const { gallery_id, gallery_token } = await props.params;
 
     try {
         if (gallery_id && gallery_token) {
