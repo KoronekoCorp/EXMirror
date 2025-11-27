@@ -8,7 +8,7 @@ export default async function Default(
     const searchParams = await props.searchParams;
 
     if (searchParams.gallery_id && searchParams.gallery_token) {
-        return <Fav gallery_id={searchParams.gallery_id} gallery_token={searchParams.gallery_token} />
+        return <Fav params={searchParams as any} />
     }
     return null
 }

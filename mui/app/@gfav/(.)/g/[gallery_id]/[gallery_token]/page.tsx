@@ -1,4 +1,5 @@
 import { Fav } from '../../../Fav'
+import { Torrent } from '../../../Torrent';
 
 
 export default async function Default(
@@ -9,7 +10,9 @@ export default async function Default(
     const params = await props.params;
 
     if (searchParams.fav) {
-        return <Fav gallery_id={params.gallery_id} gallery_token={params.gallery_token} />
+        return <Fav params={params} />
+    } else if (searchParams.torrent) {
+        return <Torrent params={params} />
     }
     return null
 }
