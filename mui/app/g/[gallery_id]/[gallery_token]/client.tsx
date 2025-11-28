@@ -6,7 +6,7 @@ import { Image } from "@/components/Image"
 import { Dig } from "@/components/Modals"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import SendIcon from '@mui/icons-material/Send'
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Divider, LinearProgress, List, ListItem, ListItemButton, ListItemText, Tab, Tabs, TextField } from "@mui/material"
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Divider, LinearProgress, List, ListItem, ListItemButton, ListItemText, Tab, Tabs, TextField, Typography } from "@mui/material"
 import { useRouter } from "next/navigation"
 import { enqueueSnackbar } from "notistack"
 import { useEffect, useRef, useState } from "react"
@@ -60,7 +60,7 @@ export function Reply({ gdata }: { gdata: ginfo }) {
 
     return <Accordion sx={{ m: 1 }}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            评论
+            <Typography variant="subtitle1">评论</Typography>
         </AccordionSummary>
         <AccordionDetails>
             <List>

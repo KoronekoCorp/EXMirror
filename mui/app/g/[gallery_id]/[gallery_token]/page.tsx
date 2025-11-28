@@ -15,7 +15,7 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
 import InsertLinkIcon from '@mui/icons-material/InsertLink'
 import PersonIcon from '@mui/icons-material/Person'
 import TagIcon from '@mui/icons-material/Tag'
-import { Button, Container, GridLegacy as Grid, Link as LinkC, Rating, Stack } from "@mui/material"
+import { Button, Container, Grid, Link as LinkC, Rating, Stack } from "@mui/material"
 import { headers } from "next/headers"
 import { notFound } from "next/navigation"
 import { GalleryTitle, ImagePro, NextPage, Reply } from "./client"
@@ -66,11 +66,11 @@ export default async function G(
 
     return <>
         <title>{gdata.gn}</title>
-        <Container sx={{ paddingTop: 10, color: "text.primary" }}>
+        <Container sx={{ color: "text.primary" }}>
             <Grid container spacing={2} alignItems="flex-start" justifyContent="center">
-                <Grid item xs={12} md={4} sx={{ width: "100%", textAlign: 'center' }}>
+                <Grid size={{ xs: 12, md: 4 }} sx={{ width: "100%", textAlign: 'center' }}>
                     <ImagePro thumbnail={thumbnail[0]} />
-                    <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap sx={{ flexWrap: 'wrap', justifyContent: "center", alignItems: "center", m: 1 }}                    >
+                    <Stack spacing={{ xs: 0.5, sm: 1 }} direction={{ xs: "column", sm: "row" }} useFlexGap sx={{ flexWrap: 'wrap', justifyContent: "center", alignItems: "center" }}                    >
                         <Button LinkComponent={Link} href={`/mpv/${id}/${gallery_token}`} variant="contained" sx={{ m: 1 }}
                             startIcon={<BurstModeIcon />}>
                             正统mpv阅读
@@ -84,13 +84,13 @@ export default async function G(
                             startIcon={<BookmarksIcon />}>
                             {gdata.fav ? gdata.favname : "收藏"}
                         </Button>
-                        <Button LinkComponent={Link} href={`/g/${id}/${gallery_token}?torrent=true`} variant="contained" sx={{ m: 1 }}
+                        <Button LinkComponent={Link} href={`/g/${id}/${gallery_token}?torrent=true`} variant="contained" sx={{ m: 1 }} color="secondary"
                             startIcon={<InsertLinkIcon />}>
                             Torrent
                         </Button>
                     </Stack>
                 </Grid>
-                <Grid item xs={12} md={8} sx={{ width: "100%" }}>
+                <Grid size={{ xs: 12, md: 8 }} sx={{ width: "100%" }}>
                     <GalleryTitle title={gdata.gn} />
                     {gdata.gj != "" && <GalleryTitle title={gdata.gj} />}
                     <Stack direction="row" sx={{ p: 1 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
@@ -145,7 +145,7 @@ export default async function G(
             </Grid>
             {gdata.comments?.data?.length > 0 && <Reply gdata={gdata} />}
             <Grid container alignItems="center" textAlign="center" spacing={2}>
-                {thumbnail.map((t, index) => <Grid xs={6} md={3} key={`${t.url}-${t.position}`} item>
+                {thumbnail.map((t, index) => <Grid size={{ xs: 6, md: 3 }} key={`${t.url}-${t.position}`}>
                     <Link href={thumbnail_url[index]} prefetch={false}>
                         <ImagePro thumbnail={thumbnail[index]} />
                     </Link>

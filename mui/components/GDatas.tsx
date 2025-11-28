@@ -79,12 +79,7 @@ export function GDatas({ G, allowSearch, searchtext }: { G: G_JSDOM_DATA[], allo
                         </Grid>
                     </Grid>
                 </CardActionArea>
-                <CardActions sx={{ "& > a": { ml: 1, mr: 1 } }}>
-                    <Button size="small" LinkComponent={Link} href={`/${e.catalog.toLocaleLowerCase().replaceAll(" ", "")}`} color="primary" startIcon={<DataSaverOffIcon />}>
-                        {e.catalog}
-                    </Button>
-                    <Gbutton e={e} />
-                </CardActions>
+                <Gbutton e={e} />
             </Card>
         })}
         {G.length !== 0 && <Top index={G[0].title} />}

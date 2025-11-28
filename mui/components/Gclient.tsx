@@ -1,11 +1,15 @@
 "use client"
 import { type G_JSDOM_DATA } from "@/Data/EXJSDOM";
-import Button from '@mui/material/Button'
-import StarIcon from '@mui/icons-material/Star';
+import DataSaverOffIcon from '@mui/icons-material/DataSaverOff';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
+import StarIcon from '@mui/icons-material/Star';
+import Button from '@mui/material/Button';
+import CardActions from "@mui/material/CardActions";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { SetBackDrop } from "./BackDrop";
+import Link from "./LinkFix";
+import InsertLinkIcon from '@mui/icons-material/InsertLink'
 
 const format_style = (style: string) => {
     const d = style.split(";").map((e) => e.split(":"))
@@ -31,18 +35,38 @@ const format_style = (style: string) => {
 export function Gbutton({ e }: { e: G_JSDOM_DATA }) {
     const setopen = useContext(SetBackDrop)
     const router = useRouter()
-    return <Button size="small" startIcon={<StarIcon />} sx={format_style(e.favstyle)}
-        onClick={() => {
+
+    return <CardActions sx={{ "& > a": { ml: 1, mr: 1 } }}>
+        <Button size="small" LinkComponent={Link} href={`/${e.catalog.toLocaleLowerCase().replaceAll(" ", "")}`} color="primary" startIcon={<DataSaverOffIcon />}>
+            {e.catalog}
+        </Button>
+        <Button size="small" startIcon={<StarIcon />} sx={format_style(e.favstyle)}
+            onClick={() => {
+                setopen(true)
+                const d = e.href.split("/")
+                // const u = new URL(document.location.origin + "/fav")
+                const u = new URL(document.location.href)
+                u.searchParams.set("gallery_id", d[4])
+                u.searchParams.set("gallery_token", d[5])
+                u.searchParams.set("type", "fav")
+                router.push(u.href, { scroll: false })
+            }}>
+            {e.favname == "" ? "收藏" : e.favname}
+        </Button>
+        <Button size="small" startIcon={<InsertLinkIcon />} disabled={!e.hasTorrent} onClick={() => {
             setopen(true)
             const d = e.href.split("/")
             // const u = new URL(document.location.origin + "/fav")
             const u = new URL(document.location.href)
             u.searchParams.set("gallery_id", d[4])
             u.searchParams.set("gallery_token", d[5])
-            router.push(u.href)
+            u.searchParams.set("type", "torrent")
+            router.push(u.href, { scroll: false })
         }}>
-        {e.favname == "" ? "收藏" : e.favname}
-    </Button>
+            种子
+        </Button>
+    </CardActions>
+
 }
 
 export function Filtered() {

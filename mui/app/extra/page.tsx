@@ -1,10 +1,11 @@
 "use client"
 
-import { enqueueSnackbar } from "notistack";
-import { Get_ip, IP, Link } from "./server";
-import { Table, TableHead, TableCell, TableRow, TableBody, Typography, Button, GridLegacy as Grid } from "@mui/material";
-import { useState } from "react";
+import { H2 } from "@/H2";
 import StorageIcon from '@mui/icons-material/Storage';
+import { Button, GridLegacy as Grid, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { enqueueSnackbar } from "notistack";
+import { useState } from "react";
+import { Get_ip, IP, Link } from "./server";
 
 export default function Setting() {
     const [ip, setip] = useState<IP>()
@@ -40,13 +41,12 @@ export default function Setting() {
             sx={{
                 textAlign: "center",
                 color: "text.primary",
-                paddingTop: 10,
             }}
             spacing={2}>
             <Grid item xs={12} md={6}>
-                <Typography variant="h5" sx={{ backgroundColor: "background.paper" }}>
+                <H2>
                     <StorageIcon />IP地址
-                </Typography>
+                </H2>
                 <Table sx={{ "th": { textAlign: 'center' }, "td": { textAlign: 'center' } }}>
                     <TableHead>
                         <TableRow>
@@ -73,9 +73,9 @@ export default function Setting() {
                 </Button>
             </Grid>
             <Grid item xs={12} md={6}>
-                <Typography variant="h5" sx={{ backgroundColor: "background.paper" }}>
+                <H2>
                     <StorageIcon />连接
-                </Typography>
+                </H2>
                 <div className="container center" style={{ paddingTop: 10 }}>
                     <div className="row">
                         <div className="col-sm-6">

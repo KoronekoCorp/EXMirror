@@ -3,6 +3,7 @@ import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension
 import { cookies } from "next/headers";
 import type { gdata, mpvdata, mpvimg } from "./EType";
 import { EXJSDOM, type ginfo } from "./EXJSDOM";
+import { writeFile } from "fs/promises";
 
 class API {
     BASE = "https://s.exhentai.org/api.php"
@@ -190,10 +191,12 @@ class API {
     async http(searchParams: { [key: string]: string }, endpoint = "https://exhentai.org", cache = 3600) {
         const u = new URL(endpoint)
         for (let i in searchParams) {
-            if (!["gallery_id", "gallery_token"].includes(i)) u.searchParams.set(i, searchParams[i])
+            // if (["next", "prev", "f_search", "f_cats", "f_sh", "f_sto", "f_sfl", "f_sfu", "f_sft", "f_spf", "f_spt", "f_srdd"].includes(i)) u.searchParams.set(i, searchParams[i])
+            if (!["gallery_id", "gallery_token", "type"].includes(i)) u.searchParams.set(i, searchParams[i])
         }
         const r = await this.get(u.href, [u.href], cache)
         const html = await r.text()
+        writeFile("./public/test.html", html)
         return EXJSDOM.GetDom(html)
     }
 

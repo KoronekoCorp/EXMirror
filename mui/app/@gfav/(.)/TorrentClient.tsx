@@ -21,20 +21,20 @@ export function TorrentClient({ torrent, params: { gallery_id, gallery_token } }
 
     return <Dig index={gallery_id} title="选择你要下载的种子" actions={[
         {
-            name: "下载可再分发种子", func(close) {
-                selected.map((i, j) => (i ? torrent[j].publicUrl : null)).filter(i => i !== null) //@ts-ignore ide没反应编译器报错
-                    .map(i => window.open(i, "_blank"))
-                close()
-            },
-        },
-        {
             name: "下载私有种子", func(close) {
                 selected.map((i, j) => (i ? torrent[j].privateUrl : null)).filter(i => i !== null) //@ts-ignore ide没反应编译器报错
                     .map(i => window.open(i, "_blank"))
                 close()
             },
+        },
+        {
+            name: "下载可再分发种子", func(close) {
+                selected.map((i, j) => (i ? torrent[j].publicUrl : null)).filter(i => i !== null) //@ts-ignore ide没反应编译器报错
+                    .map(i => window.open(i, "_blank"))
+                close()
+            },
         }
-    ]}>
+    ]} sx={{ zIndex: 2002 }}>
         <Stack spacing={{ xs: 0, sm: 1 }} divider={<Divider orientation="vertical" flexItem />} sx={{ justifyContent: "center", alignItems: "center" }} >
             {torrent.map((i, j) => {
                 return <ListItemButton onClick={() => { const tmp = [...selected]; tmp[j] = !tmp[j]; setSelected(tmp) }}>

@@ -15,6 +15,7 @@ export interface G_JSDOM_DATA {
     time: string
     uploader: string
     pages: number
+    hasTorrent: boolean
     /**
      * @example ""
      */
@@ -128,6 +129,7 @@ class EXJSDOM {
                 time: gl2e[i].children[0].children[0].children[1].innerHTML,
                 uploader: gl2e[i].children[0].children[0].children[3].children[0]?.innerHTML ?? "(已放弃)",
                 pages: parseInt(gl2e[i].children[0].children[0].children[4].innerHTML),
+                hasTorrent: (gl2e[i].children[0].children[0].children[5].children[0] as HTMLImageElement)?.title === "",
                 favname: (gl2e[i].children[0].children[0].children[1] as HTMLDivElement).title,
                 favstyle: gl2e[i].children[0].children[0].children[1].getAttribute('style') ?? "",
                 //@ts-ignore
