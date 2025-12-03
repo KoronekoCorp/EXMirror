@@ -119,7 +119,7 @@ export default async function G(
                     <Stack direction="row"
                         justifyContent="flex-start"
                         alignItems="center"
-                        spacing={{ xs: 1, sm: 2 }} useFlexGap flexWrap="wrap" sx={{ p: 1, textAlign: "center", "img": { height: "1em" } }}>
+                        spacing={{ xs: 0.5, sm: 1 }} useFlexGap flexWrap="wrap" sx={{ p: 1, textAlign: "center", "img": { height: "1em" } }}>
                         <TagIcon />Tags:
                         {gdata.tags.map((tag) => (
                             //@ts-ignore

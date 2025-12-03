@@ -1,12 +1,11 @@
 import { type G_JSDOM_DATA } from "@/Data/EXJSDOM";
 import Link from "@/components/LinkFix";
-import { Image } from "./Image";
-import { Button, Typography, GridLegacy as Grid, Card, CardActionArea, CardContent, CardActions, Container, Stack } from "@mui/material";
-import { Top } from "./push";
-import DataSaverOffIcon from '@mui/icons-material/DataSaverOff';
-import { Gbutton, Filtered } from "./Gclient";
-import { Accordions } from "./Modals";
+import { Button, Card, CardActionArea, CardContent, Container, Grid, Stack, Typography } from "@mui/material";
 import { FullSearch } from "./AutoSearchPlus";
+import { Filtered, Gbutton } from "./Gclient";
+import { Image } from "./Image";
+import { Accordions } from "./Modals";
+import { Top } from "./push";
 
 //由于format_style导出的style中background会莫名其妙失效，采用innerhtml解决
 const format_style = (style: string) => {
@@ -47,10 +46,10 @@ export function GDatas({ G, allowSearch, searchtext }: { G: G_JSDOM_DATA[], allo
             return <Card key={e.href}>
                 <CardActionArea LinkComponent={Link} href={e.href.replace("https://exhentai.org", "")}>
                     <Grid container>
-                        <Grid xs={12} md={3} item>
+                        <Grid size={{ xs: 12, md: 3 }}>
                             <Image src={e.src.replace("s.exhentai.org", "ehgt.org")} style={{ width: "100%" }} />
                         </Grid>
-                        <Grid xs={12} md={9} item>
+                        <Grid size={{ xs: 12, md: 9 }}>
                             <CardContent sx={{ flex: '1 0 auto' }}>
                                 <Typography component="div" variant="h5">
                                     {e.title}
@@ -61,7 +60,7 @@ export function GDatas({ G, allowSearch, searchtext }: { G: G_JSDOM_DATA[], allo
                                 <Typography variant="subtitle1" color="text.secondary" component={Link} href={`/uploader/${e.uploader}`} sx={{ textDecoration: 'none' }}>
                                     {e.uploader}
                                 </Typography>
-                                <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap" sx={{ "img": { height: "1em" } }}>
+                                <Stack spacing={{ xs: 0.5, sm: 1 }} direction="row" useFlexGap flexWrap="wrap" sx={{ "img": { height: "1em" } }}>
                                     {e.tag.map((tag) => (
                                         //@ts-ignore
                                         <Button LinkComponent={Link} prefetch={false} href={`/tag/${tag.title}`} sx={tag.style ? format_style(tag.style) : {}} key={e.href + tag.title}>
