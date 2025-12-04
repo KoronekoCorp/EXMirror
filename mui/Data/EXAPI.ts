@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { CacheEveryThing } from "./cache";
 import type { gdata, mpvdata, mpvimg } from "./EType";
 import { EXJSDOM, type ginfo } from "./EXJSDOM";
+import { writeFile } from "fs/promises";
 
 class API {
     BASE = "https://s.exhentai.org/api.php"
@@ -47,8 +48,8 @@ class API {
                 tags: tags
             }
         })
-        console.log(r.headers.getSetCookie())
-        r.headers.getSetCookie().forEach((e) => this.cookies.push(e))
+        r.headers.getSetCookie().map((e) => this.cookies.push(e))
+        console.log(this.cookies)
         return r
     }
 
@@ -196,6 +197,7 @@ class API {
         }
         const r = await this.get(u.href, [u.href], cache)
         const html = await r.text()
+        writeFile("./public/test.html", html)
         return EXJSDOM.GetDom(html)
     }
 

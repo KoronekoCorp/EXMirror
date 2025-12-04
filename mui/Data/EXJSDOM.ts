@@ -13,6 +13,7 @@ export interface G_JSDOM_DATA {
     title: string
     catalog: string
     time: string
+    star: number
     uploader: string
     pages: number
     hasTorrent: boolean
@@ -93,6 +94,19 @@ function Replace(str: string) {
     return str.replaceAll("s.exhentai.org", `acodsaidap.cloudimg.io/v7/https://ehgt.org`).replaceAll("exhentai.org", process.env.SITE)
 }
 
+const star_Tr: { [key: string]: number } = {
+    "-64px -21px": 0.5,
+    "-64px -1px": 1,
+    "-48px -21px": 1.5,
+    "-48px -1px": 2,
+    "-32px -21px": 2.5,
+    "-32px -1px": 3,
+    "-16px -21px": 3.5,
+    "-16px -1px": 4,
+    "0px -21px": 4.5,
+    "0px -1px": 5
+}
+
 class EXJSDOM {
     static GetDom(html: string | JSDOM, option?: ConstructorOptions) {
         if (html instanceof JSDOM) {
@@ -119,7 +133,6 @@ class EXJSDOM {
         const gl2e = container.querySelectorAll("td.gl2e")
         const fin: G_JSDOM_DATA[] = []
         for (let i = 0; i < gl1e.length; i++) {
-            // console.log(gl2e[i].children[0].children[0].children[3].innerHTML)
             const d = {
                 //@ts-ignore
                 href: gl1e[i].children[0].children[0].href,
@@ -128,6 +141,7 @@ class EXJSDOM {
                 title: gl2e[i].children[0].children[1].children[0].children[0].innerHTML,
                 catalog: gl2e[i].children[0].children[0].children[0].innerHTML,
                 time: gl2e[i].children[0].children[0].children[1].innerHTML,
+                star: star_Tr[(gl2e[i].children[0].children[0].children[2] as HTMLDivElement)?.style.getPropertyValue('background-position')],
                 uploader: gl2e[i].children[0].children[0].children[3].children[0]?.innerHTML ?? "(已放弃)",
                 pages: parseInt(gl2e[i].children[0].children[0].children[4].innerHTML),
                 hasTorrent: (gl2e[i].children[0].children[0].children[5].children[0] as HTMLImageElement)?.title === "",

@@ -1,6 +1,6 @@
 import { type G_JSDOM_DATA } from "@/Data/EXJSDOM";
 import Link from "@/components/LinkFix";
-import { Button, Card, CardActionArea, CardContent, Container, Grid, Stack, Typography } from "@mui/material";
+import { Button, Card, CardActionArea, CardContent, Container, Grid, Rating, Stack, Typography } from "@mui/material";
 import { FullSearch } from "./AutoSearchPlus";
 import { Filtered, Gbutton } from "./Gclient";
 import { Image } from "./Image";
@@ -55,8 +55,9 @@ export function GDatas({ G, allowSearch, searchtext }: { G: G_JSDOM_DATA[], allo
                                     {e.title}
                                 </Typography>
                                 <Typography component="div" variant="h6" color="text.secondary">
-                                    {e.pages}  页
+                                    {e.pages}  页  {e.time}
                                 </Typography>
+                                <Typography component="legend"><Rating name="read-only" value={e.star} readOnly /></Typography>
                                 <Typography variant="subtitle1" color="text.secondary" component={Link} href={`/uploader/${e.uploader}`} sx={{ textDecoration: 'none' }}>
                                     {e.uploader}
                                 </Typography>
