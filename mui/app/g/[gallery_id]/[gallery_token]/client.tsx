@@ -91,7 +91,7 @@ export function Reply({ gdata }: { gdata: ginfo }) {
                             <ListItemText
                                 primary={i.name}
                                 secondary={<p style={{ wordBreak: 'break-word' }} dangerouslySetInnerHTML={{
-                                    __html: i.text + `<b>${i.score}</b>`
+                                    __html: i.text + `<b>${i.score}</b>` + `<b>${new Date(i.time).toLocaleDateString()}</b>`
                                 }}></p>}
                                 sx={{ "b": { ml: 2 } }}
                             />
@@ -121,6 +121,7 @@ export function Reply({ gdata }: { gdata: ginfo }) {
                 <p dangerouslySetInnerHTML={{
                     __html: gdata.comments.data[id].scorelog
                 }} />
+                <p><span>{new Date(gdata.comments.data[id].time).toLocaleDateString()}</span></p>
             </Box>
         </Dig>}
     </Accordion>

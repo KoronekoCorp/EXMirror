@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "export NEXT_PRIVATE_DEBUG_CACHE=1 && export NODE_OPTIONS='--inspect' && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

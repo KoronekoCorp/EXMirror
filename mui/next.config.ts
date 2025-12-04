@@ -20,6 +20,7 @@ const nextConfig: NextConfig = {
         return id
     },
     cacheComponents: false,
+    allowedDevOrigins: ["127.0.0.1"],
     productionBrowserSourceMaps: true,
     logging: {
         fetches: {

@@ -42,11 +42,7 @@ export default async function G(
     const __thumbnail = []
     const p = parseInt(searchParams.p ?? "0")
     for (let page = 0; page <= p; page++) {
-        __thumbnail.push(
-            CacheEveryThing(async () => a.gallery_info(id, gallery_token, page),
-                [`g/${id}/${gallery_token}`, `${page}`, `${a.uid}`], 86400
-            )()
-        )
+        __thumbnail.push(a.gallery_info(id, gallery_token, page))
     }
 
     const tr = await __tr
@@ -84,7 +80,7 @@ export default async function G(
                             startIcon={<BookmarksIcon />}>
                             {gdata.fav ? gdata.favname : "收藏"}
                         </Button>
-                        <Button LinkComponent={Link} href={`/g/${id}/${gallery_token}?torrent=true`} variant="contained" sx={{ m: 1 }} color="secondary"
+                        <Button LinkComponent={Link} href={`/g/${id}/${gallery_token}?torrent=true`} variant="outlined" sx={{ m: 1 }} color="secondary"
                             startIcon={<InsertLinkIcon />}>
                             Torrent
                         </Button>

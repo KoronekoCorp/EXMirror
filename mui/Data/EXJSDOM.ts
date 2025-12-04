@@ -79,6 +79,7 @@ export interface ginfo {
         apiuid: any;
         data: {
             name: string;
+            time: Date;
             text: string;
             score: string;
             scorelog: string;
@@ -346,6 +347,7 @@ class EXJSDOM {
         const fin = all.map((i) => {
             return {
                 name: i.children[0].children[0].children[0].innerHTML,
+                time: new Date(i.children[0].children[0].innerHTML.split("by:")[0]),
                 text: Replace(i.children[1].innerHTML),
                 score: i.children[0].children[2].children[0].innerHTML,
                 scorelog: i.querySelector(".c7")?.innerHTML as string,

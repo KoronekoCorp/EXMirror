@@ -1,9 +1,9 @@
 import { updateTag } from "next/cache";
 import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { cookies } from "next/headers";
+import { CacheEveryThing } from "./cache";
 import type { gdata, mpvdata, mpvimg } from "./EType";
 import { EXJSDOM, type ginfo } from "./EXJSDOM";
-import { writeFile } from "fs/promises";
 
 class API {
     BASE = "https://s.exhentai.org/api.php"
@@ -196,7 +196,6 @@ class API {
         }
         const r = await this.get(u.href, [u.href], cache)
         const html = await r.text()
-        writeFile("./public/test.html", html)
         return EXJSDOM.GetDom(html)
     }
 
@@ -316,6 +315,11 @@ class EXAPI extends API {
     constructor(rawcookie: ReadonlyRequestCookies) {
         super(rawcookie.toString(), rawcookie.get("ipb_member_id")?.value ?? "-1")
         this.rawcookie = rawcookie
+    }
+
+    async gallery_info(gallery_id: number, gallery_token: string, page: number) {
+        return CacheEveryThing(async () => super.gallery_info(gallery_id, gallery_token, page),
+            [`g/${gallery_id}/${gallery_token}`, `${this.uid}`, `${page}`], 86400)()
     }
 }
 

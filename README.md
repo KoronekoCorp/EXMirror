@@ -50,6 +50,8 @@
 
 - [ ] 优化scrolltop的选择
 
+- [ ] 缓存集中化
+
 ### TO BE WATCHED
 
 - [ ] BUG.5的优化
