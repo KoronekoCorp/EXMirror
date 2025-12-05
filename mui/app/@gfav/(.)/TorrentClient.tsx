@@ -35,14 +35,14 @@ export function TorrentClient({ torrent, params: { gallery_id, gallery_token } }
             },
         }
     ]} sx={{ zIndex: 2002 }}>
-        <Stack spacing={{ xs: 0, sm: 1 }} divider={<Divider orientation="vertical" flexItem />} sx={{ justifyContent: "center", alignItems: "center" }} >
+        <Stack spacing={{ xs: 0, sm: 1 }} divider={<Divider orientation="vertical" flexItem />} sx={{ justifyContent: "center", alignItems: "flex-start" }} >
             {torrent.map((i, j) => {
                 return <ListItemButton onClick={() => { const tmp = [...selected]; tmp[j] = !tmp[j]; setSelected(tmp) }}>
                     <Checkbox edge="start" disableRipple checked={selected[j]} />
                     <ListItemText primary={i.Name} secondary={<>
                         由 <LinkC component={Link} href={`/uploader/${i.Uploader}`}>{i.Uploader}</LinkC> 发布于 {i.Posted}
                         <br />
-                        文件大小:{i.Size} 做种:{i.Peers} 下载:{i.Seeds} 完成:{i.Downloads}
+                        文件大小:{i.Size} 做种:{i.Seeds} 下载:{i.Peers} 完成:{i.Downloads}
                     </>} />
                 </ListItemButton>
             })}

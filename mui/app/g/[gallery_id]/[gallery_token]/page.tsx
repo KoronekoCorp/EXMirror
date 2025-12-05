@@ -1,7 +1,6 @@
 import { useAPI } from "@/Data/EXAPI"
 import { db } from "@/Data/EXDB"
 import { type ginfo } from "@/Data/EXJSDOM"
-import { CacheEveryThing } from "@/Data/cache"
 import { Cookie } from "@/components/Cookies"
 import Link from "@/components/LinkFix"
 import { R, Top } from "@/components/push"
@@ -12,8 +11,11 @@ import CommentIcon from '@mui/icons-material/Comment'
 import DataUsageIcon from '@mui/icons-material/DataUsage'
 import DehazeIcon from '@mui/icons-material/Dehaze'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
+import FolderCopyIcon from '@mui/icons-material/FolderCopy'
 import InsertLinkIcon from '@mui/icons-material/InsertLink'
+import InventoryIcon from '@mui/icons-material/Inventory'
 import PersonIcon from '@mui/icons-material/Person'
+import StarBorderIcon from '@mui/icons-material/StarBorder'
 import TagIcon from '@mui/icons-material/Tag'
 import { Button, Container, Grid, Link as LinkC, Rating, Stack } from "@mui/material"
 import { headers } from "next/headers"
@@ -90,27 +92,40 @@ export default async function G(
                     <GalleryTitle title={gdata.gn} />
                     {gdata.gj != "" && <GalleryTitle title={gdata.gj} />}
                     <Stack direction="row" sx={{ p: 1 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
+                        <DehazeIcon />分类:
+                        <LinkC component={Link} href={`/${gdata.catalog?.toLocaleLowerCase().replaceAll(" ", "")}`}>
+                            {gdata.catalog}
+                        </LinkC>
+                    </Stack>
+                    <Stack direction="row" sx={{ p: 1 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
                         <PersonIcon />上传者:
                         <LinkC component={Link} href={`/uploader/${gdata.uploader}`}>
                             {gdata.uploader}
                         </LinkC>
                     </Stack>
                     <Stack direction="row" sx={{ p: 1 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
+                        <AccessTimeIcon />发布于 {gdata.Posted}
+                    </Stack>
+                    {gdata.Parent != "None" && <Stack direction="row" sx={{ p: 1 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
+                        <InventoryIcon />父级: <LinkC component={Link} href={gdata.Parent.split("org")[1]}>
+                            {gdata.Parent.split("/")[4]}
+                        </LinkC>
+                    </Stack>}
+                    {gdata.news?.map(i => <Stack key={i.url} direction="row" sx={{ p: 1, maxWidth: "100%", overflow: "hidden", " p": { whiteSpace: "nowrap", p: 0, m: 0 } }} useFlexGap justifyContent="flex-start" alignItems="center" spacing={2}>
+                        <FolderCopyIcon /><p>子级: </p><LinkC component={Link} href={i.url.split("org")[1]}>
+                            <p>[{i.date}] {i.name}</p>
+                        </LinkC>
+                    </Stack>)}
+                    <Stack direction="row" sx={{ p: 1 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
                         <DataUsageIcon />页数:<span style={{ marginRight: 16 }}>{gdata.Length}</span>文件大小:<span>{gdata["File Size"]}</span>
+                    </Stack>
+                    <Stack direction="row" sx={{ p: 1 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
+                        <StarBorderIcon />收藏: <span>{parseInt(gdata.Favorited)} 次</span>
                     </Stack>
                     <Stack direction="row" sx={{ p: 1 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
                         <EmojiEventsIcon />评分:
                         <Rating name="read-only" value={parseInt(gdata.Average?.replace("Average: ", "") as string)} readOnly />
-                        <span style={{ marginRight: 16 }}>{gdata.Average?.replace("Average: ", "")}</span>评分次数:<span>{gdata.count}</span>
-                    </Stack>
-                    <Stack direction="row" sx={{ p: 1 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
-                        <AccessTimeIcon />发布于 {gdata.Posted}
-                    </Stack>
-                    <Stack direction="row" sx={{ p: 1 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
-                        <DehazeIcon />分类:
-                        <LinkC component={Link} href={`/${gdata.catalog?.toLocaleLowerCase().replaceAll(" ", "")}`}>
-                            {gdata.catalog}
-                        </LinkC>
+                        <span style={{ marginRight: 16 }}>{gdata.Average?.replace("Average: ", "")}</span>评分次数:<span>{gdata.count} 次</span>
                     </Stack>
                     <Stack direction="row"
                         justifyContent="flex-start"

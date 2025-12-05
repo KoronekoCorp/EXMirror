@@ -45,7 +45,7 @@ export function GDatas({ G, allowSearch, searchtext }: { G: G_JSDOM_DATA[], allo
         {G.map((e) => {
             return <Card key={e.href}>
                 <CardActionArea LinkComponent={Link} href={e.href.replace("https://exhentai.org", "")}>
-                    <Grid container>
+                    <Grid container spacing={1}>
                         <Grid size={{ xs: 12, md: 3 }}>
                             <Image src={e.src.replace("s.exhentai.org", "ehgt.org")} style={{ width: "100%" }} />
                         </Grid>
@@ -54,13 +54,21 @@ export function GDatas({ G, allowSearch, searchtext }: { G: G_JSDOM_DATA[], allo
                                 <Typography component="div" variant="h5">
                                     {e.title}
                                 </Typography>
-                                <Typography component="div" variant="h6" color="text.secondary">
-                                    {e.pages}  页  {e.time}
-                                </Typography>
-                                <Typography component="legend"><Rating name="read-only" value={e.star} readOnly /></Typography>
+                                <Stack direction="row" sx={{ p: 0 }} useFlexGap flexWrap="wrap" justifyContent="flex-start" alignItems="center" spacing={2}>
+                                    <Typography component="div" variant="h6" color="text.secondary">
+                                        {e.pages}  页
+                                    </Typography>
+                                    <Rating name="read-only" value={e.star} readOnly />
+                                </Stack>
                                 <Typography variant="subtitle1" color="text.secondary" component={Link} href={`/uploader/${e.uploader}`} sx={{ textDecoration: 'none' }}>
                                     {e.uploader}
                                 </Typography>
+                                <Typography component="div" variant="body2" color="text.secondary" sx={{ pt: 1, pb: 1 }}>
+                                    发布于 {e.time}
+                                </Typography>
+                                {e.favtime && <Typography component="div" variant="body2" color="text.secondary" sx={{ pb: 1 }}>
+                                    收藏于 {e.favtime}
+                                </Typography>}
                                 <Stack spacing={{ xs: 0.5, sm: 1 }} direction="row" useFlexGap flexWrap="wrap" sx={{ "img": { height: "1em" } }}>
                                     {e.tag.map((tag) => (
                                         //@ts-ignore

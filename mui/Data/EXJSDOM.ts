@@ -22,6 +22,7 @@ export interface G_JSDOM_DATA {
      */
     favname: string
     favstyle: string
+    favtime?: string
     tag: tag[]
     lowtag: tag[]
 }
@@ -88,6 +89,11 @@ export interface ginfo {
             id: string;
         }[];
     }
+    news?: {
+        url: string;
+        name: string;
+        date: string;
+    }[]
 }
 
 function Replace(str: string) {
@@ -121,9 +127,10 @@ class EXJSDOM {
     /**
      * 解析总览页面信息
      * @param html 
+     * @param fav_time 是否提取页面中的收藏时间属性
      * @returns 
      */
-    static Index(html: string | JSDOM): [G_JSDOM_DATA[], string | undefined, string | undefined, { Filtered?: string, Found?: string, about?: boolean } | undefined] {
+    static Index(html: string | JSDOM, fav_time: boolean = false): [G_JSDOM_DATA[], string | undefined, string | undefined, { Filtered?: string, Found?: string, about?: boolean } | undefined] {
         const dom = EXJSDOM.GetDom(html)
         const container = dom.window.document.querySelector("table.itg.glte")
         if (!container) {
@@ -147,6 +154,7 @@ class EXJSDOM {
                 hasTorrent: (gl2e[i].children[0].children[0].children[5].children[0] as HTMLImageElement)?.title === "",
                 favname: (gl2e[i].children[0].children[0].children[1] as HTMLDivElement).title,
                 favstyle: gl2e[i].children[0].children[0].children[1].getAttribute('style') ?? "",
+                favtime: fav_time ? Array.from(gl2e[0].querySelectorAll("p")).pop()?.innerHTML : undefined,
                 //@ts-ignore
                 tag: Array.from(gl2e[i].querySelectorAll("td div.gt")).map((e) => { return { title: e.title, style: e.getAttribute('style') } }),
                 //@ts-ignore
@@ -227,14 +235,14 @@ class EXJSDOM {
         }
         const dom = EXJSDOM.GetDom(html)
         const document = dom.window.document
-        const data = {
+        const data: ginfo = {
             "Posted": "2021-06-22 15:39",
             "Parent": "None",
             "Visible": "Yes",
             "Language": `Chinese &nbsp;<span class="halp" title="This gallery has been translated from the original language text.">TR</span>`,
-            "File Size": "462.6 MiB",
+            "File Size": "0 MiB",
             "Length": 0,
-            "Favorited": "453 times",
+            "Favorited": "0 times",
             catalog: document.querySelector("div#gdc")?.children[0].innerHTML,
             uploader: document.querySelector("div#gdn")?.children[0]?.innerHTML ?? "(已放弃)",
             tags: [...document.querySelectorAll("div.gt")].map((e) => e.id.replace('td_', '').replaceAll("_", " ")),
@@ -259,16 +267,33 @@ class EXJSDOM {
             /**
              * 收藏夹序号
              */
-            fav: tr[(document.querySelectorAll("div.i")[0] as HTMLDivElement)?.style.getPropertyValue('background-position')],
+            fav: tr[(document.querySelector("div.i") as HTMLDivElement)?.style.getPropertyValue('background-position')],
             favname: document.querySelector("#favoritelink")?.innerHTML,
             uploadercomment: document.querySelector("#comment_0")?.innerHTML,
             comments: EXJSDOM.comments(dom)
         }
 
-
         //提取Posted ~ Favorited的数据
-        //@ts-ignore 
-        const b = [...document.querySelectorAll("tbody")[0].children].map((e) => { data[e.children[0].innerHTML.replace(":", "")] = e.children[1].innerHTML })
+        const b = [...document.querySelector("tbody")?.children ?? []].map((e) => {
+            //@ts-ignore 
+            data[e.children[0].innerHTML.replace(":", "")] = e.children[1].children.length ? e.children[1].children[0].href : e.children[1].innerHTML
+        })
+        // 提取画廊新版本列表
+        const gnd = document.querySelector("div#gnd")
+        if (gnd) {
+            const tmp = Array.from(gnd.childNodes)
+            let news: { name: string[], urls: string[]; date: string[]; } = { name: [], urls: [], date: [] }
+            for (const i of tmp) {
+                if (i.constructor.name == "HTMLAnchorElement") {
+                    news.urls.push((i as HTMLAnchorElement).href)
+                    news.name.push((i as HTMLAnchorElement).innerHTML)
+                } else if (i.constructor.name == "Text" && i.textContent) {
+                    news.date.push(i.textContent.split("added ")[1])
+                }
+            }
+            data.news = news.urls.map((u, i) => { return { url: u, name: news.name[i], date: news.date[i] } })
+        }
+
         data.Length = parseInt(data.Length as any)
         return data
     }
@@ -293,7 +318,6 @@ class EXJSDOM {
     static fav(html: string | JSDOM): string[] {
         const dom = EXJSDOM.GetDom(html)
         const all = Array.from(dom.window.document.querySelectorAll("div.fp"))
-
         return all.map((e) => { return e.children[2]?.innerHTML })
     }
 
@@ -352,11 +376,11 @@ class EXJSDOM {
     static comments(html: string | JSDOM) {
         const dom = EXJSDOM.GetDom(html, { runScripts: 'dangerously' })
         const document = dom.window.document
-        let all: Element[]
-        if (document.querySelectorAll("div.c1").length == document.querySelectorAll("div.c5").length) {
-            all = Array.from(document.querySelectorAll("div.c1"))
+        let all: Element[] = Array.from(document.querySelectorAll("div.c1"))
+        if (all.length == document.querySelectorAll("div.c5").length) {
+            all = all
         } else {
-            all = Array.from(document.querySelectorAll("div.c1")).slice(1)
+            all = all.slice(1)
         }
         const fin = all.map((i) => {
             return {
@@ -387,11 +411,11 @@ class EXJSDOM {
         return all.map(i => {
             return {
                 Posted: i.children[0].children[0].children[0].children[1].innerHTML,
-                Size: i.children[0].children[0].children[1].innerHTML.split("</span> ")[1],
-                Seeds: i.children[0].children[0].children[3].innerHTML.split("</span> ")[1],
-                Peers: i.children[0].children[0].children[4].innerHTML.split("</span> ")[1],
-                Downloads: i.children[0].children[0].children[5].innerHTML.split("</span> ")[1],
-                Uploader: i.children[0].children[1].children[0].innerHTML.split("</span> ")[1],
+                Size: i.children[0].children[0].children[1].childNodes[1].textContent?.slice(1) ?? "0",
+                Seeds: i.children[0].children[0].children[3].childNodes[1].textContent?.slice(1) ?? "0",
+                Peers: i.children[0].children[0].children[4].childNodes[1].textContent?.slice(1) ?? "0",
+                Downloads: i.children[0].children[0].children[5].childNodes[1].textContent?.slice(1) ?? "0",
+                Uploader: i.children[0].children[1].children[0].childNodes[1].textContent?.slice(1) ?? "0",
                 publicUrl: (i.children[0].children[2].children[0].children[0] as HTMLAnchorElement).href.replace("https://exhentai.org/torrent/", "https://ehtracker.org/get/"),
                 privateUrl: i.children[0].children[2].children[0].innerHTML.split("'")[1].replace("https://exhentai.org/torrent/", "https://ehtracker.org/get/"),
                 Name: i.children[0].children[2].children[0].children[0].innerHTML
