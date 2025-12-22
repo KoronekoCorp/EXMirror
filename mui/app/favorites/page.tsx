@@ -8,7 +8,7 @@ import Link from "@/components/LinkFix"
 import { R } from "@/components/push"
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import { Button, Container, GridLegacy as Grid } from "@mui/material"
+import { Box, Button, Container, Grid } from "@mui/material"
 
 const favcolor = ["#818181", "#f83333", "#fd903b", "#fdf23f", "#2ad853", "#a5f331", "#2ce4e5", "#3b2ef4", "#9732f6", "#ce309e", "#0e0e0e"]
 const favtext = [0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0]
@@ -28,18 +28,20 @@ export default async function P(
 
     const tr = await __tr
 
-    return <Container>
-        <AutoSearch />
+    return <>
+        <Container>
+            <AutoSearch />
+        </Container>
         <Grid container sx={{ textAlign: 'center', "& > div": { m: 1 } }} textAlign="center" justifyContent="center">
             {fav.map((i, j) => {
                 if (j > 9) {
-                    return <Grid key={i} xs={"auto"} item>
+                    return <Grid key={i} size={"auto"}>
                         <Button component={Link} href="favorites" sx={{ backgroundColor: favcolor[j], color: favtext[j] ? "black" : "white" }} >
                             显示所有收藏夹
                         </Button>
                     </Grid>
                 }
-                return <Grid key={i} xs={"auto"} item>
+                return <Grid key={i} size={"auto"}>
                     <Button component={Link} href={`/favorites?favcat=${j}`} sx={{ backgroundColor: favcolor[j], color: favtext[j] ? "black" : "white" }} >
                         {i}
                     </Button>
@@ -54,5 +56,5 @@ export default async function P(
                 endIcon={<KeyboardArrowRightIcon />}>下一页</Button>}
         </div>
         <Cookie c={a.cookies} />
-    </Container>
+    </>
 }
