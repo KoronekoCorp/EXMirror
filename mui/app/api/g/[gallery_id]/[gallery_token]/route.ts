@@ -11,12 +11,14 @@ export async function GET(
     const a = await useAPI()
     const p = parseInt(new URL(request.url).searchParams.get("p") ?? "")
     const page = isNaN(p) ? 0 : p
-    return Response.json(
-        await a.gallery_info(parseInt(gallery_id), gallery_token, page),
-        {
-            headers: {
-                'Cache-Control': 'max-age=600'
-            }
+    let data = await a.gallery_info(parseInt(gallery_id), gallery_token, page)
+    if (data[2]) {
+        delete data[2].comments.apikey
+        delete data[2].comments.apiuid
+    }
+    return Response.json(data, {
+        headers: {
+            'Cache-Control': 'max-age=600'
         }
-    )
+    })
 }

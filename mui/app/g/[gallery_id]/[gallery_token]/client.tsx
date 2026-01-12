@@ -30,7 +30,7 @@ export function NextPage({ gallery_id, gallery_token, p }: { gallery_id: string,
                  */
                 if (item.isIntersecting) {
                     observer.disconnect()
-                    router.push(`/g/${gallery_id}/${gallery_token}?p=${p + 1}`)
+                    router.replace(`/g/${gallery_id}/${gallery_token}?p=${p + 1}`)
                 }
             })
         });
