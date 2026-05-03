@@ -1,3 +1,7 @@
 
 *.html
 mui/app/api/version/version.json
+.deps/
+target/
+sources/*/target/
+sources/*/package.aix

@@ -1,0 +1,38 @@
+{
+	"info": {
+		"id": "zh.exmirror",
+		"name": "EXMirror",
+		"version": 1,
+		"urls": [
+			"https://ex.elysia.rip"
+		],
+		"contentRating": 2,
+		"languages": ["zh"]
+	},
+	"listings": [
+		{
+			"id": "popular",
+			"name": "Popular"
+		},
+		{
+			"id": "watched",
+			"name": "Watched"
+		},
+		{
+			"id": "favorites",
+			"name": "Favorites"
+		},
+		{
+			"id": "imageset",
+			"name": "Image Set"
+		},
+		{
+			"id": "cosplay",
+			"name": "Cosplay"
+		}
+	],
+	"config": {
+		"supportsTagSearch": true,
+		"hidesFiltersWhileSearching": false
+	}
+}
