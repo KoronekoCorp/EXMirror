@@ -154,7 +154,7 @@ class EXJSDOM {
                 hasTorrent: (gl2e[i].children[0].children[0].children[5].children[0] as HTMLImageElement)?.title === "",
                 favname: (gl2e[i].children[0].children[0].children[1] as HTMLDivElement).title,
                 favstyle: gl2e[i].children[0].children[0].children[1].getAttribute('style') ?? "",
-                favtime: fav_time ? Array.from(gl2e[0].querySelectorAll("p")).pop()?.innerHTML : undefined,
+                favtime: fav_time ? Array.from(gl2e[i].querySelectorAll("p")).pop()?.innerHTML : undefined,
                 //@ts-ignore
                 tag: Array.from(gl2e[i].querySelectorAll("td div.gt")).map((e) => { return { title: e.title, style: e.getAttribute('style') } }),
                 //@ts-ignore
