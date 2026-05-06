@@ -2,7 +2,7 @@
 	"info": {
 		"id": "zh.exmirror",
 		"name": "EXMirror",
-		"version": 1,
+		"version": 12,
 		"urls": [
 			"https://ex.elysia.rip"
 		],
@@ -16,19 +16,11 @@
 		},
 		{
 			"id": "watched",
-			"name": "Watched"
+			"name": "Subscription"
 		},
 		{
 			"id": "favorites",
-			"name": "Favorites"
-		},
-		{
-			"id": "imageset",
-			"name": "Image Set"
-		},
-		{
-			"id": "cosplay",
-			"name": "Cosplay"
+			"name": "Favourite"
 		}
 	],
 	"config": {
