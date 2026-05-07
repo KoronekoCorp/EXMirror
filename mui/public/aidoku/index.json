@@ -12,6 +12,18 @@
       ],
       "contentRating": 2,
       "baseURL": "https://ex.elysia.rip"
+    },
+    {
+      "id": "zh.exmirror.api",
+      "name": "EXMirror API",
+      "version": 3,
+      "iconURL": "icons/zh.exmirror-api-v3.png",
+      "downloadURL": "sources/zh.exmirror-api-v3.aix",
+      "languages": [
+        "zh"
+      ],
+      "contentRating": 2,
+      "baseURL": "https://ex.elysia.rip"
     }
   ]
 }
