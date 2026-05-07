@@ -1,0 +1,30 @@
+{
+	"info": {
+		"id": "zh.exmirror.api",
+		"name": "EXMirror API",
+		"version": 3,
+		"urls": [
+			"https://ex.elysia.rip"
+		],
+		"contentRating": 2,
+		"languages": ["zh"]
+	},
+	"listings": [
+		{
+			"id": "popular",
+			"name": "Popular"
+		},
+		{
+			"id": "watched",
+			"name": "Subscription"
+		},
+		{
+			"id": "favorites",
+			"name": "Favourite"
+		}
+	],
+	"config": {
+		"supportsTagSearch": true,
+		"hidesFiltersWhileSearching": false
+	}
+}
