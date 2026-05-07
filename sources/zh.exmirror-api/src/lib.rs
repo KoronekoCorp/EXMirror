@@ -261,7 +261,7 @@ impl ExMirrorApi {
         }
         if entries.is_empty() {
             return Err(AidokuError::message(
-                "EXMirror API returned a valid JSON response with zero usable gallery entries. This source did not use HTML fallback; paste the full cookie string including ipb_member_id, ipb_pass_hash, igneous, and sk.",
+                "EXMirror API returned a valid JSON response with zero usable gallery entries. This source only uses EXMirror API responses; paste the full cookie string including ipb_member_id, ipb_pass_hash, igneous, and sk.",
             ));
         }
 
