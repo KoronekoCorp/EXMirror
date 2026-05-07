@@ -33,6 +33,6 @@ aidoku verify .\sources\zh.exmirror-api\package.aix
 Deployment artifacts are expected at:
 
 - `mui\public\aidoku\index.min.json`
-- `mui\public\aidoku\sources\zh.exmirror-api-v3.aix`
+- `mui\public\aidoku\sources\zh.exmirror.api-v3.aix`
 
 `sources\zh.exmirror-api\package.aix` is local build output and should not be committed.
